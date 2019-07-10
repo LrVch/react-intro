@@ -10,9 +10,9 @@ export default class CheckOut extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.location.search) {
-      this.props.history.push('/')
-    }
+    // if (!this.props.location.search) {
+    //   this.props.history.push('/')
+    // }
     const query = new URLSearchParams(this.props.location.search)
     const ingredients = {}
     for (let param of query.entries()) {

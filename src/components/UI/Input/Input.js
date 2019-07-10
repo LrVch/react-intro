@@ -8,15 +8,15 @@ const Input = ({
   elementType,
   label,
   onChange,
+  onBlur,
   value,
   invalid,
-  touched,
   ...props
 }) => {
   let inputElement = null
   const id = Math.random().toString(32).slice(2)
   const classes = cx('InputElement', {
-    Invalid: invalid && touched
+    Invalid: invalid
   })
 
   switch (elementType) {
@@ -24,6 +24,7 @@ const Input = ({
       inputElement = <input
         value={value}
         id={id}
+        onBlur={onBlur}
         onChange={onChange}
         className={classes} {...props.elementConfig} />
       break
@@ -31,6 +32,7 @@ const Input = ({
       inputElement = <textarea
         vallue={value}
         id={id}
+        onBlur={onBlur}
         onChange={onChange}
         className={classes}
         {...props.elementConfig}></textarea>
@@ -39,6 +41,7 @@ const Input = ({
       inputElement = <select
         value={value}
         id={id}
+        onBlur={onBlur}
         onChange={onChange}
         name={props.elementConfig.config.name}
         className={classes}
@@ -52,6 +55,7 @@ const Input = ({
       inputElement = <input
         vallue={value}
         id={id}
+        onBlur={onBlur}
         onChange={onChange}
         className={classes} {...props.elementConfig} />
   }

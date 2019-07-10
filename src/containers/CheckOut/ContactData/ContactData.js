@@ -4,226 +4,259 @@ import styles from './ContactData.module.scss'
 import orders from '../../../axios-orders'
 import Spiner from '../../../components/UI/Spiner/Spiner'
 import Input from '../../../components/UI/Input/Input'
+import { Formik } from 'formik';
+import ErrorMessage from '../../../components/UI/Input/ErrorMessage/ErrorMessage'
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
+// import * as Yup from 'yup';
 
-export default class ContactData extends Component {
+class ContactData extends Component {
   state = {
-    name: 'Roman Lonskiy',
-    loading: false,
-    orderForm: {
-      name: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'You name',
-          name: 'name'
-        },
-        validation: {
-          required: true
-        },
-        valid: false,
-        label: 'Name',
-        value: '',
-        touched: false
-      },
-      street: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'You street',
-          name: 'street'
-        },
-        validation: {
-          required: true
-        },
-        valid: false,
-        label: 'Street',
-        value: '',
-        touched: false
-      },
-      zipCode: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'You ZipCode',
-          name: 'zipCode'
-        },
-        validation: {
-          required: true,
-          minLength: 5,
-          maxLength: 5
-        },
-        valid: false,
-        label: 'ZipCode',
-        value: '',
-        touched: false
-      },
-      country: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'You country',
-          name: 'country'
-        },
-        validation: {
-          required: true
-        },
-        valid: false,
-        label: 'Country',
-        value: '',
-        touched: false
-      },
-      email: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'email',
-          placeholder: 'You email',
-          name: 'email'
-        },
-        validation: {
-          required: true
-        },
-        valid: false,
-        label: 'Email',
-        value: '',
-        touched: false
-      },
-      deliveryMethod: {
-        elementType: 'select',
-        elementConfig: {
-          options: [
-            { value: '', displayName: 'Not chosen' },
-            { value: 'fastest', displayName: 'Fastest' },
-            { value: 'cheapest', displayName: 'Cheapest' },
-          ],
-          config: {
-            name: 'deliveryMethod'
-          }
-        },
-        validation: {
-          required: true
-        },
-        valid: false,
-        label: 'Delivery Method',
-        value: '',
-        touched: false
-      },
-    },
-    isFormValid: false
+    loading: true,
+    isFormValid: false,
+    orderForm: {}
   }
 
-  orderHandler = (event) => {
-    event.preventDefault();
+  componentDidMount() {
     this.setState({
-      loading: true
+      loading: false,
+      orderForm: {
+        name: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'You name',
+            name: 'name'
+          },
+          label: 'Name',
+          value: ''
+        },
+        street: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'You street',
+            name: 'street'
+          },
+          label: 'Street',
+          value: ''
+        },
+        zipCode: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'You ZipCode',
+            name: 'zipCode'
+          },
+          label: 'ZipCode',
+          value: ''
+        },
+        country: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'text',
+            placeholder: 'You country',
+            name: 'country'
+          },
+          valid: false,
+          label: 'Country',
+          value: '',
+        },
+        email: {
+          elementType: 'input',
+          elementConfig: {
+            type: 'email',
+            placeholder: 'You email',
+            name: 'email'
+          },
+          valid: false,
+          label: 'Email',
+          value: ''
+        },
+        deliveryMethod: {
+          elementType: 'select',
+          elementConfig: {
+            options: [
+              { value: '', displayName: 'Not chosen' },
+              { value: 'fastest', displayName: 'Fastest' },
+              { value: 'cheapest', displayName: 'Cheapest' },
+            ],
+            config: {
+              name: 'deliveryMethod'
+            }
+          },
+          valid: false,
+          label: 'Delivery Method',
+          value: ''
+        },
+      },
     })
+  }
 
-    const form = this.state.orderForm;
-    const orderData = Object
-      .keys(form)
-      .reduce((prev, next) => {
-        return {
-          ...prev,
-          [next]: form[next].value
-        }
-      }, {})
-
-
+  orderHandler = (orderData) => {
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice,
       orderData
     }
 
-    orders.post('/orders.json', order)
-      .then(result => {
-        this.setState({
-          loading: false,
-        })
-      })
-      .catch(e => {
-        this.setState({
-          loading: false,
-        })
-      })
-  }
-
-  onChange = e => {
-    const name = e.target.name
-    const value = e.target.value
-
-    this.setState(state => {
-      const valid = this.checkValidity(value, state.orderForm[name].validation);
-
-      return {
-        ...state,
-        orderForm: {
-          ...state.orderForm,
-          [name]: {
-            ...state.orderForm[name],
-            value: value,
-            valid: valid,
-            touched: true
-          }
-        }
-      }
-    }, () => {
-      const form = this.state.orderForm;
-      const isFormValid = Object
-        .keys(form)
-        .reduce((isValid, key) => {
-          return form[key].valid && isValid
-        }, true)
-
-      this.setState({
-        isFormValid: isFormValid
-      })
-    })
-
-  }
-
-  checkValidity = (value, rules) => {
-    let isValid = true
-
-    if (rules.required) {
-      isValid = value.trim() !== '' && isValid
-    }
-
-    if (rules.minLength) {
-      isValid = value.trim().length >= rules.minLength && isValid
-    }
-
-    if (rules.maxLength) {
-      isValid = value.trim().length <= rules.maxLength && isValid
-    }
-
-    return isValid
+    return orders.post('/orders.json', order)
   }
 
   render() {
     const { orderForm } = this.state
+    const initState = Object.keys(orderForm)
+      .reduce((state, key) => {
+        return {
+          ...state,
+          [key]: orderForm[key].value
+        }
+      }, {})
     const formElementsArr = Object.keys(orderForm).map(key => orderForm[key])
     const spinner = <Spiner />
-    const form = (<div className={styles.ContactData}>
-      <h4>Enter you contact data</h4>
-      <form>
-        {formElementsArr.map((elem, i) =>
-          <Input
-            onChange={this.onChange}
-            key={elem.elementType + i}
-            label={elem.label}
-            value={elem.value}
-            invalid={!elem.valid}
-            touched={elem.touched}
-            elementConfig={elem.elementConfig}
-            elementType={elem.elementType}
-          />
-        )}
-        <Button
-          disabled={!this.state.isFormValid}
-          onclick={this.orderHandler}
-          type="success">ORDER</Button>
-      </form>
-    </div>)
+    const form = (
+      <div className={styles.ContactData}>
+        <h4>Enter you contact data</h4>
+        <Formik
+          initialValues={initState}
+          validate={values => {
+            let errors = {};
+
+            if (!values.name.trim()) {
+              errors.name = {
+                required: true
+              }
+            }
+
+            if (!values.country.trim()) {
+              errors.country = {
+                required: true
+              }
+            }
+
+            if (!values.street.trim()) {
+              errors.street = {
+                required: true
+              }
+            }
+
+            if (!values.deliveryMethod.trim()) {
+              errors.deliveryMethod = {
+                required: true
+              }
+            }
+
+            if (!values.zipCode.trim()) {
+              errors.zipCode = {
+                required: true
+              }
+            } else if (values.zipCode.length < 5) {
+              errors.zipCode = {
+                minLenght: {
+                  value: 5,
+                  actulaValue: values.zipCode.length
+                }
+              }
+            } else if (values.zipCode.length > 5) {
+              errors.zipCode = {
+                maxLenght: {
+                  value: 5,
+                  actulaValue: values.zipCode.length
+                }
+              }
+            }
+
+            if (!values.email.trim()) {
+              errors.email = {
+                required: true
+              }
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+              errors.email = {
+                notMatched: true
+              }
+            }
+
+
+            return errors;
+          }
+          }
+          // validationSchema={userSchema}
+          onSubmit={(values, actions) => {
+            console.log(actions)
+            this.orderHandler(values)
+              .then(result => {
+                actions.setSubmitting(false);
+                actions.resetForm(initState);
+                // actions.setStatus({ success: true })
+              })
+              .catch(e => {
+                actions.setSubmitting(false);
+              })
+          }}
+        >
+          {({
+            values,
+            errors,
+            status,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            isValidating
+          }) => (
+              <form noValidate onSubmit={handleSubmit}>
+                values
+                <pre>{JSON.stringify(touched, '', 4)}</pre>
+                <fieldset disabled={isSubmitting}>
+                  {formElementsArr.map((elem, i) => {
+                    const name = elem.elementConfig.name || elem.elementConfig.config.name
+                    const invalid = errors[name] && touched[name] && errors[name]
+                    return (
+                      <div key={elem.elementType + i}>
+                        <Input
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          label={elem.label}
+                          value={values[elem.elementConfig.name || elem.elementConfig.config.name]}
+                          invalid={invalid}
+                          elementConfig={elem.elementConfig}
+                          elementType={elem.elementType}
+                        />
+                        <div>
+                          {invalid && errors[name].required && <ErrorMessage>This field is required</ErrorMessage>}
+                          {invalid && errors[name].minLenght &&
+                            <ErrorMessage>
+                              Min length should be {errors[name].minLenght.value},
+                              but actual value is {errors[name].minLenght.actulaValue}
+                            </ErrorMessage>}
+                          {invalid && errors[name].maxLenght &&
+                            <ErrorMessage>
+                              maxLenght length should be {errors[name].maxLenght.value},
+                              but actual value is {errors[name].maxLenght.actulaValue}
+                            </ErrorMessage>}
+                          {invalid &&
+                            errors[name].notMatched &&
+                            <ErrorMessage>Wrong {name}</ErrorMessage>}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </fieldset>
+                <Button
+                  disabled={isSubmitting}
+                  // click={this.handleSubmitClick}
+                  type="success">ORDER
+                  </Button>
+                <br />
+
+                errors
+                <pre>{JSON.stringify(errors, '', 4)}</pre>
+              </form>
+            )}
+        </Formik>
+      </div>)
     return (
       <>
         {this.state.loading ? spinner : form}
@@ -231,3 +264,5 @@ export default class ContactData extends Component {
     )
   }
 }
+
+export default withErrorHandler(ContactData, orders) 
