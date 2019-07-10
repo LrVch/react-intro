@@ -207,8 +207,8 @@ class ContactData extends Component {
             isValidating
           }) => (
               <form noValidate onSubmit={handleSubmit}>
-                values
-                <pre>{JSON.stringify(touched, '', 4)}</pre>
+                {/* values
+                <pre>{JSON.stringify(touched, '', 4)}</pre> */}
                 <fieldset disabled={isSubmitting}>
                   {formElementsArr.map((elem, i) => {
                     const name = elem.elementConfig.name || elem.elementConfig.config.name
@@ -251,8 +251,8 @@ class ContactData extends Component {
                   </Button>
                 <br />
 
-                errors
-                <pre>{JSON.stringify(errors, '', 4)}</pre>
+                {/* errors
+                <pre>{JSON.stringify(errors, '', 4)}</pre> */}
               </form>
             )}
         </Formik>
