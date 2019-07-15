@@ -2,56 +2,47 @@ import React, { Component } from 'react'
 import CheckOutSummary from '../../components/Order/CheckOutSummary/CheckOutSummary';
 import { Route } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
+import { connect } from 'react-redux';
 
-export default class CheckOut extends Component {
-  state = {
-    ingredients: {},
-    totalPrice: 0
-  }
-
+class CheckOut extends Component {
   componentDidMount() {
-    if (!this.props.location.search) {
+    const purchasable = !!Object.values(this.props.ingredients)
+      .reduce((prev, next) => {
+        return prev + next
+      }, 0)
+
+    if (!purchasable) {
       this.props.history.push('/')
     }
-    const query = new URLSearchParams(this.props.location.search)
-    const ingredients = {}
-    for (let param of query.entries()) {
-      ingredients[param[0]] = parseFloat(param[1], 10)
-    }
-    const totalPrice = ingredients.totalPrice;
-    delete ingredients.totalPrice
-    this.setState({
-      ingredients: ingredients,
-      totalPrice: totalPrice
-    })
   }
 
   checkOutHandler = () => {
     this.props.history.goBack()
   }
 
-  checkOutContinue = () => {
-    this.props.history.push(`${this.props.match.url}/contactdata`)
-  }
-
   render() {
+    const { ingredients } = this.props
     return (
       <div>
         <CheckOutSummary
           onCheckOutCancel={this.checkOutHandler}
-          onCheckOutContinue={this.checkOutContinue}
-          ingredients={this.state.ingredients}
+          to={`${this.props.match.url}/contactdata`}
+          ingredients={ingredients}
         />
         <Route
           path={`${this.props.match.path}/:id`}
-          render={(props) => (
-            <ContactData
-              {...props}
-              {...this.state}
-            />
-          )}
+          component={ContactData}
         />
       </div>
     )
   }
 }
+
+const mapStateToProps = state => {
+  const { ingredients, totalPrice } = state.burger
+  return { ingredients, totalPrice }
+}
+
+export default connect(
+  mapStateToProps
+)(CheckOut)

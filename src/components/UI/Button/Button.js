@@ -1,18 +1,28 @@
-import React,{memo} from 'react'
+import React, { memo } from 'react'
 import sytles from './Button.module.scss'
 import className from 'classnames/bind'
+import { Link } from 'react-router-dom';
 
 const cx = className.bind(sytles)
 
-const Button = ({children, type, onclick, disabled}) => {
+const Button = ({ children, type, onclick, disabled, elem = 'button', to }) => {
   return (
-    <button 
-    disabled={disabled}
-    className={cx('Button', {
-      Success: type=== 'success',
-      Danger: type=== 'danger'
-    })}
-    onClick={onclick}>{children}</button>
+    <>
+      {elem === 'button' ?
+        <button
+          disabled={disabled}
+          className={cx('Button', {
+            Success: type === 'success',
+            Danger: type === 'danger'
+          })}
+          onClick={onclick}>{children}</button>
+        :
+        <Link className={cx('Button', {
+          Success: type === 'success',
+          Danger: type === 'danger'
+        })} to={to}>{children}</Link>
+      }
+    </>
   )
 }
 

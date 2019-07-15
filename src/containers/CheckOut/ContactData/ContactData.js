@@ -7,103 +7,40 @@ import Input from '../../../components/UI/Input/Input'
 import { Formik } from 'formik';
 import ErrorMessage from '../../../components/UI/Input/ErrorMessage/ErrorMessage'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
+import { connect } from 'react-redux';
+import {
+  orderFormConfigSuccess,
+  orderFormConfigRequest,
+  orderFormConfigClearState
+} from '../../../store/actions';
 // import * as Yup from 'yup';
 
 class ContactData extends Component {
-  state = {
-    loading: true,
-    isFormValid: false,
-    orderForm: {}
-  }
-
   componentDidMount() {
-    this.setState({
-      loading: false,
-      orderForm: {
-        name: {
-          elementType: 'input',
-          elementConfig: {
-            type: 'text',
-            placeholder: 'You name',
-            name: 'name'
-          },
-          label: 'Name',
-          value: ''
-        },
-        street: {
-          elementType: 'input',
-          elementConfig: {
-            type: 'text',
-            placeholder: 'You street',
-            name: 'street'
-          },
-          label: 'Street',
-          value: ''
-        },
-        zipCode: {
-          elementType: 'input',
-          elementConfig: {
-            type: 'text',
-            placeholder: 'You ZipCode',
-            name: 'zipCode'
-          },
-          label: 'ZipCode',
-          value: ''
-        },
-        country: {
-          elementType: 'input',
-          elementConfig: {
-            type: 'text',
-            placeholder: 'You country',
-            name: 'country'
-          },
-          valid: false,
-          label: 'Country',
-          value: '',
-        },
-        email: {
-          elementType: 'input',
-          elementConfig: {
-            type: 'email',
-            placeholder: 'You email',
-            name: 'email'
-          },
-          valid: false,
-          label: 'Email',
-          value: ''
-        },
-        deliveryMethod: {
-          elementType: 'select',
-          elementConfig: {
-            options: [
-              { value: '', displayName: 'Not chosen' },
-              { value: 'fastest', displayName: 'Fastest' },
-              { value: 'cheapest', displayName: 'Cheapest' },
-            ],
-            config: {
-              name: 'deliveryMethod'
-            }
-          },
-          valid: false,
-          label: 'Delivery Method',
-          value: ''
-        },
-      },
-    })
+    this.props.onOrderFormConfigClearState()
+    this.props.onOrderFormConfigRequest()
+    orders.get('/formConfig.json')
+      .then(({ data: orderForm }) => {
+        if (orderForm) {
+          this.props.onOrderFormConfigSuccess(orderForm)
+        }
+      })
   }
 
   orderHandler = (orderData) => {
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice,
-      orderData
+      orderData,
+      createdAt: new Date()
     }
 
     return orders.post('/orders.json', order)
   }
 
   render() {
-    const { orderForm } = this.state
+    const { orderForm, loadingFormConfig } = this.props
+
     const initState = Object.keys(orderForm)
       .reduce((state, key) => {
         return {
@@ -111,8 +48,23 @@ class ContactData extends Component {
           [key]: orderForm[key].value
         }
       }, {})
-    const formElementsArr = Object.keys(orderForm).map(key => orderForm[key])
+
+    let formElementsArr = Object.keys(orderForm).map(key => orderForm[key])
+
+    formElementsArr = formElementsArr.map(elem => {
+      return elem.elementType !== 'select' ? elem :
+        {
+          ...elem, elementConfig: {
+            ...elem.elementConfig,
+            options: Object.keys(elem.elementConfig.options).map(option => {
+              return elem.elementConfig.options[option]
+            })
+          }
+        }
+    })
+
     const spinner = <Spiner />
+
     const form = (
       <div className={styles.ContactData}>
         <h4>Enter you contact data</h4>
@@ -188,7 +140,6 @@ class ContactData extends Component {
               .then(result => {
                 actions.setSubmitting(false);
                 actions.resetForm(initState);
-                // actions.setStatus({ success: true })
               })
               .catch(e => {
                 actions.setSubmitting(false);
@@ -204,11 +155,16 @@ class ContactData extends Component {
             handleBlur,
             handleSubmit,
             isSubmitting,
-            isValidating
+            isValidating,
+            validateForm,
+            setErrors,
+            setTouched
           }) => (
-              <form noValidate onSubmit={handleSubmit}>
-                {/* values
-                <pre>{JSON.stringify(touched, '', 4)}</pre> */}
+              <form noValidate
+              //  noValidate onSubmit={handleSubmit}
+              >
+                {/* errors
+                <pre>{JSON.stringify(errors, '', 4)}</pre> */}
                 <fieldset disabled={isSubmitting}>
                   {formElementsArr.map((elem, i) => {
                     const name = elem.elementConfig.name || elem.elementConfig.config.name
@@ -244,11 +200,22 @@ class ContactData extends Component {
                     )
                   })}
                 </fieldset>
-                <Button
+                <button
                   disabled={isSubmitting}
-                  // click={this.handleSubmitClick}
-                  type="success">ORDER
-                  </Button>
+                  onClick={(event) => {
+                    event.preventDefault()
+                    validateForm().then(errors => {
+                      if (!Object.keys(errors).length) {
+                        handleSubmit()
+                      } else {
+                        setTouched(errors)
+                        setErrors(errors)
+                      }
+                      console.log(errors)
+                    })
+                  }}
+                >ORDER
+                </button>
                 <br />
 
                 {/* errors
@@ -259,10 +226,24 @@ class ContactData extends Component {
       </div>)
     return (
       <>
-        {this.state.loading ? spinner : form}
+        {loadingFormConfig ? spinner : form}
       </>
     )
   }
 }
 
-export default withErrorHandler(ContactData, orders) 
+const mapStateToProps = state => {
+  const { ingredients, totalPrice, loadingFormConfig, orderForm, loadingFormConfigError } = state.burger
+  return { ingredients, totalPrice, loadingFormConfig, orderForm, loadingFormConfigError }
+}
+
+const mapDispatchToProps = dispatch => ({
+  onOrderFormConfigSuccess: config => dispatch(orderFormConfigSuccess(config)),
+  onOrderFormConfigRequest: () => dispatch(orderFormConfigRequest()),
+  onOrderFormConfigClearState: () => dispatch(orderFormConfigClearState())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(ContactData, orders))

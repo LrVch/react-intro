@@ -6,7 +6,8 @@ import Button from '../../UI/Button/Button';
 const CheckOutSummary = ({
   ingredients,
   onCheckOutCancel,
-  onCheckOutContinue
+  onCheckOutContinue,
+  to
 }) => {
   return (
     <div className={sytles.CheckOutSummary}>
@@ -17,7 +18,7 @@ const CheckOutSummary = ({
       <Button onclick={onCheckOutCancel} type="danger">
         CANCEL
       </Button>
-      <Button onclick={onCheckOutContinue} type="success">
+      <Button elem='link' to={to} type="success">
         CONTINUE
       </Button>
     </div>
