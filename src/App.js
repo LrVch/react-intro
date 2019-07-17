@@ -16,7 +16,6 @@ function App() {
           <Route path="/checkout" component={CheckOut} />
           <Route path="/orders" component={Orders} />
           <Route render={() => <h1>404</h1>} />
-          
         </Switch>
       </Layout>
     </Router>

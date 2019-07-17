@@ -4,21 +4,57 @@ import { combineReducers } from 'redux'
 const initialState = {
   ingredients: {},
   totalPrice: 0,
-  loadingIgredients: false,
-  errorLoadingIngredints: false,
-  loadingFormConfig: false,
-  orderForm: {}
-}
-
-const INGREDIENTS_PRICES = {
-  salad: 0.5,
-  cheese: 0.4,
-  meat: 1.3,
-  bacon: 0.7
+  loadingInitState: false,
+  errorLoadingInitState: null,
+  orderForm: {},
+  orders: {},
+  ordersById: [],
+  selectedOrder: '',
+  loadingOrders: false,
+  errorLoadingOrders: null,
+  ingredientPrices: {},
+  orderFormErrors: null,
+  resetState: {
+    ingredients: {},
+    totalPrice: 0,
+  }
 }
 
 const burgerReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+
+    case actionsTypes.INIT_STATE_REQUEST:
+    case actionsTypes.INIT_STATE_RETRY: {
+      return {
+        ...state,
+        loadingInitState: true
+      }
+    }
+    case actionsTypes.INIT_STATE_SUCCESS: {
+      const { config, ingredients, price } = payload
+      return {
+        ...state,
+        orderForm: config,
+        ingredients,
+        totalPrice: price.totalPrice,
+        ingredientPrices: price.ingredients,
+        loadingInitState: false,
+        resetState: {
+          ingredients,
+          totalPrice: price.totalPrice,
+        },
+      }
+    }
+    case actionsTypes.INIT_STATE_FAIL: {
+      return {
+        ...state,
+        loadingInitState: false,
+        errorLoadingInitState: payload.error
+      }
+    }
+
+
+
     case actionsTypes.ADD_INGREDIENT: {
       const amount = state.ingredients[payload.ingredient]
       const ingredient = payload.ingredient;
@@ -28,7 +64,7 @@ const burgerReducer = (state = initialState, { type, payload }) => {
           ...state.ingredients,
           [ingredient]: amount + 1
         },
-        totalPrice: state.totalPrice + INGREDIENTS_PRICES[ingredient]
+        totalPrice: (+state.totalPrice + +state.ingredientPrices[ingredient]).toFixed(2)
       }
     }
     case actionsTypes.REMOVE_INGREDIENT: {
@@ -42,7 +78,7 @@ const burgerReducer = (state = initialState, { type, payload }) => {
           ...state.ingredients,
           [ingredient]: amount - 1
         },
-        totalPrice: state.totalPrice - INGREDIENTS_PRICES[ingredient]
+        totalPrice: (state.totalPrice - state.ingredientPrices[ingredient]).toFixed(2)
       }
     }
     case actionsTypes.RESTORE_INIT_STATE: {
@@ -54,6 +90,8 @@ const burgerReducer = (state = initialState, { type, payload }) => {
       }
     }
 
+
+
     case actionsTypes.ORDER_FORM_CONFIG_SUCCESS: {
       return {
         ...state,
@@ -61,7 +99,6 @@ const burgerReducer = (state = initialState, { type, payload }) => {
         loadingFormConfig: false,
       }
     }
-
     case actionsTypes.ORDER_FORM_CONFIG_REQUEST: {
       return {
         ...state,
@@ -69,16 +106,78 @@ const burgerReducer = (state = initialState, { type, payload }) => {
       }
     }
 
-    case actionsTypes.ORDER_FORM_CONFIG_CLEAR_STATE: {
+    
+    case actionsTypes.ORDERS_REQUEST:
+    case actionsTypes.ORDERS_RETRY: {
       return {
         ...state,
-        loadingFormConfig: false,
+        loadingOrders: true
       }
     }
+    case actionsTypes.ORDERS_SUCCESS: {
+      const {ordersById, orders} = payload
+      const result = ordersById.reduce((obj, id) => {
+        return {
+          ...obj,
+          [id]: {...orders[id], id}
+        }
+      }, {})
+      return {
+        ...state,
+        orders: result,
+        ordersById: ordersById,
+        loadingOrders: false
+      }
+    }
+    case actionsTypes.ORDERS_FAIL: {
+      return {
+        ...state,
+        loadingOrders: false,
+        errorLoadingOrders: payload.error
+      }
+    }
+
+    case actionsTypes.ORDERS_SET_SELECTED: {
+      return {
+        ...state,
+        selectedOrder: payload.id
+      }
+    }
+
+    case actionsTypes.ORDER_REQUEST: {
+      return {
+        ...state,
+        orderFormErrors: null
+      }
+    }
+
+    case actionsTypes.ORDER_FAIL: {
+      return {
+        ...state,
+        orderFormErrors: payload.error
+      }
+    }
+    
 
     default:
       return state
   }
+}
+
+
+export const getOrders = (state) => {
+  const orders = state.burger.orders;
+  const ids = state.burger.ordersById
+  return ids.map(id => orders[id])
+}
+
+export const getOrder = (state) => {
+  const orders = state.burger.orders;
+  return orders[state.burger.selectedOrder] || {}
+}
+
+export const getOrderData = (state) => {
+  return getOrder(state).orderData
 }
 
 export { burgerReducer }

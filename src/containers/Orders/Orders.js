@@ -1,63 +1,82 @@
 import React, { Component } from 'react'
 import Order from '../../components/Order/Order'
-import orders from '../../axios-orders'
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import Spiner from '../../components/UI/Spiner/Spiner'
 import { Route, Link } from 'react-router-dom'
-import OrderDetails from '../../components/Order/OrderDetails/OrderDetails';
+import OrderDetails from '../OrderDetails/OrderDetails';
+import { connect } from 'react-redux'
+import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary'
+import SpareUi from '../../components/UI/SpareUi/SpareUi'
+import { ordersRetry, ordersRequest, ordersRequestAbort } from '../../store/actions';
+import { getOrders } from '../../store/reducers';
 
 class Orders extends Component {
-  state = {
-    orders: [],
-    loading: true
-  }
   componentDidMount() {
-    orders.get('/orders.json')
-      .then(({ data }) => {
-        const orders = Object
-          .keys(data)
-          .map(key => ({ ...data[key], id: key }))
-
-        this.setState({
-          loading: false,
-          orders: orders
-        })
-      })
-      .catch(() => [
-        this.setState({
-          loading: false,
-        })
-      ])
+    this.props.requestOrders()
   }
+
+  componentWillUnmount() {
+    this.props.abortOrdersRequest()
+  }
+
   render() {
+    const { errorLoadingOrders, orders } = this.props
+    const sordedOrders = orders.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     const spinner = <Spiner />
-    const orders = <div>
-      {this.state.orders.map(order =>
-        <Link key={order.id} to={`${this.props.match.url}/${order.id}`}>
+    const error = errorLoadingOrders &&
+      <SpareUi
+        onClick={this.props.retryOrders}
+        message={errorLoadingOrders.message} />
+    const ordersRender = <div>
+      {sordedOrders.length > 0 ? sordedOrders.map(order =>
+        <Link style={{ textDecoration: "none" }} key={order.createdAt} to={`${this.props.match.url}/${order.id}`}>
           <Order
+            date={order.createdAt}
             price={order.price}
             ingredients={order.ingredients}
           />
         </Link>
-      )}
+      ) : <p>There is not orders yet.</p>}
     </div>
     return (
       <>
-        {this.state.loading ? spinner : orders}
-
         <Route
           path={`${this.props.match.path}/:id`}
           render={props => (
             <div>
-              <Link to={`${this.props.match.url}`}>Close</Link>
               <div>
-                <OrderDetails {...props} orders={this.state.orders} />
+                <OrderDetails returUrl={this.props.match.url} {...props} />
               </div>
             </div>
           )} />
+
+        {this.props.loadingOrders ?
+          spinner : errorLoadingOrders ?
+            error : ordersRender}
+
       </>
     )
   }
 }
 
-export default withErrorHandler(Orders, orders)
+const mapStateToProps = state => ({
+  orders: getOrders(state),
+  loadingOrders: state.burger.loadingOrders,
+  errorLoadingOrders: state.burger.errorLoadingOrders,
+  selectedOrder: state.burger.selectedOrder,
+  selectedOrderLoading: state.burger.selectedOrderLoading
+})
+
+const matDispathToProps = dispatch => ({
+  requestOrders: () => dispatch(ordersRequest()),
+  retryOrders: () => dispatch(ordersRetry()),
+  abortOrdersRequest: () => dispatch(ordersRequestAbort())
+})
+
+
+export default connect(
+  mapStateToProps,
+  matDispathToProps
+)(withErrorBoundary(Orders, {
+  module: module,
+  spareUi: <SpareUi />
+}))

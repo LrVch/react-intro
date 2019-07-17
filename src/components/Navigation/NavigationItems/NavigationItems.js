@@ -6,7 +6,8 @@ const NavigationItems = ({ items = [
   {
     active: true,
     url: '/',
-    text: 'BurgerBuilder'
+    text: 'BurgerBuilder',
+    exact: true
   },
   {
     url: '/orders',
@@ -17,6 +18,7 @@ const NavigationItems = ({ items = [
     <ul className={styles.NavigationItems}>
       {items.map((item, i) =>
         <NavigationItem
+          exact={item.exact}
           key={item.text + i}
           active={item.active}
           url={item.url}>{item.text}

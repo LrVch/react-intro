@@ -19,7 +19,7 @@ class OrderSummary extends Component {
           {summary}
         </ul>
         <hr />
-        <p>Total: {total.toFixed(2)} $</p>
+        <p>Total: {total} $</p>
         <p>Continue to checkout?</p>
         <Button onclick={cancel} type="success">CANCEL</Button>
         <Button onclick={nextStep} type="danger">CONTINUE</Button>

@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Order.module.scss'
 
-const Order = ({ ingredients, price }) => {
+const Order = ({ ingredients, price, date }) => {
   const keys =  Object.keys(ingredients)
   const ingredientsArr = keys
     .map(ing => ({ title: ing, value: ingredients[ing] }))
@@ -12,9 +12,11 @@ const Order = ({ ingredients, price }) => {
 
   return (
     <div className={styles.Order}>
-      <p>Ingredients: { ingredientsArr}
+      <p><b>Ingredients</b>: { ingredientsArr}
       </p>
-      <p>Price: {price} USD</p>
+      <p><b>Price</b>: {price} USD</p>
+      {/* <p style={{fontSize: '12px'}}>{new Date(date).toDateString()}</p> */}
+      <p style={{fontSize: '12px'}}>{date}</p>
     </div>
   )
 }

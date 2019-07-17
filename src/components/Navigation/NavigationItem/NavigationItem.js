@@ -5,10 +5,10 @@ import { NavLink } from 'react-router-dom'
 
 // const cx = className.bind(styles);
 
-const NavigationItem = ({ url, children, active }) => {
+const NavigationItem = ({ url, children, active, exact }) => {
   return (
     <li className={styles.NavigationItem}>
-      <NavLink activeClassName={styles.active} exact to={url}>{children}</NavLink>
+      <NavLink activeClassName={styles.active} exact={exact} to={url}>{children}</NavLink>
     </li>
   )
 }

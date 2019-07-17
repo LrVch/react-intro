@@ -26,7 +26,8 @@ const Input = ({
         id={id}
         onBlur={onBlur}
         onChange={onChange}
-        className={classes} {...props.elementConfig} />
+        className={classes}
+        {...props.elementConfig} />
       break
     case ('textarea'):
       inputElement = <textarea
@@ -57,7 +58,8 @@ const Input = ({
         id={id}
         onBlur={onBlur}
         onChange={onChange}
-        className={classes} {...props.elementConfig} />
+        className={classes}
+        {...props.elementConfig} />
   }
   return (
     <div className={styles.Input}>

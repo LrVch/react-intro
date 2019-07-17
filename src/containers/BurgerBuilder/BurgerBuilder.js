@@ -3,11 +3,16 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import orders from '../../axios-orders';
 import Spiner from '../../components/UI/Spiner/Spiner'
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import { connect } from 'react-redux'
-import { addIngredient, removeIngredient, restoreInitState } from '../../store/actions';
+import {
+  addIngredient,
+  removeIngredient,
+  restoreInitState,
+  initStateRetry
+} from '../../store/actions';
+import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary';
+import SpareUi from '../../components/UI/SpareUi/SpareUi';
 
 class BurgerBuilder extends Component {
   state = {
@@ -36,14 +41,14 @@ class BurgerBuilder extends Component {
 
   render() {
     const {
-      loading,
-      error,
       purchasing
     } = this.state;
 
     const {
       ingredients,
       totalPrice,
+      loadingInitState,
+      errorLoadingInitState,
       onIngredientAdd,
       onIngredientRemove
     } = this.props
@@ -58,7 +63,9 @@ class BurgerBuilder extends Component {
       disabledState[key] = disabledState[key] <= 0
     }
 
-    const spiner = error ? <p>Server error</p> : <Spiner />;
+    const spiner = <Spiner />;
+    const error = errorLoadingInitState &&
+      <SpareUi onClick={this.props.retryInitState} message={errorLoadingInitState.message} />
 
     const orderSummary = <OrderSummary
       cancel={this.purchaseCloseHandler}
@@ -89,29 +96,34 @@ class BurgerBuilder extends Component {
 
     return (
       <>
-        {ingredients ? burger : spiner}
-        {ingredients && <Modal
-          dropClick={this.purchaseCloseHandler}
-          show={purchasing}>
-          {loading ? spiner : orderSummary}
-        </Modal>}
+        {loadingInitState ? spiner : errorLoadingInitState ? error : burger}
+        {ingredients &&
+          <Modal
+            dropClick={this.purchaseCloseHandler}
+            show={purchasing}>
+            {orderSummary}
+          </Modal>}
       </>
     )
   }
 }
 
 const mapStateToProps = state => {
-  const {ingredients, totalPrice, loadingIgredients, errorLoadingIngredints} = state.burger
-  return {ingredients, totalPrice, loadingIgredients, errorLoadingIngredints}
+  const { ingredients, totalPrice, loadingInitState, errorLoadingInitState } = state.burger
+  return { ingredients, totalPrice, loadingInitState, errorLoadingInitState }
 }
 
 const mapStateDispatchToProps = dispatch => ({
   onIngredientAdd: (ingredient) => dispatch(addIngredient(ingredient)),
   onIngredientRemove: (ingredient) => dispatch(removeIngredient(ingredient)),
   restoreInitState: () => dispatch(restoreInitState()),
+  retryInitState: () => dispatch(initStateRetry())
 })
 
 export default connect(
   mapStateToProps,
   mapStateDispatchToProps
-)(withErrorHandler(BurgerBuilder, orders));
+)(withErrorBoundary(BurgerBuilder, {
+  module,
+  spareUi: <SpareUi />
+}));

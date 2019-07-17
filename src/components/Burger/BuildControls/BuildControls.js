@@ -44,7 +44,7 @@ const BuildControls = ({
 }) => {
   return (
     <div className={styels.BuildControls}>
-      <p>Price : {price.toFixed(2)} $</p>
+      <p>Price : {price} $</p>
       {controls.map((c, i) => (
         <BuildControl
           disabled={disabledState[c.type]}

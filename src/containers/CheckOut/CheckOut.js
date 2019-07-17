@@ -3,17 +3,19 @@ import CheckOutSummary from '../../components/Order/CheckOutSummary/CheckOutSumm
 import { Route } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
 import { connect } from 'react-redux';
+import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary';
+import SpareUi from '../../components/UI/SpareUi/SpareUi';
 
 class CheckOut extends Component {
   componentDidMount() {
-    const purchasable = !!Object.values(this.props.ingredients)
-      .reduce((prev, next) => {
-        return prev + next
-      }, 0)
+    // const purchasable = !!Object.values(this.props.ingredients)
+    //   .reduce((prev, next) => {
+    //     return prev + next
+    //   }, 0)
 
-    if (!purchasable) {
-      this.props.history.push('/')
-    }
+    // if (!purchasable) {
+    //   this.props.history.push('/')
+    // }
   }
 
   checkOutHandler = () => {
@@ -45,4 +47,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps
-)(CheckOut)
+)(withErrorBoundary(CheckOut, {
+  module: module,
+  spareUi: <SpareUi/>
+}))
