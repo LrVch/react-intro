@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Order from '../../components/Order/Order'
 import Spiner from '../../components/UI/Spiner/Spiner'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, Switch } from 'react-router-dom'
 import OrderDetails from '../OrderDetails/OrderDetails';
 import { connect } from 'react-redux'
 import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary'
@@ -19,7 +19,7 @@ class Orders extends Component {
   }
 
   render() {
-    const { errorLoadingOrders, orders } = this.props
+    const { errorLoadingOrders, orders, selectedOrder, loadingOrders } = this.props
     const sordedOrders = orders.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     const spinner = <Spiner />
     const error = errorLoadingOrders &&
@@ -39,20 +39,28 @@ class Orders extends Component {
     </div>
     return (
       <>
-        <Route
-          path={`${this.props.match.path}/:id`}
-          render={props => (
-            <div>
+        <Switch>
+          <Route
+            path={`${this.props.match.path}/:id`}
+            render={props => (
               <div>
-                <OrderDetails returUrl={this.props.match.url} {...props} />
+                <div>
+                  <OrderDetails returUrl={this.props.match.url} {...props} />
+                </div>
               </div>
-            </div>
-          )} />
-
-        {this.props.loadingOrders ?
-          spinner : errorLoadingOrders ?
-            error : ordersRender}
-
+            )} />
+          <Route
+            path={`${this.props.match.path}`}
+            exact
+            render={props => (
+              <div>
+                {loadingOrders ?
+                  spinner : errorLoadingOrders ?
+                    error : !selectedOrder && ordersRender
+                }
+              </div>
+            )} />
+        </Switch>
       </>
     )
   }

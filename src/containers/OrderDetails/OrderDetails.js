@@ -8,6 +8,10 @@ const OrderDetails = ({ match, returUrl, order = {}, setSelectedOrder }) => {
   const id = match.params.id
   useEffect(() => {
     setSelectedOrder(id)
+
+    return () => {
+      setSelectedOrder(null)
+    }
   }, [])
 
   console.log(order)

@@ -89,22 +89,7 @@ const burgerReducer = (state = initialState, { type, payload }) => {
         resetState: reset
       }
     }
-
-
-
-    case actionsTypes.ORDER_FORM_CONFIG_SUCCESS: {
-      return {
-        ...state,
-        orderForm: payload.orderForm,
-        loadingFormConfig: false,
-      }
-    }
-    case actionsTypes.ORDER_FORM_CONFIG_REQUEST: {
-      return {
-        ...state,
-        loadingFormConfig: true,
-      }
-    }
+    
 
     
     case actionsTypes.ORDERS_REQUEST:
