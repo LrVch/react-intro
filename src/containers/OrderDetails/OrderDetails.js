@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { getOrder } from '../../store/reducers';
+import { getOrder } from '../../store/selectors';
 import { ordersSetSelected } from '../../store/actions'
 
 const OrderDetails = ({ match, returUrl, order = {}, setSelectedOrder }) => {
@@ -13,9 +13,7 @@ const OrderDetails = ({ match, returUrl, order = {}, setSelectedOrder }) => {
       setSelectedOrder(null)
     }
   }, [])
-
-  console.log(order)
-
+  
   const {
     country,
     deliveryMethod,

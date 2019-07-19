@@ -1,8 +1,12 @@
 import { combineEpics } from 'redux-observable'
-import epics$ from './epics'
+import burger$ from './burger'
+import orders$ from './orders'
+import order$ from './order'
 
 const mainEpics$ = combineEpics(
-  epics$
+  burger$,
+  orders$,
+  order$
 );
 
 export default mainEpics$

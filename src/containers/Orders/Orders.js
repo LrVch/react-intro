@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary'
 import SpareUi from '../../components/UI/SpareUi/SpareUi'
 import { ordersRetry, ordersRequest, ordersRequestAbort } from '../../store/actions';
-import { getOrders } from '../../store/reducers';
+import { getOrders, loadingOrders, errorLoadingOrders, selectedOrder } from '../../store/selectors';
 
 class Orders extends Component {
   componentDidMount() {
@@ -68,10 +68,9 @@ class Orders extends Component {
 
 const mapStateToProps = state => ({
   orders: getOrders(state),
-  loadingOrders: state.burger.loadingOrders,
-  errorLoadingOrders: state.burger.errorLoadingOrders,
-  selectedOrder: state.burger.selectedOrder,
-  selectedOrderLoading: state.burger.selectedOrderLoading
+  loadingOrders: loadingOrders(state),
+  errorLoadingOrders: errorLoadingOrders(state),
+  selectedOrder: selectedOrder(state),
 })
 
 const matDispathToProps = dispatch => ({

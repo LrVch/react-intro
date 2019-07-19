@@ -5,6 +5,9 @@ import ContactData from './ContactData/ContactData';
 import { connect } from 'react-redux';
 import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary';
 import SpareUi from '../../components/UI/SpareUi/SpareUi';
+import {
+  ingredients, totalPrice
+} from '../../store/selectors/burger'
 
 class CheckOut extends Component {
   componentDidMount() {
@@ -41,13 +44,15 @@ class CheckOut extends Component {
 }
 
 const mapStateToProps = state => {
-  const { ingredients, totalPrice } = state.burger
-  return { ingredients, totalPrice }
+  return {
+    ingredients: ingredients(state),
+    totalPrice: totalPrice(state),
+  }
 }
 
 export default connect(
   mapStateToProps
 )(withErrorBoundary(CheckOut, {
   module: module,
-  spareUi: <SpareUi/>
+  spareUi: <SpareUi />
 }))

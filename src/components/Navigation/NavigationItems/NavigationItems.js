@@ -12,6 +12,16 @@ const NavigationItems = ({ items = [
   {
     url: '/orders',
     text: 'Orders'
+  },
+  {
+    url: '/login',
+    text: 'Login',
+    auth: true
+  },
+  {
+    url: '/signup',
+    text: 'SignUp',
+    auth: true
   }
 ] }) => {
   return (

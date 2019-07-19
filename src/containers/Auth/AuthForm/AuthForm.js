@@ -17,7 +17,7 @@ const AuthForm = ({ authForm, error, onSubmit, formType }) => {
       }
       return {
         ...state,
-        [key]: authForm[key].value
+        [key]: authForm[key].value 
       }
     }, {})
 
@@ -53,7 +53,7 @@ const AuthForm = ({ authForm, error, onSubmit, formType }) => {
 
   return (
     <div className={styles.AuthForm}>
-      <h4>{isLogin ? 'Login' : 'Singup'}</h4>
+      <h4>{isLogin ? 'Login' : 'SingUp'}</h4>
       {isLogin ?
         <Link className={styles.AuthFormLink} to="/signup">Need an account?</Link> :
         <Link className={styles.AuthFormLink} to="/login">Have an account?</Link>}

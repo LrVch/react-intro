@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AuthForm from './AuthForm/AuthForm';
 import { connect } from 'react-redux'
+import { authRequest } from '../../store/actions';
 
 class Auth extends Component {
   state = {
@@ -90,10 +91,10 @@ class Auth extends Component {
   }
 
   handleSubmit = (values, actions) => {
-    console.log(values)
-
-    // this.props.sendOrder(order, actions, this.props.history)
+    this.props.onLogin(
+      this.props.match.url, values, actions, this.props.history)
   }
+
   render() {
     const { authForm } = this.state
     const { authErrors, match } = this.props
@@ -113,7 +114,17 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  // onSingIn: credentials => dispatch()
+  onLogin: (
+    authType,
+    credentials,
+    actions,
+    history
+  ) => dispatch(authRequest(
+    authType,
+    credentials,
+    actions,
+    history
+  ))
 })
 
 export default connect(

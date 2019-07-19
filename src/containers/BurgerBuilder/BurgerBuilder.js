@@ -13,6 +13,9 @@ import {
 } from '../../store/actions';
 import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary';
 import SpareUi from '../../components/UI/SpareUi/SpareUi';
+import {
+  ingredients, totalPrice, loadingInitState, errorLoadingInitState
+} from '../../store/selectors/burger'
 
 class BurgerBuilder extends Component {
   state = {
@@ -109,8 +112,12 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = state => {
-  const { ingredients, totalPrice, loadingInitState, errorLoadingInitState } = state.burger
-  return { ingredients, totalPrice, loadingInitState, errorLoadingInitState }
+  return {
+    ingredients: ingredients(state),
+    totalPrice: totalPrice(state),
+    loadingInitState: loadingInitState(state),
+    errorLoadingInitState: errorLoadingInitState(state)
+  }
 }
 
 const mapStateDispatchToProps = dispatch => ({

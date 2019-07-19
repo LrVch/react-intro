@@ -3,9 +3,20 @@ import withErrorBoundary from '../../../hoc/withErrorBoundary/withErrorBoundary'
 import { connect } from 'react-redux';
 import SpareUi from '../../../components/UI/SpareUi/SpareUi'
 import ContactDataForm from './ContactDataForm/ContactDataForm';
-import { orderRequest } from '../../../store/actions';
+import {
+  orderRequest, orderFormRequest
+} from '../../../store/actions';
+import Spiner from '../../../components/UI/Spiner/Spiner'
+import { orderForm, orderFormErrors, orderFormLoading, orderFormLoadingError } from '../../../store/selectors/order';
+import {
+  ingredients, totalPrice
+} from '../../../store/selectors/burger'
 
 class ContactData extends Component {
+  componentDidMount() {
+    this.props.orderFormConfigRequest()
+  }
+
   handleSubmit = (values, actions) => {
     const order = {
       ingredients: this.props.ingredients,
@@ -17,26 +28,36 @@ class ContactData extends Component {
   }
 
   render() {
-    const { orderForm, orderFormErrors } = this.props
+    const spiner = <Spiner />
+    const { orderFormErrors, orderForm, orderFormLoading, orderFormLoadingError } = this.props
+    const error = orderFormLoadingError && <SpareUi message={orderFormLoadingError.message} />
     return (
       <>
-        {Object.keys(orderForm).length > 0 &&
+        {orderFormLoading ? spiner : orderFormLoadingError ? error :
+          orderForm && Object.keys(orderForm).length > 0 &&
           <ContactDataForm
             error={orderFormErrors}
             orderForm={orderForm}
-            onSubmit={this.handleSubmit}
-          />}
+            onSubmit={this.handleSubmit} />
+        }
       </>
     )
   }
 }
 
 const mapStateToProps = state => {
-  const { ingredients, totalPrice, orderForm, orderFormErrors } = state.burger
-  return { ingredients, totalPrice, orderForm, orderFormErrors }
+  return {
+    ingredients: ingredients(state),
+    totalPrice: totalPrice(state),
+    orderForm: orderForm(state),
+    orderFormErrors: orderFormErrors(state),
+    orderFormLoading: orderFormLoading(state),
+    orderFormLoadingError: orderFormLoadingError(state)
+  }
 }
 
 const mapDispatchToProps = dispatch => ({
+  orderFormConfigRequest: () => dispatch(orderFormRequest()),
   sendOrder: (order, actions, history) => dispatch(orderRequest(order, actions, history))
 })
 
@@ -47,3 +68,4 @@ export default connect(
   module: module,
   spareUi: <SpareUi />
 }))
+

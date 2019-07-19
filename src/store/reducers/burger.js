@@ -1,19 +1,11 @@
-import * as actionsTypes from './actions';
-import { combineReducers } from 'redux'
+import * as actionsTypes from '../actions';
 
 const initialState = {
   ingredients: {},
   totalPrice: 0,
   loadingInitState: false,
   errorLoadingInitState: null,
-  orderForm: {},
-  orders: {},
-  ordersById: [],
-  selectedOrder: '',
-  loadingOrders: false,
-  errorLoadingOrders: null,
   ingredientPrices: {},
-  orderFormErrors: null,
   resetState: {
     ingredients: {},
     totalPrice: 0,
@@ -31,10 +23,9 @@ const burgerReducer = (state = initialState, { type, payload }) => {
       }
     }
     case actionsTypes.INIT_STATE_SUCCESS: {
-      const { config, ingredients, price } = payload
+      const { ingredients, price } = payload
       return {
         ...state,
-        orderForm: config,
         ingredients,
         totalPrice: price.totalPrice,
         ingredientPrices: price.ingredients,
@@ -90,83 +81,9 @@ const burgerReducer = (state = initialState, { type, payload }) => {
       }
     }
     
-
-    
-    case actionsTypes.ORDERS_REQUEST:
-    case actionsTypes.ORDERS_RETRY: {
-      return {
-        ...state,
-        loadingOrders: true
-      }
-    }
-    case actionsTypes.ORDERS_SUCCESS: {
-      const {ordersById, orders} = payload
-      const result = ordersById.reduce((obj, id) => {
-        return {
-          ...obj,
-          [id]: {...orders[id], id}
-        }
-      }, {})
-      return {
-        ...state,
-        orders: result,
-        ordersById: ordersById,
-        loadingOrders: false
-      }
-    }
-    case actionsTypes.ORDERS_FAIL: {
-      return {
-        ...state,
-        loadingOrders: false,
-        errorLoadingOrders: payload.error
-      }
-    }
-
-    case actionsTypes.ORDERS_SET_SELECTED: {
-      return {
-        ...state,
-        selectedOrder: payload.id
-      }
-    }
-
-    case actionsTypes.ORDER_REQUEST: {
-      return {
-        ...state,
-        orderFormErrors: null
-      }
-    }
-
-    case actionsTypes.ORDER_FAIL: {
-      return {
-        ...state,
-        orderFormErrors: payload.error
-      }
-    }
-    
-
     default:
       return state
   }
 }
 
-
-export const getOrders = (state) => {
-  const orders = state.burger.orders;
-  const ids = state.burger.ordersById
-  return ids.map(id => orders[id])
-}
-
-export const getOrder = (state) => {
-  const orders = state.burger.orders;
-  return orders[state.burger.selectedOrder] || {}
-}
-
-export const getOrderData = (state) => {
-  return getOrder(state).orderData
-}
-
-export { burgerReducer }
-
-export default combineReducers({
-  burger: burgerReducer
-})
+export default burgerReducer

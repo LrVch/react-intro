@@ -1,4 +1,4 @@
-import { burger, testError } from '../axios'
+import { burger } from '../axios'
 import { pluck, retry } from 'rxjs/operators'
 
 class BurgerService {
@@ -35,6 +35,18 @@ class BurgerService {
       retry(retryCount),
       pluck('data'),
     )
+  }
+
+  static authenticate(type, credentials, retryCount = 0) {
+    const route = type === 'login' ? '/login' : '';
+    return burger
+      .post(this.BASE_URL_USERS + route, { user: credentials })
+      .pipe(
+        retry(retryCount),
+        // map(data => {
+        //   return data.user;
+        // })
+      );
   }
 }
 
