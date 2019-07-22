@@ -1,4 +1,4 @@
-import { error } from '../axios'
+import { error } from '../axios/error'
 import { retry } from 'rxjs/operators'
 
 const retryCount = 2;

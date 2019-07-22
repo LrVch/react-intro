@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { content } from './Layout.module.scss'
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
+import { connect } from 'react-redux'
+import { loggedIn } from '../../store/selectors/auth'
 
 class Layout extends Component {
   state = {
@@ -25,10 +27,12 @@ class Layout extends Component {
   render() {
     return (
       <>
-        <Toolbar 
+        <Toolbar
+          loggedIn={this.props.loggedIn}
           toggleClick={this.toggleClickHandler}
         />
         <SideDrawer
+          loggedIn={this.props.loggedIn}
           isOpened={this.state.isOpened}
           dropClick={this.dropClickHandler}
         />
@@ -40,4 +44,8 @@ class Layout extends Component {
   }
 }
 
-export default Layout;
+const matStateToProps = state => ({
+  loggedIn: loggedIn(state)
+})
+
+export default connect(matStateToProps)(Layout);

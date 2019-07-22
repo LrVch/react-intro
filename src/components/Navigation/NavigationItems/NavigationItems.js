@@ -2,31 +2,39 @@ import React from 'react'
 import styles from './NavigationItems.module.scss';
 import NavigationItem from '../NavigationItem/NavigationItem';
 
-const NavigationItems = ({ items = [
+const NavigationItems = ({auth, items = [
   {
     active: true,
     url: '/',
     text: 'BurgerBuilder',
-    exact: true
+    exact: true,
   },
   {
     url: '/orders',
-    text: 'Orders'
+    text: 'Orders',
+    auth: true
+  },
+  {
+    url: '/logout',
+    text: 'Logout',
+    auth: true
   },
   {
     url: '/login',
-    text: 'Login',
-    auth: true
+    text: 'SingIn',
+    auth: false
   },
   {
     url: '/signup',
     text: 'SignUp',
-    auth: true
+    auth: false
   }
 ] }) => {
+  const authed = item => item.auth === true || item.auth === undefined
+  const notAuthed = item => item.auth === undefined || !item.auth
   return (
     <ul className={styles.NavigationItems}>
-      {items.map((item, i) =>
+      {items.filter(auth ? authed : notAuthed).map((item, i) =>
         <NavigationItem
           exact={item.exact}
           key={item.text + i}

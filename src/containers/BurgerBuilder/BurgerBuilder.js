@@ -9,7 +9,8 @@ import {
   addIngredient,
   removeIngredient,
   restoreInitState,
-  initStateRetry
+  initStateRetry,
+  initStateRequest
 } from '../../store/actions';
 import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary';
 import SpareUi from '../../components/UI/SpareUi/SpareUi';
@@ -23,6 +24,7 @@ class BurgerBuilder extends Component {
   }
 
   componentDidMount() {
+    this.props.initStateRequest()
     this.props.restoreInitState()
   }
 
@@ -124,7 +126,8 @@ const mapStateDispatchToProps = dispatch => ({
   onIngredientAdd: (ingredient) => dispatch(addIngredient(ingredient)),
   onIngredientRemove: (ingredient) => dispatch(removeIngredient(ingredient)),
   restoreInitState: () => dispatch(restoreInitState()),
-  retryInitState: () => dispatch(initStateRetry())
+  retryInitState: () => dispatch(initStateRetry()),
+  initStateRequest: () => dispatch(initStateRequest())
 })
 
 export default connect(

@@ -5,18 +5,21 @@ import { Link } from 'react-router-dom';
 
 const cx = className.bind(sytles)
 
-const Button = ({ 
-  children, 
+const Button = ({
+  children,
   btnType,
-  type, 
-  onclick, 
+  type,
+  onclick,
   disabled,
-   elem = 'button', to 
-  }) => {
+  elem = 'button',
+  to,
+  hidden
+}) => {
   return (
     <>
       {elem === 'button' ?
         <button
+          hidden={hidden}
           type={btnType}
           disabled={disabled}
           className={cx('Button', {
@@ -25,10 +28,12 @@ const Button = ({
           })}
           onClick={onclick}>{children}</button>
         :
-        <Link className={cx('Button', {
-          Success: type === 'success',
-          Danger: type === 'danger'
-        })} to={to}>{children}</Link>
+        <Link
+          hidden={hidden}
+          className={cx('Button', {
+            Success: type === 'success',
+            Danger: type === 'danger'
+          })} to={to}>{children}</Link>
       }
     </>
   )

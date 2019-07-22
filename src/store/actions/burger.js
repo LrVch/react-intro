@@ -6,6 +6,7 @@ export const INIT_STATE_REQUEST = 'INIT_STATE_REQUEST'
 export const INIT_STATE_SUCCESS = 'INIT_STATE_SUCCESS'
 export const INIT_STATE_FAIL = 'INIT_STATE_FAIL'
 export const INIT_STATE_RETRY = 'INIT_STATE_RETRY'
+export const INIT_STATE_LOADED = 'INIT_STATE_LOADED'
 
 export const initStateRequest = () => ({
   type: INIT_STATE_REQUEST
@@ -18,6 +19,10 @@ export const initStateSuccess = ({ config, ingredients, price }) => ({
     ingredients,
     price
   }
+})
+
+export const initStateLoaded = () => ({
+  type: INIT_STATE_LOADED,
 })
 
 export const initStateFail = (error) => ({

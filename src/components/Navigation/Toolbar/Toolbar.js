@@ -6,7 +6,7 @@ import ToggleButton from '../ToggleButton/ToggleButton';
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-const Toolbar = ({ toggleClick }) => {
+const Toolbar = ({ loggedIn, toggleClick }) => {
   return (
     <header className={styles.Toolbar}>
       <ToggleButton click={toggleClick} />
@@ -14,7 +14,7 @@ const Toolbar = ({ toggleClick }) => {
         <Logo />
       </Link>
       <nav className={styles.DesktopOnly}>
-        <NavigationItems />
+        <NavigationItems auth={loggedIn} />
       </nav>
     </header>
   )

@@ -4,22 +4,21 @@ import {
   map,
   catchError,
   exhaustMap,
-  mapTo
+  mapTo,
+  withLatestFrom
 } from 'rxjs/operators'
-import { defer, forkJoin, of, timer } from 'rxjs';
+import { forkJoin, of, timer } from 'rxjs';
 import BurgerService from '../../services/burger.service'
 import {
   INIT_STATE_REQUEST,
   initStateRequest,
   initStateSuccess,
   initStateFail,
-  INIT_STATE_RETRY
+  INIT_STATE_RETRY,
+  initStateLoaded
 } from '../actions';
 import ErrorNotifyService from '../../services/errorNotify.service';
-
-export const init$ = () => defer(() => {
-  return of(initStateRequest())
-})
+import { ingredients, totalPrice } from '../selectors/burger';
 
 export const initStateRetry$ = (action$, state$) => action$.pipe(
   ofType(INIT_STATE_RETRY),
@@ -30,30 +29,36 @@ export const initStateRetry$ = (action$, state$) => action$.pipe(
 
 export const initStateRequest$ = (action$, state$) => action$.pipe(
   ofType(INIT_STATE_REQUEST),
-  switchMap(() => forkJoin(
-    BurgerService.getIngredients(2),
-    BurgerService.getPrice(2)
-  ).pipe(
-    map(([ingredients, price]) => {
-      return initStateSuccess({
-        ingredients,
-        price
+  withLatestFrom(state$),
+  map(([action, state]) => [action, ingredients(state), totalPrice(state)]),
+  switchMap(([action, ingredients, totalPrice]) => {
+    if (Object.keys(ingredients).length) {
+      return of(initStateLoaded())
+    }
+    return forkJoin(
+      BurgerService.getIngredients(2),
+      BurgerService.getPrice(2)
+    ).pipe(
+      map(([ingredients, price]) => {
+        return initStateSuccess({
+          ingredients,
+          price
+        })
+      }),
+      catchError(error => {
+        ErrorNotifyService.sendNetworkErrorDetails({
+          module: module.id,
+          method: 'initStateRequest$',
+          error,
+        })
+        return of(initStateFail(error))
       })
-    }),
-    catchError(error => {
-      ErrorNotifyService.sendNetworkErrorDetails({
-        module: module.id,
-        method: 'initStateRequest$',
-        error,
-      })
-      return of(initStateFail(error))
-    })
-  ))
+    )
+  })
 )
 
 
 const burger$ = combineEpics(
-  init$,
   initStateRequest$,
   initStateRetry$
 )

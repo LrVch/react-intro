@@ -1,8 +1,8 @@
 import React from 'react'
 
-const ErrorMessage = ({ children }) => {
+const ErrorMessage = ({ children, center }) => {
   return (
-    <div style={{ fontSize: '12px', color: 'red', textAlign: 'left' }}>
+    <div style={{ fontSize: '12px', color: 'red', textAlign: center ? 'center': 'left' }}>
       {children}
     </div>
   )

@@ -15,7 +15,8 @@ const ordersReducer = (state = initialState, { type, payload }) => {
     case actionsTypes.ORDERS_RETRY: {
       return {
         ...state,
-        loadingOrders: true
+        loadingOrders: true,
+        errorLoadingOrders: null
       }
     }
     case actionsTypes.ORDERS_SUCCESS: {

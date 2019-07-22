@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 const cx = classNames.bind(styles)
 
 
-const SideDrawer = ({ dropClick, isOpened }) => {
+const SideDrawer = ({loggedIn, dropClick, isOpened }) => {
   return (
     <>
       <Backdrop click={dropClick} show={isOpened} />
@@ -20,7 +20,7 @@ const SideDrawer = ({ dropClick, isOpened }) => {
       }>
         <Logo />
         <nav>
-          <NavigationItems />
+          <NavigationItems auth={loggedIn} />
         </nav>
       </div>
     </>

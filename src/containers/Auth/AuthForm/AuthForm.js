@@ -1,4 +1,4 @@
-import React, {memo} from 'react'
+import React, { memo, useEffect } from 'react'
 import Button from '../../../components/UI/Button/Button'
 import styles from './AuthForm.module.scss'
 import Input from '../../../components/UI/Input/Input'
@@ -8,7 +8,12 @@ import * as Yup from 'yup';
 import { Link } from 'react-router-dom'
 
 
-const AuthForm = ({ authForm, error, onSubmit, formType }) => {
+const AuthForm = ({ loading, authForm, errors, onSubmit, formType, onInit }) => {
+
+  useEffect(() => {
+    onInit()
+  }, [formType])
+
   const isLogin = formType === '/login'
   const initState = Object.keys(authForm)
     .reduce((state, key) => {
@@ -17,7 +22,7 @@ const AuthForm = ({ authForm, error, onSubmit, formType }) => {
       }
       return {
         ...state,
-        [key]: authForm[key].value 
+        [key]: authForm[key].value
       }
     }, {})
 
@@ -48,16 +53,23 @@ const AuthForm = ({ authForm, error, onSubmit, formType }) => {
       }
     }, {})
 
+  const errorMessages = errors => (
+    errors.map((error, i) =>
+      <div style={{ margin: '10px 0' }} key={i} >
+        <ErrorMessage center>{
+          error.message.toLowerCase().replace(/_/gi, ' ')
+        }</ErrorMessage></div>)
+  )
 
   const authSchema = Yup.object().shape(schemaFields)
 
   return (
     <div className={styles.AuthForm}>
-      <h4>{isLogin ? 'Login' : 'SingUp'}</h4>
+      <h4>{isLogin ? 'SingIn' : 'SingUp'}</h4>
       {isLogin ?
         <Link className={styles.AuthFormLink} to="/signup">Need an account?</Link> :
         <Link className={styles.AuthFormLink} to="/login">Have an account?</Link>}
-      {error && <p className={styles.ErrorMessage}>{error.message}</p>}
+      {errors && errorMessages(errors)}
       <Formik
         enableReinitialize
         initialValues={initState}
@@ -109,11 +121,15 @@ const AuthForm = ({ authForm, error, onSubmit, formType }) => {
                 })}
               </fieldset>
               <Button
+                hidden={loading}
                 disabled={isSubmitting}
                 btnType="submit"
                 type="success">
-                ORDER
+                SUBMIT
               </Button>
+              <div
+                hidden={!loading}
+                className={styles['Lds-ellipsis']}><div></div><div></div><div></div><div></div></div>
               <br />
             </Form>
           )}

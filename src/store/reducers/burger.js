@@ -44,6 +44,13 @@ const burgerReducer = (state = initialState, { type, payload }) => {
       }
     }
 
+    case actionsTypes.INIT_STATE_LOADED: {
+      return {
+        ...state,
+        loadingInitState: false
+      }
+    }
+
 
 
     case actionsTypes.ADD_INGREDIENT: {
