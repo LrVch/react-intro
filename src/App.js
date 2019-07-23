@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import Layout from './hoc/Layout/Layout'
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import CheckOut from './containers/CheckOut/CheckOut';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
-import Logout from './containers/Auth/Logout/Logout'
 import { loggedIn } from './store/selectors';
 import { connect } from 'react-redux'
 import AuthRoute from './components/Navigation/AuthRoute/AuthRoute'
+
+const Orders = React.lazy(() => import('./containers/Orders/Orders'));
+const Logout = React.lazy(() => import('./containers/Auth/Logout/Logout'));
 
 function App({ loggedIn }) {
   return (
@@ -22,6 +23,7 @@ function App({ loggedIn }) {
             component={CheckOut}
           />
           <AuthRoute
+            lazy
             authenticated={loggedIn}
             path="/orders"
             component={Orders}
@@ -29,6 +31,7 @@ function App({ loggedIn }) {
           <Route path="/login" component={Auth} />
           <Route path="/signup" component={Auth} />
           <AuthRoute
+            lazy
             authenticated={loggedIn}
             path="/logout"
             component={Logout}

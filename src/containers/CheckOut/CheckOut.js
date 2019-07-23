@@ -1,13 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense, lazy } from 'react'
 import CheckOutSummary from '../../components/Order/CheckOutSummary/CheckOutSummary';
 import { Route } from 'react-router-dom';
-import ContactData from './ContactData/ContactData';
+// import ContactData from './ContactData/ContactData';
 import { connect } from 'react-redux';
 import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary';
 import SpareUi from '../../components/UI/SpareUi/SpareUi';
 import {
   ingredients, totalPrice
 } from '../../store/selectors/burger'
+import LazeRoute from '../../components/Navigation/LazeRoute/LazeRoute';
+
+const ContactData = lazy(() => import('./ContactData/ContactData'));
+// const l = <Suspense fallback={<div>Загрузка...</div>}>
+//   <ContactData />
+// </Suspense>
 
 class CheckOut extends Component {
   componentDidMount() {
@@ -34,10 +40,9 @@ class CheckOut extends Component {
           to={`${this.props.match.url}/contactdata`}
           ingredients={ingredients}
         />
-        <Route
+        <LazeRoute 
           path={`${this.props.match.path}/:id`}
-          component={ContactData}
-        />
+          component={ContactData}/>
       </div>
     )
   }
