@@ -17,6 +17,17 @@ export const loggedIn = createSelector(
   orderState => orderState.loggedIn
 )
 
+export const confirmed = createSelector(
+  authState,
+  orderState => orderState.confirmed
+)
+
+export const isFullLoggedIn = createSelector(
+  loggedIn,
+  confirmed,
+  (loggedIn, confirmed) => loggedIn && confirmed
+)
+
 export const authErrors = createSelector(
   authState,
   orderState => orderState.authErrors

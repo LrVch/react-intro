@@ -6,8 +6,8 @@ const initialState = {
   loading: false,
   authErrors: null,
   loggedIn: false,
-  email: null
-  // notConfirmed: true
+  email: null,
+  confirmed: false
 }
 
 const authReducer = (state = initialState, { type, payload }) => {

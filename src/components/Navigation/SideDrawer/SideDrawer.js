@@ -20,7 +20,7 @@ const SideDrawer = ({loggedIn, dropClick, isOpened }) => {
       }>
         <Logo />
         <nav>
-          <NavigationItems auth={loggedIn} />
+          <NavigationItems onClick={dropClick} auth={loggedIn} />
         </nav>
       </div>
     </>

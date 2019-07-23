@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './NavigationItems.module.scss';
 import NavigationItem from '../NavigationItem/NavigationItem';
 
-const NavigationItems = ({auth, items = [
+const NavigationItems = ({ auth, onClick, items = [
   {
     active: true,
     url: '/',
@@ -36,6 +36,7 @@ const NavigationItems = ({auth, items = [
     <ul className={styles.NavigationItems}>
       {items.filter(auth ? authed : notAuthed).map((item, i) =>
         <NavigationItem
+          onClick={onClick}
           exact={item.exact}
           key={item.text + i}
           active={item.active}
