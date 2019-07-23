@@ -6,8 +6,6 @@ import mainEpics$ from './store/epics'
 const {NODE_ENV} = process.env;
 const isDev = NODE_ENV === 'development'
 
-console.log(process.env)
-
 const composeEnhancers = (isDev && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
   || compose;
 

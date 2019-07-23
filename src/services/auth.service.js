@@ -1,9 +1,11 @@
 import { auth } from '../axios/auth'
-import { pluck, retry, tap } from 'rxjs/operators'
+import { pluck, retry } from 'rxjs/operators'
+import { TOKEN_URL, AUTH_BASE_URL } from '../config'
 
-const apiKey = 'AIzaSyBrNJ4UAfTpuqEF9XgQ4XLH3sKROZJzmbI'
-const baseUrl = method => `https://identitytoolkit.googleapis.com/v1/accounts:${method}?key=${apiKey}`
-const tokenUrl = `https://securetoken.googleapis.com/v1/token?key=${apiKey}`
+const {REACT_APP_API_KEY: apiKey} = process.env
+
+const baseUrl = method => `${AUTH_BASE_URL}${method}?key=${apiKey}`
+const tokenUrl = `${TOKEN_URL}${apiKey}`
 
 // sign up
 // curl 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]' \

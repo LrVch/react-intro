@@ -3,9 +3,10 @@ import ErrorNotifyService from '../services/errorNotify.service';
 import store from '../configureStore';
 import { authLogout } from '../store/actions';
 import LocalStorageService from '../services/localStorage.service';
+import { BASE_URL } from '../config'
 
 export const burger = Axios.create({
-  baseURL: 'https://burger-builder-super.firebaseio.com'
+  baseURL: BASE_URL
 })
 
 burger.axiosInstance.interceptors.request.use(config => {

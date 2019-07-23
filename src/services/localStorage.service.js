@@ -1,5 +1,4 @@
 const APP_PREFIX = 'burger_';
-// export const SETTINGS_KEY = 'appSettings';
 export const TOKEN_KEY = `idToken`;
 export const REFRESH_TOKEN = `refreshToken`;
 export const REFRESH_TOKEN_EXP = `expiresAt`;

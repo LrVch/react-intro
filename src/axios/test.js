@@ -1,5 +1,7 @@
 import Axios from 'axios-observable'
+import { BASE_URL } from '../config'
+
 
 export const testError = Axios.create({
-  baseURL: 'https://burger-builder-super.firebaseio.comw'
+  baseURL: BASE_URL + 'error'
 })
