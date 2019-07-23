@@ -11,9 +11,6 @@ import {
 import LazeRoute from '../../components/Navigation/LazeRoute/LazeRoute';
 
 const ContactData = lazy(() => import('./ContactData/ContactData'));
-// const l = <Suspense fallback={<div>Загрузка...</div>}>
-//   <ContactData />
-// </Suspense>
 
 class CheckOut extends Component {
   componentDidMount() {
