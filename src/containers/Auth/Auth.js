@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { authRequest, autErrorsClear } from '../../store/actions';
 import { authErrors, loading, loggedIn } from '../../store/selectors/auth';
 import { Redirect } from 'react-router-dom'
+import { ingredients } from '../../store/selectors/burger';
 
 class Auth extends Component {
   state = {
@@ -92,6 +93,10 @@ class Auth extends Component {
     }
   }
 
+  componentDidMount() {
+    console.log('auth container did mount')
+  }
+
   handleSubmit = (values, actions) => {
     this.props.onLogin(
       this.props.match.url, values, actions, this.props.history)
@@ -99,18 +104,36 @@ class Auth extends Component {
 
   render() {
     const { authForm } = this.state
-    const { authErrors, match, loggedIn, loading, autErrorsClear } = this.props
+    const {
+      authErrors,
+      match,
+      loggedIn,
+      loading,
+      autErrorsClear,
+      ingredients
+    } = this.props
+
+    const isBuilding = !!Object.values(ingredients)
+      .reduce((prev, next) => {
+        return prev + next
+      }, 0)
+
+    console.log('isBuilding', isBuilding)
+    console.log('loggedIn', loggedIn)
+
+    const redirect = isBuilding ? <Redirect to="/checkout" /> : <Redirect to="/" />
+
     return (
       <>
-        {loggedIn ? <Redirect to="/" /> :
-          <AuthForm
-            loading={loading}
-            onInit={autErrorsClear}
-            formType={match.url}
-            authForm={authForm}
-            errors={authErrors}
-            onSubmit={this.handleSubmit}
-          />
+        {loggedIn && redirect}
+        {<AuthForm
+          loading={loading}
+          onInit={autErrorsClear}
+          formType={match.url}
+          authForm={authForm}
+          errors={authErrors}
+          onSubmit={this.handleSubmit}
+        />
         }
       </>
     )
@@ -120,7 +143,8 @@ class Auth extends Component {
 const mapStateToProps = state => ({
   authErrors: authErrors(state),
   loading: loading(state),
-  loggedIn: loggedIn(state)
+  loggedIn: loggedIn(state),
+  ingredients: ingredients(state)
 })
 
 const mapDispatchToProps = dispatch => ({

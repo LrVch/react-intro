@@ -11,14 +11,14 @@ import {
 
 class CheckOut extends Component {
   componentDidMount() {
-    // const purchasable = !!Object.values(this.props.ingredients)
-    //   .reduce((prev, next) => {
-    //     return prev + next
-    //   }, 0)
+    const purchasable = !!Object.values(this.props.ingredients)
+      .reduce((prev, next) => {
+        return prev + next
+      }, 0)
 
-    // if (!purchasable) {
-    //   this.props.history.push('/')
-    // }
+    if (!purchasable) {
+      this.props.history.push('/')
+    }
   }
 
   checkOutHandler = () => {

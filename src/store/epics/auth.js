@@ -1,4 +1,4 @@
-import { ofType, combineEpics } from 'redux-observable';
+import { ofType, combineEpics } from 'redux-observable'
 import {
   map,
   catchError,
@@ -7,11 +7,28 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs/operators'
-import { defer, of, timer, empty } from 'rxjs';
+import { defer, of, timer, empty } from 'rxjs'
 import jwt from 'jsonwebtoken'
-import { AUTH_REQUEST, authSuccess, authFail, authLoggedLocal, AUTH_SUCCESS, authGetUserSuccess, authGetUserFail, AUTH_LOGOUT, AUTH_LOGGEG_LOCAL, authRefreshTokenFail, AUTH_REFRESH_TOKEN_FAIL, authLogout, authRefreshTokenRequest, AUTH_REFRESH_TOKEN_REQUEST, authRefreshTokenSuccess, AUTH_REFRESH_TOKEN_SUCCESS } from '../actions';
-import ErrorNotifyService from '../../services/errorNotify.service';
-import AuthService from '../../services/auth.service';
+import {
+  AUTH_REQUEST,
+  authSuccess,
+  authFail,
+  authLoggedLocal,
+  AUTH_SUCCESS,
+  authGetUserSuccess,
+  authGetUserFail,
+  AUTH_LOGOUT,
+  AUTH_LOGGEG_LOCAL,
+  authRefreshTokenFail,
+  AUTH_REFRESH_TOKEN_FAIL,
+  authLogout,
+  // authRefreshTokenRequest,
+  // AUTH_REFRESH_TOKEN_REQUEST,
+  authRefreshTokenSuccess,
+  AUTH_REFRESH_TOKEN_SUCCESS
+} from '../actions';
+import ErrorNotifyService from '../../services/errorNotify.service'
+import AuthService from '../../services/auth.service'
 import LocalStorageService from '../../services/localStorage.service'
 
 export const init$ = () => defer(() => {
@@ -22,10 +39,10 @@ export const init$ = () => defer(() => {
   // console.log(decoded)
 
   if (isValid) {
-    const { email } = decoded.payload
-    return of(authLoggedLocal(email, idToken))
+    const { email, user_id } = decoded.payload
+    return of(authLoggedLocal(email, idToken, user_id))
   } else {
-    LocalStorageService.destroyToken()
+    return of(authLogout())
   }
 })
 
@@ -37,7 +54,8 @@ export const authRequest$ = (action$, state$) => action$.pipe(
       authType,
       credentials
     ).pipe(
-      map(({ idToken, email, refreshToken, expiresIn }) => {
+      tap(console.log),
+      map(({ idToken, email, refreshToken, expiresIn, localId }) => {
         const decoded = jwt.decode(idToken, { complete: true })
 
         // console.log(decoded)
@@ -66,6 +84,7 @@ export const authRequest$ = (action$, state$) => action$.pipe(
           idToken,
           expiresIn,
           refreshToken,
+          localId
         )
       }),
       catchError(error => {
@@ -120,9 +139,7 @@ export const authRefreshToken$ = (action$, state$) => action$.pipe(
   // tap((info) => console.log((info.expiresAt - Date.now()) / 1000 / 60)),
   // tap((info) => console.log((info.expiresAt - Date.now() - (3480 * 1000) )/ 1000 / 60)),
   switchMap(info => timer(Math.max(1, info.expiresAt - Date.now())).pipe(
-    // tap(() => console.log(info.refreshToken)),
     switchMap(() => AuthService.refreshToken(info.refreshToken).pipe(
-      // tap(console.log),
       map(({ id_token, refresh_token, expires_in }) => authRefreshTokenSuccess(
         id_token, refresh_token, expires_in
       )),

@@ -23,13 +23,14 @@ export const authRequest = (authType, credentials, actions, history) => ({
   }
 })
 
-export const authSuccess = (email, idToken, expiresIn, refreshToken) => ({
+export const authSuccess = (email, idToken, expiresIn, refreshToken, localId) => ({
   type: AUTH_SUCCESS,
   payload: {
     email,
     idToken,
     expiresIn,
-    refreshToken
+    refreshToken,
+    localId
   }
 })
 
@@ -52,9 +53,9 @@ export const authLogout = () => ({
   type: AUTH_LOGOUT
 })
 
-export const authLoggedLocal = (email, idToken) => ({
+export const authLoggedLocal = (email, idToken, localId) => ({
   type: AUTH_LOGGEG_LOCAL,
-  payload: { email, idToken }
+  payload: { email, idToken, localId }
 })
 
 export const authGetUserRequest = (idToken) => ({

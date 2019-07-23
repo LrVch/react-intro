@@ -27,4 +27,9 @@ export const email = createSelector(
   orderState => orderState.email
 )
 
+export const localId = createSelector(
+  authState,
+  orderState => orderState.localId
+)
+
 

@@ -14,6 +14,10 @@ const AuthForm = ({ loading, authForm, errors, onSubmit, formType, onInit }) => 
     onInit()
   }, [formType])
 
+  useEffect(() => {
+   console.log('AuthForm did mount')
+  }, [])
+
   const isLogin = formType === '/login'
   const initState = Object.keys(authForm)
     .reduce((state, key) => {

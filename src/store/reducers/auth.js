@@ -2,6 +2,7 @@ import * as actionsTypes from '../actions';
 
 const initialState = {
   user: null,
+  localId: null,
   loading: false,
   authErrors: null,
   loggedIn: false,
@@ -22,12 +23,13 @@ const authReducer = (state = initialState, { type, payload }) => {
 
     case actionsTypes.AUTH_SUCCESS:
     case actionsTypes.AUTH_LOGGEG_LOCAL: {
-      const { email } = payload
+      const { email, localId } = payload
       return {
         ...state,
         loading: false,
         loggedIn: true,
         email,
+        localId
       }
     }
 

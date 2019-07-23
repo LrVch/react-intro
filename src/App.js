@@ -6,18 +6,33 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout'
+import { loggedIn } from './store/selectors';
+import { connect } from 'react-redux'
+import AuthRoute from './components/Navigation/AuthRoute/AuthRoute'
 
-function App() {
+function App({ loggedIn }) {
   return (
     <Router>
       <Layout>
         <Switch>
           <Route path="/" exact component={BurgerBuilder} />
-          <Route path="/checkout" component={CheckOut} />
-          <Route path="/orders" component={Orders} />
+          <AuthRoute
+            authenticated={loggedIn}
+            path="/checkout"
+            component={CheckOut}
+          />
+          <AuthRoute
+            authenticated={loggedIn}
+            path="/orders"
+            component={Orders}
+          />
           <Route path="/login" component={Auth} />
           <Route path="/signup" component={Auth} />
-          <Route path="/logout" component={Logout} />
+          <AuthRoute
+            authenticated={loggedIn}
+            path="/logout"
+            component={Logout}
+          />
           <Route render={() => <h1>404</h1>} />
         </Switch>
       </Layout>
@@ -25,4 +40,8 @@ function App() {
   );
 }
 
-export default App;
+const matStateToProps = state => ({
+  loggedIn: loggedIn(state)
+})
+
+export default connect(matStateToProps)(App);

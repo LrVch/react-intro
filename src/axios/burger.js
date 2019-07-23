@@ -12,7 +12,10 @@ burger.axiosInstance.interceptors.request.use(config => {
   const token =  LocalStorageService.getToken()
 
   if (token) {
-    config.url = config.url + `?auth=${token}`
+    config.params = {
+      ...config.params,
+      auth: token
+    }
   }
 
   return config

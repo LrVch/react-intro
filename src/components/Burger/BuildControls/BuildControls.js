@@ -40,7 +40,8 @@ const BuildControls = ({
   disabledState,
   price,
   purchasable,
-  purchaseHandler
+  purchaseHandler,
+  loggedIn
 }) => {
   return (
     <div className={styels.BuildControls}>
@@ -58,7 +59,9 @@ const BuildControls = ({
         <button
           onClick={purchaseHandler}
           disabled={!purchasable}
-          className={styels.OrderButton}>Order now</button>
+          className={styels.OrderButton}>
+          {loggedIn ? 'Order now' : 'SIGNIN TO ORDER'}
+        </button>
       </p>
     </div>
   )

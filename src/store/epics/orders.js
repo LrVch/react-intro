@@ -6,7 +6,8 @@ import {
   exhaustMap,
   mapTo,
   takeUntil,
-  tap
+  tap,
+  withLatestFrom
 } from 'rxjs/operators'
 import {of, timer } from 'rxjs';
 import BurgerService from '../../services/burger.service'
@@ -19,6 +20,7 @@ import {
   ORDERS_REQUES_ABORT
 } from '../actions';
 import ErrorNotifyService from '../../services/errorNotify.service';
+import { localId } from '../selectors/auth'
 
 
 export const ordersRetry$ = (action$, state$) => action$.pipe(
@@ -30,8 +32,10 @@ export const ordersRetry$ = (action$, state$) => action$.pipe(
 
 export const ordersRequest$ = (action$, state$) => action$.pipe(
   ofType(ORDERS_REQUEST),
-  switchMap(() => BurgerService.getOrders(2).pipe(
-    map(orders => ordersSuccess(orders)),
+  withLatestFrom(state$),
+  map(([action, state]) => localId(state)),
+  switchMap(localId => BurgerService.getOrders(localId, 2).pipe(
+    map(orders => ordersSuccess(orders || {})),
     takeUntil(action$.pipe(ofType(ORDERS_REQUES_ABORT))),
     catchError(error => {
       ErrorNotifyService.sendNetworkErrorDetails({

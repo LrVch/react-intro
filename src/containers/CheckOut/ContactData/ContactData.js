@@ -11,6 +11,7 @@ import { orderForm, orderFormErrors, orderFormLoading, orderFormLoadingError } f
 import {
   ingredients, totalPrice
 } from '../../../store/selectors/burger'
+import { localId } from '../../../store/selectors/auth';
 
 class ContactData extends Component {
   componentDidMount() {
@@ -22,7 +23,8 @@ class ContactData extends Component {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice,
       orderData: values,
-      createdAt: new Date()
+      createdAt: new Date(),
+      localId: this.props.localId
     }
     this.props.sendOrder(order, actions, this.props.history)
   }
@@ -52,7 +54,8 @@ const mapStateToProps = state => {
     orderForm: orderForm(state),
     orderFormErrors: orderFormErrors(state),
     orderFormLoading: orderFormLoading(state),
-    orderFormLoadingError: orderFormLoadingError(state)
+    orderFormLoadingError: orderFormLoadingError(state),
+    localId: localId(state)
   }
 }
 

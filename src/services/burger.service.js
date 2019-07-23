@@ -23,8 +23,25 @@ class BurgerService {
     )
   }
 
-  static getOrders(retryCount = 0) {
-    return burger.get('/orders.json').pipe(
+  static getOrders(localId, retryCount = 0) {
+    return burger.get('/orders.json', {
+      params: {
+        orderBy: 'localId',
+        equalTo: localId
+      },
+      paramsSerializer: function (params) {
+        const p = Object.entries(params)
+          .map(x => {
+            if (x[0] === 'auth') {
+              return `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`
+            } else {
+              return `${encodeURIComponent(x[0])}=${typeof x[1] === 'string' ? `"${x[1]}"` : x[1]}`
+            }
+          })
+          .join('&');
+        return p
+      },
+    }).pipe(
       retry(retryCount),
       pluck('data'),
     )
