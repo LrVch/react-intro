@@ -9,16 +9,16 @@ import { Link } from 'react-router-dom'
 import Loader from '../../../components/UI/Loader/Loader';
 
 
-const AuthForm = ({ loading, authForm, errors, onSubmit, formType, onInit }) => {
+const AuthForm = ({ loading, authForm, errors, onSubmit, formType, onInit, onDestroy }) => {
 
   useEffect(() => {
-    onInit()
+    onInit(formType)
+
+    return () => {
+      onDestroy(formType)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formType])
-
-  useEffect(() => {
-   console.log('AuthForm did mount')
-  }, [])
 
   const isLogin = formType === '/login'
   const initState = Object.keys(authForm)
@@ -133,7 +133,7 @@ const AuthForm = ({ loading, authForm, errors, onSubmit, formType, onInit }) => 
                 type="success">
                 SUBMIT
               </Button>
-              <Loader center hidden={!loading}/>
+              <Loader center hidden={!loading} />
               <br />
             </Form>
           )}

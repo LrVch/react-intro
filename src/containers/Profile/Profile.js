@@ -10,11 +10,11 @@ import {
 import {
   isInfoUpdating,
   displayName,
-  loggedIn,
   photoUrl,
   updateUserError,
+  isFullLoggedIn,
 } from '../../store/selectors/auth';
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 import UserInfo from '../../components/UserInfo/UserInfo';
 
 class Profile extends Component {
@@ -25,7 +25,7 @@ class Profile extends Component {
       isInfoUpdating,
       deleteProfileErrors,
       displayName,
-      loggedIn,
+      // isFullLoggedIn,
       photoUrl,
       onDeleteRequest,
       onProfileClearDeleteErrors,
@@ -35,7 +35,7 @@ class Profile extends Component {
 
     return (
       <div>
-        {!loggedIn && <Redirect to="/" />}
+        {/* {!isFullLoggedIn && <Redirect to="/" />} */}
         <UserInfo
           displayName={displayName}
           photoUrl={photoUrl}
@@ -55,7 +55,7 @@ class Profile extends Component {
 
 const mapStateToProps = state => ({
   isDeleting: isDeleting(state),
-  loggedIn: loggedIn(state),
+  // isFullLoggedIn: isFullLoggedIn(state),
   deleteProfileErrors: deleteProfileErrors(state),
   displayName: displayName(state),
   photoUrl: photoUrl(state),

@@ -35,7 +35,7 @@ class Orders extends Component {
             ingredients={order.ingredients}
           />
         </Link>
-      ) : <p>There is not orders yet.</p>}
+      ) : <p style={{textAlign: 'center'}}>There is no orders yet.</p>}
     </div>
     return (
       <>

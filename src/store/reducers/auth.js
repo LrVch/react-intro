@@ -1,15 +1,17 @@
 import * as actionsTypes from '../actions';
 
 const initialState = {
-  user: null,
+  authErrors: null,
+  confirmed: false,
+  confirmEmailError: null,
+  email: null,
+  isConfirmMessageShow: false,
+  isInfoUpdating: false,
   localId: null,
   loading: false,
-  authErrors: null,
   loggedIn: false,
-  email: null,
-  confirmed: false,
-  isInfoUpdating: false,
-  updateUserError: null
+  updateUserError: null,
+  user: null,
 }
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -28,10 +30,36 @@ const authReducer = (state = initialState, { type, payload }) => {
       const { email, localId } = payload
       return {
         ...state,
-        loading: false,
-        loggedIn: true,
         email,
-        localId
+        confirmed: true,
+        loading: false,
+        localId,
+        loggedIn: true,
+      }
+    }
+
+    case actionsTypes.AUTH_NOT_CONFIRMED: {
+      const { email, localId } = payload
+      return {
+        ...state,
+        email,
+        loading: false,
+        localId,
+        loggedIn: true,
+      }
+    }
+
+    case actionsTypes.AUTH_SHOW_NOT_CONFIRMED_MESSAGE: {
+      return {
+        ...state,
+        isConfirmMessageShow: true
+      }
+    }
+
+    case actionsTypes.AUTH_HIDE_NOT_CONFIRMED_MESSAGE: {
+      return {
+        ...state,
+        isConfirmMessageShow: false
       }
     }
 
@@ -50,7 +78,8 @@ const authReducer = (state = initialState, { type, payload }) => {
         loading: false,
         authErrors: null,
         loggedIn: false,
-        email: null
+        email: null,
+        confirmed: false
       }
     }
 
@@ -74,6 +103,8 @@ const authReducer = (state = initialState, { type, payload }) => {
         authErrors: null
       }
     }
+
+
 
     case actionsTypes.AUTH_UPDATE_USER_REQUEST: {
       return {
@@ -101,6 +132,24 @@ const authReducer = (state = initialState, { type, payload }) => {
         ...state,
         isInfoUpdating: false,
         updateUserError: payload.error
+      }
+    }
+
+
+
+    case actionsTypes.AUTH_VERIFY_EMAIL_REQUEST: {
+      return {
+        ...state,
+        isConfirmMessageShow: true,
+        confirmEmailError: null
+      }
+    }
+
+
+    case actionsTypes.AUTH_VERIFY_EMAIL_FAIL: {
+      return {
+        ...state,
+        confirmEmailError: payload.error,
       }
     }
 

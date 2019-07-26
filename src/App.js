@@ -3,7 +3,7 @@ import Layout from './hoc/Layout/Layout'
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
 import CheckOut from './containers/CheckOut/CheckOut';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { loggedIn } from './store/selectors';
+import { isFullLoggedIn } from './store/selectors';
 import { connect } from 'react-redux'
 import AuthRoute from './components/Navigation/AuthRoute/AuthRoute'
 import LazeRoute from './components/Navigation/LazeRoute/LazeRoute'
@@ -14,7 +14,7 @@ const Auth = lazy(() => import('./containers/Auth/Auth'));
 const NotFound = lazy(() => import('./components/UI/NotFound/NotFound'));
 const Profile =  lazy(() => import('./containers/Profile/Profile'));
 
-function App({ loggedIn }) {
+function App({ isFullLoggedIn }) {
   return (
     <Router>
       <Layout>
@@ -22,19 +22,19 @@ function App({ loggedIn }) {
           <Route path="/" exact component={BurgerBuilder} />
           <AuthRoute
             lazy
-            authenticated={loggedIn}
+            authenticated={isFullLoggedIn}
             path="/checkout"
             component={CheckOut}
           />
           <AuthRoute
             lazy
-            authenticated={loggedIn}
+            authenticated={isFullLoggedIn}
             path="/orders"
             component={Orders}
           />
           <AuthRoute
             lazy
-            authenticated={loggedIn}
+            authenticated={isFullLoggedIn}
             path="/profile"
             component={Profile}
           />
@@ -42,7 +42,7 @@ function App({ loggedIn }) {
           <LazeRoute path="/signup" component={Auth} />
           <AuthRoute
             lazy
-            authenticated={loggedIn}
+            authenticated={isFullLoggedIn}
             path="/logout"
             component={Logout}
           />
@@ -54,7 +54,7 @@ function App({ loggedIn }) {
 }
 
 const matStateToProps = state => ({
-  loggedIn: loggedIn(state)
+  isFullLoggedIn: isFullLoggedIn(state),
 })
 
 export default connect(matStateToProps)(App);

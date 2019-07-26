@@ -1,5 +1,8 @@
 export const AUTH_REQUEST = 'AUTH_REQUEST'
 export const AUTH_SUCCESS = 'AUTH_SUCCESS'
+export const AUTH_NOT_CONFIRMED = 'AUTH_NOT_CONFIRMED'
+export const AUTH_SHOW_NOT_CONFIRMED_MESSAGE = 'AUTH_SHOW_NOT_CONFIRMED_MESSAGE'
+export const AUTH_HIDE_NOT_CONFIRMED_MESSAGE = 'AUTH_HIDE_NOT_CONFIRMED_MESSAGE'
 export const AUTH_FAIL = 'AUTH_FAIL'
 export const AUTH_ERRORS_CLEAR = 'AUTH_ERRORS_CLEAR'
 export const AUTH_REFRESH_TOKEN = 'AUTH_REFRESH_TOKEN'
@@ -14,7 +17,14 @@ export const AUTH_REFRESH_TOKEN_FAIL = 'AUTH_REFRESH_TOKEN_FAIL'
 export const AUTH_UPDATE_USER_REQUEST = 'AUTH_UPDATE_USER_REQUEST'
 export const AUTH_UPDATE_USER_SUCCESS = 'AUTH_UPDATE_USER_SUCCESS'
 export const AUTH_UPDATE_USER_FAIL = 'AUTH_UPDATE_USER_FAIL'
+export const AUTH_VERIFY_EMAIL_REQUEST = 'AUTH_VERIFY_EMAIL_REQUEST'
+export const AUTH_VERIFY_EMAIL_SUCCESS = 'AUTH_VERIFY_EMAIL_SUCCESS'
+export const AUTH_VERIFY_EMAIL_FAIL = 'AUTH_VERIFY_EMAIL_FAIL'
+export const AUTH_LEAVE_LOGIN = 'AUTH_LEAVE_LOGIN'
 
+export const authLeaveLgin = () => ({
+  type: AUTH_LEAVE_LOGIN
+})
 
 export const authRequest = (authType, credentials, actions, history) => ({
   type: AUTH_REQUEST,
@@ -42,6 +52,26 @@ export const authFail = (error) => ({
   payload: {
     error
   }
+})
+
+export const authNotConfirmed = (email, idToken, expiresIn, refreshToken, localId, authType) => ({
+  type: AUTH_NOT_CONFIRMED,
+  payload: {
+    email,
+    idToken,
+    expiresIn,
+    refreshToken,
+    localId,
+    authType
+  }
+})
+
+export const authShowNotConfirmedMessage = () => ({
+  type: AUTH_SHOW_NOT_CONFIRMED_MESSAGE
+})
+
+export const authHideNotConfirmedMessage = () => ({
+  type: AUTH_HIDE_NOT_CONFIRMED_MESSAGE
 })
 
 export const autErrorsClear = () => ({
@@ -103,6 +133,19 @@ export const authUpdateUserSuccess = (displayName, photoUrl) => ({
 
 export const authUpdateUserFail = (error) => ({
   type: AUTH_UPDATE_USER_FAIL,
+  payload: { error }
+})
+
+export const authVerifyEmailRequest = (payload) => ({
+  type: AUTH_VERIFY_EMAIL_REQUEST
+})
+
+export const authVerifyEmailSuccess = (payload) => ({
+  type: AUTH_VERIFY_EMAIL_SUCCESS
+})
+
+export const authVerifyEmailFail = (error) => ({
+  type: AUTH_VERIFY_EMAIL_FAIL,
   payload: { error }
 })
 

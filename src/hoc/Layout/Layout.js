@@ -3,7 +3,7 @@ import { content } from './Layout.module.scss'
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import { connect } from 'react-redux'
-import { loggedIn, displayName, photoUrl } from '../../store/selectors/auth'
+import { displayName, photoUrl, isFullLoggedIn } from '../../store/selectors/auth'
 
 class Layout extends Component {
   state = {
@@ -27,7 +27,7 @@ class Layout extends Component {
   render() {
     const {
       displayName: name,
-      loggedIn,
+      isFullLoggedIn,
       photoUrl: url
     } = this.props
     return (
@@ -35,11 +35,11 @@ class Layout extends Component {
         <Toolbar
           name={name}
           url={url}
-          loggedIn={loggedIn}
+          loggedIn={isFullLoggedIn}
           toggleClick={this.toggleClickHandler}
         />
         <SideDrawer
-          loggedIn={this.props.loggedIn}
+          loggedIn={isFullLoggedIn}
           isOpened={this.state.isOpened}
           dropClick={this.dropClickHandler}
         />
@@ -52,7 +52,7 @@ class Layout extends Component {
 }
 
 const matStateToProps = state => ({
-  loggedIn: loggedIn(state),
+  isFullLoggedIn: isFullLoggedIn(state),
   displayName: displayName(state),
   photoUrl: photoUrl(state)
 })

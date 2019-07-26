@@ -6,9 +6,9 @@ import {
   tap,
   switchMap,
   takeUntil,
-  withLatestFrom,
   pluck,
   finalize,
+  filter,
 } from 'rxjs/operators'
 import { defer, of, timer, empty } from 'rxjs'
 import jwt from 'jsonwebtoken'
@@ -25,28 +25,46 @@ import {
   authRefreshTokenFail,
   AUTH_REFRESH_TOKEN_FAIL,
   authLogout,
-  // authRefreshTokenRequest,
-  // AUTH_REFRESH_TOKEN_REQUEST,
   authRefreshTokenSuccess,
   AUTH_REFRESH_TOKEN_SUCCESS,
   AUTH_UPDATE_USER_REQUEST,
   authUpdateUserSuccess,
-  authUpdateUserFail
+  authUpdateUserFail,
+  authNotConfirmed,
+  AUTH_NOT_CONFIRMED,
+  authShowNotConfirmedMessage,
+  AUTH_VERIFY_EMAIL_REQUEST,
+  authVerifyEmailFail,
+  authVerifyEmailSuccess,
+  AUTH_LEAVE,
+  AUTH_VERIFY_EMAIL_SUCCESS,
+  authVerifyEmailRequest,
+  AUTH_LEAVE_LOGIN
 } from '../actions';
 import ErrorNotifyService from '../../services/errorNotify.service'
 import AuthService from '../../services/auth.service'
 import LocalStorageService from '../../services/localStorage.service'
 
 export const init$ = () => defer(() => {
-  const idToken = LocalStorageService.getToken()
-  const decoded = jwt.decode(idToken, { complete: true })
+  const token = LocalStorageService.getFullToken()
+  const decoded = jwt.decode(token.idToken, { complete: true })
   const isValid = decoded && (decoded.payload.exp * 1000) > Date.now()
 
-  // console.log(decoded)
-
   if (isValid) {
+    const verified = decoded.payload.email_verified
     const { email, user_id } = decoded.payload
-    return of(authLoggedLocal(email, idToken, user_id))
+
+    if (verified) {
+      return of(authLoggedLocal(email, token.idToken, user_id))
+    } else {
+      return of(authNotConfirmed(
+        email,
+        token.idToken,
+        token.expiresIn,
+        token.refreshToken,
+        user_id,
+      ))
+    }
   } else {
     return of(authLogout())
   }
@@ -60,51 +78,55 @@ export const authRequest$ = (action$, state$) => action$.pipe(
       authType,
       credentials
     ).pipe(
-      tap(console.log),
       map(({ idToken, email, refreshToken, expiresIn, localId }) => {
-        // const decoded = jwt.decode(idToken, { complete: true })
+        const decoded = jwt.decode(idToken, { complete: true })
+        const verified = decoded.payload.email_verified
 
-        // console.log(decoded)
-        // const verified = decoded.payload.email_verified;
-        // if (!verified) {
-        //   const error = JSON.stringify(
-        //     {
-        //       response: {
-        //         data: {
-        //           error: {
-        //             errors: [
-        //               {
-        //                 message: 'Email is not verified'
-        //               }
-        //             ]
-        //           }
-        //         }
-        //       }
-        //     }
-        //   )
-        //   throw(new Error(error))
-        // }
-
-        return authSuccess(
-          email,
-          idToken,
-          expiresIn,
-          refreshToken,
-          localId
-        )
+        if (verified) {
+          return authSuccess(
+            email,
+            idToken,
+            expiresIn,
+            refreshToken,
+            localId,
+          )
+        } else {
+          return authNotConfirmed(
+            email,
+            idToken,
+            expiresIn,
+            refreshToken,
+            localId,
+            authType
+          )
+        }
       }),
       catchError(error => {
-        const err = !error.response ? JSON.parse(error.message) : error
-
         ErrorNotifyService.sendNetworkErrorDetails({
           module: module.id,
           method: 'authRequest$',
-          error: err.response.data.error.errors,
+          error: error.response.data.error.errors,
         })
+        return of(authFail(error.response.data.error.errors))
+      }),
+      finalize(() => {
         actions.setSubmitting(false)
-        return of(authFail(err.response.data.error.errors))
       })
     )
+  })
+)
+
+export const authNotConfirmed$ = (action$, state$) => action$.pipe(
+  ofType(AUTH_NOT_CONFIRMED),
+  pluck('payload'),
+  filter(auth => auth.authType),
+  tap(console.log),
+  map(({ authType }) => {
+    if (authType === '/signup') {
+      return authVerifyEmailRequest()
+    } else {
+      return authFail([{ message: 'Email is not verified' }])
+    }
   })
 )
 
@@ -131,7 +153,7 @@ export const authGetUserData$ = (action$, state$) => action$.pipe(
 )
 
 export const authPresistToken$ = (action$, state$) => action$.pipe(
-  ofType(AUTH_SUCCESS, AUTH_REFRESH_TOKEN_SUCCESS),
+  ofType(AUTH_NOT_CONFIRMED, AUTH_SUCCESS, AUTH_REFRESH_TOKEN_SUCCESS),
   tap(({ payload }) => {
     const { idToken, refreshToken, expiresIn } = payload
     LocalStorageService.saveToken(idToken, refreshToken, expiresIn)
@@ -140,7 +162,7 @@ export const authPresistToken$ = (action$, state$) => action$.pipe(
 )
 
 export const authRefreshToken$ = (action$, state$) => action$.pipe(
-  ofType(AUTH_SUCCESS, AUTH_LOGGEG_LOCAL, AUTH_REFRESH_TOKEN_SUCCESS),
+  ofType(AUTH_NOT_CONFIRMED, AUTH_SUCCESS, AUTH_LOGGEG_LOCAL, AUTH_REFRESH_TOKEN_SUCCESS),
   map(() => LocalStorageService.getFullToken()),
   // tap((info) => console.log(info.refreshToken)),
   // tap((info) => console.log((info.expiresAt - Date.now()) / 1000 / 60)),
@@ -170,7 +192,7 @@ export const authRefreshTokenFail$ = (action$, state$) => action$.pipe(
 
 export const authLogout$ = (action$, state$) => action$.pipe(
   ofType(AUTH_LOGOUT),
-  tap(({ payload }) => {
+  tap(_ => {
     LocalStorageService.destroyToken()
   }),
   switchMap(() => empty())
@@ -190,7 +212,7 @@ export const authUpdateUserData$ = (action$, state$) => action$.pipe(
       catchError(error => {
         ErrorNotifyService.sendNetworkErrorDetails({
           module: module.id,
-          method: 'authGetUserData$',
+          method: 'authUpdateUserData$',
           error: error.response.data.error.errors,
         })
         return of(authUpdateUserFail(error.response.data.error.errors))
@@ -201,6 +223,25 @@ export const authUpdateUserData$ = (action$, state$) => action$.pipe(
     ))
 )
 
+export const authVerifyEmailRequest$ = (action$, state$) => action$.pipe(
+  ofType(AUTH_VERIFY_EMAIL_REQUEST),
+  pluck('payload'),
+  map(() => LocalStorageService.getToken()),
+  exhaustMap(idToken =>
+    AuthService.verifyEmail(idToken).pipe(
+      map(_ => authVerifyEmailSuccess()),
+      takeUntil(action$.pipe(ofType(AUTH_LEAVE_LOGIN))),
+      catchError(error => {
+        ErrorNotifyService.sendNetworkErrorDetails({
+          module: module.id,
+          method: 'authVerifyEmailRequest$',
+          error: error.response.data.error.errors,
+        })
+        return of(authVerifyEmailFail(error.response.data.error.errors))
+      })
+    )
+  )
+)
 
 const auth$ = combineEpics(
   init$,
@@ -210,7 +251,9 @@ const auth$ = combineEpics(
   authLogout$,
   authRefreshToken$,
   authRefreshTokenFail$,
-  authUpdateUserData$
+  authUpdateUserData$,
+  authNotConfirmed$,
+  authVerifyEmailRequest$
 )
 
 export default auth$

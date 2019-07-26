@@ -28,9 +28,19 @@ export const isFullLoggedIn = createSelector(
   (loggedIn, confirmed) => loggedIn && confirmed
 )
 
+export const isConfirmMessageShow = createSelector(
+  authState,
+  authState => authState.isConfirmMessageShow
+)
+
 export const authErrors = createSelector(
   authState,
   authState => authState.authErrors
+)
+
+export const confirmEmailError = createSelector(
+  authState,
+  authState => authState.confirmEmailError
 )
 
 export const email = createSelector(

@@ -36,6 +36,11 @@ const tokenUrl = `${TOKEN_URL}${apiKey}`
 // --data-binary \
 // '{"idToken":"[ID_TOKEN]","displayName":"[NAME]","photoUrl":"[URL]","returnSecureToken":true}'
 
+// email verification
+// curl 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=[API_KEY]' \
+// -H 'Content-Type: application/json' \
+// --data-binary '{"requestType":"VERIFY_EMAIL","idToken":"[FIREBASE_ID_TOKEN]"}'
+
 const transformRequest = (jsonData = {}) =>
   Object.entries(jsonData)
     .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
@@ -106,6 +111,20 @@ class AuthService {
         displayName,
         photoUrl,
         returnSecureToken: true
+      },
+      {
+        headers: { 'Content-Type': 'application/json' }
+      }).pipe(
+        retry(retryCount),
+        pluck('data'),
+      )
+  }
+
+  static verifyEmail(idToken, retryCount = 0) {
+    return auth.post(baseUrl('sendOobCode'),
+      {
+        idToken,
+        requestType: 'VERIFY_EMAIL'
       },
       {
         headers: { 'Content-Type': 'application/json' }

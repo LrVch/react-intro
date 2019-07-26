@@ -30,7 +30,7 @@ const OrderDetails = ({ match, returUrl, order = {}, setSelectedOrder }) => {
     <>
       {order &&
         <div>
-          <div style={{ margin: '10px', padding: '10px', boxShadow: '0 2px 3px #ccc' }}>
+          <div style={{ margin: '10px auto', maxWidth: '500px', padding: '10px', boxShadow: '0 2px 3px #ccc' }}>
             <p><b>date: </b>{date}</p>
             <p><b>name: </b>{name}</p>
             <p><b>country: </b>{country}</p>

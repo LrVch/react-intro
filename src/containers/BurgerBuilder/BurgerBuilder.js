@@ -17,7 +17,7 @@ import SpareUi from '../../components/UI/SpareUi/SpareUi';
 import {
   ingredients, totalPrice, loadingInitState, errorLoadingInitState
 } from '../../store/selectors/burger'
-import { loggedIn } from '../../store/selectors/auth';
+import {  isFullLoggedIn } from '../../store/selectors/auth';
 
 class BurgerBuilder extends Component {
   state = {
@@ -34,7 +34,7 @@ class BurgerBuilder extends Component {
   }
 
   purchaseOpenHandler = () => {
-    if (this.props.loggedIn) {
+    if (this.props.isFullLoggedIn) {
       this.setState({
         purchasing: true
       })
@@ -61,7 +61,7 @@ class BurgerBuilder extends Component {
       errorLoadingInitState,
       onIngredientAdd,
       onIngredientRemove,
-      loggedIn
+      isFullLoggedIn
     } = this.props
 
     const controls = Object.keys(ingredients).map(i => ({
@@ -94,7 +94,7 @@ class BurgerBuilder extends Component {
       <>
         <Burger ingredients={ingredients} />
         <BuildControls
-          loggedIn={loggedIn}
+          loggedIn={isFullLoggedIn}
           price={totalPrice}
           controls={controls}
           disabledState={disabledState}
@@ -126,7 +126,7 @@ const mapStateToProps = state => {
     totalPrice: totalPrice(state),
     loadingInitState: loadingInitState(state),
     errorLoadingInitState: errorLoadingInitState(state),
-    loggedIn: loggedIn(state)
+    isFullLoggedIn: isFullLoggedIn(state),
   }
 }
 
