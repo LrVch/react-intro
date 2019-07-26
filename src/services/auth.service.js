@@ -30,6 +30,12 @@ const tokenUrl = `${TOKEN_URL}${apiKey}`
 // curl 'https://identitytoolkit.googleapis.com/v1/accounts:delete?key=[API_KEY]' \
 // -H 'Content-Type: application/json' --data-binary '{"idToken":"[FIREBASE_ID_TOKEN]"}'
 
+// update user info
+// curl 'https://identitytoolkit.googleapis.com/v1/accounts:update?key=[API_KEY]' \
+// -H 'Content-Type: application/json' \
+// --data-binary \
+// '{"idToken":"[ID_TOKEN]","displayName":"[NAME]","photoUrl":"[URL]","returnSecureToken":true}'
+
 const transformRequest = (jsonData = {}) =>
   Object.entries(jsonData)
     .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
@@ -93,21 +99,21 @@ class AuthService {
       )
   }
 
-  // static updateProfile(displayName = '', photoUrl = '', retryCount = 0) {
-  //   return auth.post(baseUrl('update'),
-  //     {
-  //       idToken: '',
-  //       displayName,
-  //       photoUrl,
-  //       returnSecureToken: true
-  //     },
-  //     {
-  //       headers: { 'Content-Type': 'application/json' }
-  //     }).pipe(
-  //       retry(retryCount),
-  //       pluck('data'),
-  //     )
-  // }
+  static updateProfile(idToken, displayName,  photoUrl, retryCount = 0) {
+    return auth.post(baseUrl('update'),
+      {
+        idToken,
+        displayName,
+        photoUrl,
+        returnSecureToken: true
+      },
+      {
+        headers: { 'Content-Type': 'application/json' }
+      }).pipe(
+        retry(retryCount),
+        pluck('data'),
+      )
+  }
 }
 
 export default AuthService

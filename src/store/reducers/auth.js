@@ -7,7 +7,9 @@ const initialState = {
   authErrors: null,
   loggedIn: false,
   email: null,
-  confirmed: false
+  confirmed: false,
+  isInfoUpdating: false,
+  updateUserError: null
 }
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -63,9 +65,6 @@ const authReducer = (state = initialState, { type, payload }) => {
     case actionsTypes.AUTH_GET_USER_FAIL: {
       return {
         ...state,
-        // authErrors: [{
-        //   message: 'Network error'
-        // }] 
       }
     }
 
@@ -76,7 +75,36 @@ const authReducer = (state = initialState, { type, payload }) => {
       }
     }
 
-  
+    case actionsTypes.AUTH_UPDATE_USER_REQUEST: {
+      return {
+        ...state,
+        isInfoUpdating: true,
+        updateUserError: null
+      }
+    }
+
+    case actionsTypes.AUTH_UPDATE_USER_SUCCESS: {
+      const { displayName, photoUrl } = payload
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          displayName,
+          photoUrl
+        },
+        isInfoUpdating: false,
+      }
+    }
+
+    case actionsTypes.AUTH_UPDATE_USER_FAIL: {
+      return {
+        ...state,
+        isInfoUpdating: false,
+        updateUserError: payload.error
+      }
+    }
+
+
 
     default:
       return state

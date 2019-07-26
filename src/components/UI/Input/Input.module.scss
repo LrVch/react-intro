@@ -1,13 +1,14 @@
 .Input{
-  padding: 10px;
+  padding: 10px 0;
 
 }
 
 .Label {
-  text-align: left;
-  font-weight: bold;
   display: block;
   margin-bottom: 8px;
+  font-size: 12px;
+  text-align: left;
+  // font-weight: bold;
 }
 
 .InputElement {

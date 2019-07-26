@@ -1,15 +1,18 @@
 import React, { memo } from 'react'
 import styles from './Input.module.scss';
 import className from 'classnames/bind'
+import { Field } from 'formik'
 
 const cx = className.bind(styles)
 
 const Input = ({
   elementType,
+  validate,
   label,
   onChange,
   onBlur,
   value,
+  name,
   invalid,
   ...props
 }) => {
@@ -20,6 +23,15 @@ const Input = ({
   })
 
   switch (elementType) {
+    case ('inputFormik'):
+      inputElement = <Field
+        validate={validate}
+        name={name}
+        id={id}
+        className={classes}
+        {...props.elementConfig}
+      />
+      break
     case ('input'):
       inputElement = <input
         value={value}

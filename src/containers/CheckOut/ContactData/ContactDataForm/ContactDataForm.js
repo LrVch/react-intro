@@ -4,6 +4,7 @@ import Input from '../../../../components/UI/Input/Input'
 import { Formik } from 'formik';
 import Button from '../../../../components/UI/Button/Button'
 import ErrorMessage from '../../../../components/UI/Input/ErrorMessage/ErrorMessage'
+import Loader from '../../../../components/UI/Loader/Loader';
 
 const ContactDataForm = ({ orderForm, onSubmit, error }) => {
   const initState = Object.keys(orderForm)
@@ -169,10 +170,12 @@ const ContactDataForm = ({ orderForm, onSubmit, error }) => {
               >ORDER
               </button> */}
               <Button 
+              hidden={isSubmitting}
               disabled={isSubmitting}
               type="success">
               ORDER
               </Button>
+              <Loader center hidden={!isSubmitting}/>
               <br />
 
               {/* errors

@@ -2,27 +2,50 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import DeleteProfile from '../../components/DeleteProfile/DeleteProfile';
 import { isDeleting, deleteProfileErrors } from '../../store/selectors/profile';
-import { profileDeleteRequest, profileClearDeleteErrors } from '../../store/actions';
-import { loggedIn } from '../../store/selectors/auth';
+import {
+  authUpdateUserRequest,
+  profileDeleteRequest,
+  profileClearDeleteErrors,
+} from '../../store/actions';
+import {
+  isInfoUpdating,
+  displayName,
+  loggedIn,
+  photoUrl,
+  updateUserError,
+} from '../../store/selectors/auth';
 import { Redirect } from 'react-router-dom'
+import UserInfo from '../../components/UserInfo/UserInfo';
 
 class Profile extends Component {
 
   render() {
     const {
       isDeleting,
-      onDeleteRequest,
+      isInfoUpdating,
+      deleteProfileErrors,
+      displayName,
       loggedIn,
-      errors,
-      onProfileClearDeleteErrors
+      photoUrl,
+      onDeleteRequest,
+      onProfileClearDeleteErrors,
+      onUpdateUserInfo,
+      updateUserError,
     } = this.props
 
     return (
       <div>
-        {!loggedIn && <Redirect to="/"/>}
+        {!loggedIn && <Redirect to="/" />}
+        <UserInfo
+          displayName={displayName}
+          photoUrl={photoUrl}
+          errors={updateUserError}
+          loading={isInfoUpdating}
+          onSubmit={onUpdateUserInfo}
+        />
         <DeleteProfile
           onClearErrors={onProfileClearDeleteErrors}
-          errors={errors}
+          errors={deleteProfileErrors}
           loading={isDeleting}
           confirmDelete={onDeleteRequest} />
       </div>
@@ -33,12 +56,18 @@ class Profile extends Component {
 const mapStateToProps = state => ({
   isDeleting: isDeleting(state),
   loggedIn: loggedIn(state),
-  errors: deleteProfileErrors(state)
+  deleteProfileErrors: deleteProfileErrors(state),
+  displayName: displayName(state),
+  photoUrl: photoUrl(state),
+  updateUserError: updateUserError(state),
+  isInfoUpdating: isInfoUpdating(state)
 })
 
 const mapDispathToProps = dispatch => ({
-  onDeleteRequest: () =>  dispatch(profileDeleteRequest()),
-  onProfileClearDeleteErrors: () => dispatch(profileClearDeleteErrors())
+  onDeleteRequest: () => dispatch(profileDeleteRequest()),
+  onProfileClearDeleteErrors: () => dispatch(profileClearDeleteErrors()),
+  onUpdateUserInfo: ({displayName, photoUrl},  actions) =>
+  dispatch(authUpdateUserRequest(displayName, photoUrl, actions))
 })
 
 export default connect(

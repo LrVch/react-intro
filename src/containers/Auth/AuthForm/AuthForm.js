@@ -6,12 +6,14 @@ import { Formik, Form } from 'formik'
 import ErrorMessage from '../../../components/UI/Input/ErrorMessage/ErrorMessage'
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom'
+import Loader from '../../../components/UI/Loader/Loader';
 
 
 const AuthForm = ({ loading, authForm, errors, onSubmit, formType, onInit }) => {
 
   useEffect(() => {
     onInit()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formType])
 
   useEffect(() => {
@@ -34,8 +36,8 @@ const AuthForm = ({ loading, authForm, errors, onSubmit, formType, onInit }) => 
     return isLogin ? !(key === 'name') : true
   }).map(key => authForm[key])
 
-  const createField = (validarionSchema) => {
-    const { type, validators } = validarionSchema
+  const createField = (validationSchema) => {
+    const { type, validators } = validationSchema
     let schema = Yup[type]()
 
     schema = validators.reduce((schema, validator) => {
@@ -131,9 +133,7 @@ const AuthForm = ({ loading, authForm, errors, onSubmit, formType, onInit }) => 
                 type="success">
                 SUBMIT
               </Button>
-              <div
-                hidden={!loading}
-                className={styles['Lds-ellipsis']}><div></div><div></div><div></div><div></div></div>
+              <Loader center hidden={!loading}/>
               <br />
             </Form>
           )}

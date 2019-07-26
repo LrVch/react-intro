@@ -11,6 +11,9 @@ export const AUTH_GET_USER_FAIL = 'AUTH_GET_USER_FAIL'
 export const AUTH_REFRESH_TOKEN_REQUEST = 'AUTH_REFRESH_TOKEN_REQUEST'
 export const AUTH_REFRESH_TOKEN_SUCCESS = 'AUTH_REFRESH_TOKEN_SUCCESS'
 export const AUTH_REFRESH_TOKEN_FAIL = 'AUTH_REFRESH_TOKEN_FAIL'
+export const AUTH_UPDATE_USER_REQUEST = 'AUTH_UPDATE_USER_REQUEST'
+export const AUTH_UPDATE_USER_SUCCESS = 'AUTH_UPDATE_USER_SUCCESS'
+export const AUTH_UPDATE_USER_FAIL = 'AUTH_UPDATE_USER_FAIL'
 
 
 export const authRequest = (authType, credentials, actions, history) => ({
@@ -87,4 +90,20 @@ export const authRefreshTokenFail = (error) => ({
   type: AUTH_REFRESH_TOKEN_FAIL,
   payload: { error }
 })
+
+export const authUpdateUserRequest = (displayName, photoUrl, actions) => ({
+  type: AUTH_UPDATE_USER_REQUEST,
+  payload: { displayName, photoUrl, actions }
+})
+
+export const authUpdateUserSuccess = (displayName, photoUrl) => ({
+  type: AUTH_UPDATE_USER_SUCCESS,
+  payload: { displayName, photoUrl }
+})
+
+export const authUpdateUserFail = (error) => ({
+  type: AUTH_UPDATE_USER_FAIL,
+  payload: { error }
+})
+
 

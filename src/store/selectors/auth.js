@@ -43,4 +43,24 @@ export const localId = createSelector(
   authState => authState.localId
 )
 
+export const displayName = createSelector(
+  authState,
+  authState =>  authState.user && authState.user.displayName
+)
+
+export const photoUrl = createSelector(
+  authState,
+  authState => authState.user && authState.user.photoUrl
+)
+
+export const isInfoUpdating = createSelector(
+  authState,
+  authState => authState.isInfoUpdating
+)
+
+export const updateUserError = createSelector(
+  authState,
+  authState => authState.updateUserError
+)
+
 

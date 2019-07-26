@@ -6,6 +6,9 @@ import {
   tap,
   switchMap,
   takeUntil,
+  withLatestFrom,
+  pluck,
+  finalize,
 } from 'rxjs/operators'
 import { defer, of, timer, empty } from 'rxjs'
 import jwt from 'jsonwebtoken'
@@ -25,7 +28,10 @@ import {
   // authRefreshTokenRequest,
   // AUTH_REFRESH_TOKEN_REQUEST,
   authRefreshTokenSuccess,
-  AUTH_REFRESH_TOKEN_SUCCESS
+  AUTH_REFRESH_TOKEN_SUCCESS,
+  AUTH_UPDATE_USER_REQUEST,
+  authUpdateUserSuccess,
+  authUpdateUserFail
 } from '../actions';
 import ErrorNotifyService from '../../services/errorNotify.service'
 import AuthService from '../../services/auth.service'
@@ -49,17 +55,17 @@ export const init$ = () => defer(() => {
 export const authRequest$ = (action$, state$) => action$.pipe(
   ofType(AUTH_REQUEST),
   exhaustMap(action => {
-    const { authType, credentials, actions, history } = action.payload
+    const { authType, credentials, actions } = action.payload
     return AuthService.authenticate(
       authType,
       credentials
     ).pipe(
       tap(console.log),
       map(({ idToken, email, refreshToken, expiresIn, localId }) => {
-        const decoded = jwt.decode(idToken, { complete: true })
+        // const decoded = jwt.decode(idToken, { complete: true })
 
         // console.log(decoded)
-        const verified = decoded.payload.email_verified;
+        // const verified = decoded.payload.email_verified;
         // if (!verified) {
         //   const error = JSON.stringify(
         //     {
@@ -104,7 +110,8 @@ export const authRequest$ = (action$, state$) => action$.pipe(
 
 export const authGetUserData$ = (action$, state$) => action$.pipe(
   ofType(AUTH_SUCCESS, AUTH_LOGGEG_LOCAL),
-  switchMap(({ payload }) => AuthService.getUserInfo(payload.idToken).pipe(
+  pluck('payload'),
+  switchMap(({ idToken }) => AuthService.getUserInfo(idToken).pipe(
     map(({ users }) => {
       const { email, displayName, photoUrl } = users[0]
       const user = {
@@ -169,6 +176,31 @@ export const authLogout$ = (action$, state$) => action$.pipe(
   switchMap(() => empty())
 )
 
+export const authUpdateUserData$ = (action$, state$) => action$.pipe(
+  ofType(AUTH_UPDATE_USER_REQUEST),
+  pluck('payload'),
+  map(payload => ({ ...payload, idToken: LocalStorageService.getToken() })),
+  exhaustMap(({ idToken, displayName, photoUrl, actions }) =>
+    AuthService.updateProfile(idToken, displayName, photoUrl).pipe(
+      map(user => {
+        const { displayName, photoUrl } = user
+
+        return authUpdateUserSuccess(displayName, photoUrl)
+      }),
+      catchError(error => {
+        ErrorNotifyService.sendNetworkErrorDetails({
+          module: module.id,
+          method: 'authGetUserData$',
+          error: error.response.data.error.errors,
+        })
+        return of(authUpdateUserFail(error.response.data.error.errors))
+      }),
+      finalize(() => {
+        actions.setSubmitting(false)
+      })
+    ))
+)
+
 
 const auth$ = combineEpics(
   init$,
@@ -177,7 +209,8 @@ const auth$ = combineEpics(
   authPresistToken$,
   authLogout$,
   authRefreshToken$,
-  authRefreshTokenFail$
+  authRefreshTokenFail$,
+  authUpdateUserData$
 )
 
 export default auth$

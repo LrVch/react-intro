@@ -12,6 +12,7 @@ const OrderDetails = ({ match, returUrl, order = {}, setSelectedOrder }) => {
     return () => {
       setSelectedOrder(null)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   
   const {

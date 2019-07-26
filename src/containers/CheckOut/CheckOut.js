@@ -1,7 +1,5 @@
-import React, { Component, Suspense, lazy } from 'react'
+import React, { Component, lazy } from 'react'
 import CheckOutSummary from '../../components/Order/CheckOutSummary/CheckOutSummary';
-import { Route } from 'react-router-dom';
-// import ContactData from './ContactData/ContactData';
 import { connect } from 'react-redux';
 import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary';
 import SpareUi from '../../components/UI/SpareUi/SpareUi';
