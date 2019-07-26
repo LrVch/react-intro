@@ -4,22 +4,22 @@ export const authState = state => state.auth
 
 export const user = createSelector(
   authState,
-  orderState => orderState.user
+  authState => authState.user
 )
 
 export const loading = createSelector(
   authState,
-  orderState => orderState.loading
+  authState => authState.loading
 )
 
 export const loggedIn = createSelector(
   authState,
-  orderState => orderState.loggedIn
+  authState => authState.loggedIn
 )
 
 export const confirmed = createSelector(
   authState,
-  orderState => orderState.confirmed
+  authState => authState.confirmed
 )
 
 export const isFullLoggedIn = createSelector(
@@ -30,17 +30,17 @@ export const isFullLoggedIn = createSelector(
 
 export const authErrors = createSelector(
   authState,
-  orderState => orderState.authErrors
+  authState => authState.authErrors
 )
 
 export const email = createSelector(
   authState,
-  orderState => orderState.email
+  authState => authState.email
 )
 
 export const localId = createSelector(
   authState,
-  orderState => orderState.localId
+  authState => authState.localId
 )
 
 

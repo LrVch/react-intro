@@ -26,12 +26,17 @@ const tokenUrl = `${TOKEN_URL}${apiKey}`
 // curl 'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=[API_KEY]' \
 // -H 'Content-Type: application/json' --data-binary '{"idToken":"[FIREBASE_ID_TOKEN]"}'
 
+// delete user
+// curl 'https://identitytoolkit.googleapis.com/v1/accounts:delete?key=[API_KEY]' \
+// -H 'Content-Type: application/json' --data-binary '{"idToken":"[FIREBASE_ID_TOKEN]"}'
+
 const transformRequest = (jsonData = {}) =>
   Object.entries(jsonData)
     .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
     .join('&');
 
 class AuthService {
+  
   static authenticate(authType, credentials, retryCount = 0) {
     const route = authType === '/login' ? 'signInWithPassword' : 'signUp'
     return auth.post(baseUrl(route),
@@ -64,6 +69,19 @@ class AuthService {
 
   static getUserInfo(idToken, retryCount = 0) {
     return auth.post(baseUrl('lookup'),
+      {
+        idToken
+      },
+      {
+        headers: { 'Content-Type': 'application/json' }
+      }).pipe(
+        retry(retryCount),
+        pluck('data'),
+      )
+  }
+
+  static deleteUser(idToken, retryCount = 0) {
+    return auth.post(baseUrl('delete'),
       {
         idToken
       },

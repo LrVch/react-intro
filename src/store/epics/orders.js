@@ -34,7 +34,7 @@ export const ordersRequest$ = (action$, state$) => action$.pipe(
   ofType(ORDERS_REQUEST),
   withLatestFrom(state$),
   map(([action, state]) => localId(state)),
-  switchMap(localId => BurgerService.getOrders(localId, 2).pipe(
+  switchMap(localId => BurgerService.getOrders(localId).pipe(
     map(orders => ordersSuccess(orders || {})),
     takeUntil(action$.pipe(ofType(ORDERS_REQUES_ABORT))),
     catchError(error => {

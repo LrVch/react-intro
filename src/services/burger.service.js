@@ -23,11 +23,16 @@ class BurgerService {
     )
   }
 
-  static getOrders(localId, retryCount = 0) {
+  static getOrders(localId, idToken) {
+    const auth = {}
+    if (idToken) {
+      auth.auth = idToken
+    }
     return burger.get('/orders.json', {
       params: {
         orderBy: 'localId',
-        equalTo: localId
+        equalTo: localId,
+        ...auth
       },
       paramsSerializer: function (params) {
         const p = Object.entries(params)
@@ -42,7 +47,18 @@ class BurgerService {
         return p
       },
     }).pipe(
-      retry(retryCount),
+      // retry(retryCount),
+      pluck('data'),
+    )
+  }
+
+  static deleteOrder(idToken, orderId) {
+    return burger.delete(`/orders/${orderId}.json`, {
+      params: {
+        auth: idToken
+      },
+    }).pipe(
+      // retry(retryCount),
       pluck('data'),
     )
   }

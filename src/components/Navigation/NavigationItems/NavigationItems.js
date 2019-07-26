@@ -15,6 +15,11 @@ const NavigationItems = ({ auth, onClick, items = [
     auth: true
   },
   {
+    url: '/profile',
+    text: 'Profile',
+    auth: true
+  },
+  {
     url: '/logout',
     text: 'Logout',
     auth: true

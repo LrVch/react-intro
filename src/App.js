@@ -12,6 +12,7 @@ const Orders = lazy(() => import('./containers/Orders/Orders'));
 const Logout = lazy(() => import('./containers/Auth/Logout/Logout'));
 const Auth = lazy(() => import('./containers/Auth/Auth'));
 const NotFound = lazy(() => import('./components/UI/NotFound/NotFound'));
+const Profile =  lazy(() => import('./containers/Profile/Profile'));
 
 function App({ loggedIn }) {
   return (
@@ -30,6 +31,12 @@ function App({ loggedIn }) {
             authenticated={loggedIn}
             path="/orders"
             component={Orders}
+          />
+          <AuthRoute
+            lazy
+            authenticated={loggedIn}
+            path="/profile"
+            component={Profile}
           />
           <LazeRoute path="/login" component={Auth} />
           <LazeRoute path="/signup" component={Auth} />

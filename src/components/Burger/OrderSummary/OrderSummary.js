@@ -21,8 +21,8 @@ class OrderSummary extends Component {
         <hr />
         <p>Total: {total} $</p>
         <p>Continue to checkout?</p>
-        <Button onclick={cancel} type="success">CANCEL</Button>
-        <Button onclick={nextStep} type="danger">CONTINUE</Button>
+        <Button onclick={cancel} type="danger">CANCEL</Button>
+        <Button onclick={nextStep} type="success">CONTINUE</Button>
       </div>
     )
   }
