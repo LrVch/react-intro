@@ -32,12 +32,12 @@ import {
   authUpdateUserFail,
   authNotConfirmed,
   AUTH_NOT_CONFIRMED,
-  authShowNotConfirmedMessage,
+  // authShowNotConfirmedMessage,
   AUTH_VERIFY_EMAIL_REQUEST,
   authVerifyEmailFail,
   authVerifyEmailSuccess,
-  AUTH_LEAVE,
-  AUTH_VERIFY_EMAIL_SUCCESS,
+  // AUTH_LEAVE,
+  // AUTH_VERIFY_EMAIL_SUCCESS,
   authVerifyEmailRequest,
   AUTH_LEAVE_LOGIN
 } from '../actions';

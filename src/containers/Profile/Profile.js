@@ -12,7 +12,7 @@ import {
   displayName,
   photoUrl,
   updateUserError,
-  isFullLoggedIn,
+  // isFullLoggedIn,
 } from '../../store/selectors/auth';
 // import { Redirect } from 'react-router-dom'
 import UserInfo from '../../components/UserInfo/UserInfo';

@@ -19,7 +19,7 @@ import {
 } from '../../store/selectors/burger'
 import {  isFullLoggedIn } from '../../store/selectors/auth';
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
   state = {
     purchasing: false,
   }
