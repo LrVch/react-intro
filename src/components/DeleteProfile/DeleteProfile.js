@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import styles from './DeleteProfile.module.scss'
 import Button from '../UI/Button/Button'
 import Modal from '../UI/Modal/Modal'
@@ -51,4 +51,4 @@ const DeleteProfile = ({ confirmDelete, loading, errors, onClearErrors }) => {
   )
 }
 
-export default DeleteProfile
+export default memo(DeleteProfile)

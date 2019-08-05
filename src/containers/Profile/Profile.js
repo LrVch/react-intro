@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import DeleteProfile from '../../components/DeleteProfile/DeleteProfile';
 import { isDeleting, deleteProfileErrors } from '../../store/selectors/profile';
@@ -12,50 +12,43 @@ import {
   displayName,
   photoUrl,
   updateUserError,
-  // isFullLoggedIn,
 } from '../../store/selectors/auth';
-// import { Redirect } from 'react-router-dom'
 import UserInfo from '../../components/UserInfo/UserInfo';
+import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary'
+import SpareUi from '../../components/UI/SpareUi/SpareUi'
 
-class Profile extends Component {
-
-  render() {
-    const {
-      isDeleting,
-      isInfoUpdating,
-      deleteProfileErrors,
-      displayName,
-      // isFullLoggedIn,
-      photoUrl,
-      onDeleteRequest,
-      onProfileClearDeleteErrors,
-      onUpdateUserInfo,
-      updateUserError,
-    } = this.props
-
-    return (
-      <div>
-        {/* {!isFullLoggedIn && <Redirect to="/" />} */}
-        <UserInfo
-          displayName={displayName}
-          photoUrl={photoUrl}
-          errors={updateUserError}
-          loading={isInfoUpdating}
-          onSubmit={onUpdateUserInfo}
-        />
-        <DeleteProfile
-          onClearErrors={onProfileClearDeleteErrors}
-          errors={deleteProfileErrors}
-          loading={isDeleting}
-          confirmDelete={onDeleteRequest} />
-      </div>
-    )
-  }
+export const Profile = ({
+  isDeleting,
+  isInfoUpdating,
+  deleteProfileErrors,
+  displayName,
+  photoUrl,
+  onDeleteRequest,
+  onProfileClearDeleteErrors,
+  onUpdateUserInfo,
+  updateUserError,
+}) => {
+  return (
+    <div>
+      {}
+      <UserInfo
+        displayName={displayName}
+        photoUrl={photoUrl}
+        errors={updateUserError}
+        loading={isInfoUpdating}
+        onSubmit={onUpdateUserInfo}
+      />
+      <DeleteProfile
+        onClearErrors={onProfileClearDeleteErrors}
+        errors={deleteProfileErrors}
+        loading={isDeleting}
+        confirmDelete={onDeleteRequest} />
+    </div>
+  )
 }
 
 const mapStateToProps = state => ({
   isDeleting: isDeleting(state),
-  // isFullLoggedIn: isFullLoggedIn(state),
   deleteProfileErrors: deleteProfileErrors(state),
   displayName: displayName(state),
   photoUrl: photoUrl(state),
@@ -66,11 +59,16 @@ const mapStateToProps = state => ({
 const mapDispathToProps = dispatch => ({
   onDeleteRequest: () => dispatch(profileDeleteRequest()),
   onProfileClearDeleteErrors: () => dispatch(profileClearDeleteErrors()),
-  onUpdateUserInfo: ({displayName, photoUrl},  actions) =>
-  dispatch(authUpdateUserRequest(displayName, photoUrl, actions))
+  onUpdateUserInfo: ({ displayName, photoUrl }, actions) =>
+    dispatch(authUpdateUserRequest(displayName, photoUrl, actions))
 })
 
 export default connect(
   mapStateToProps,
   mapDispathToProps
-)(Profile)
+)(
+  withErrorBoundary(Profile, {
+    module,
+    spareUi: <SpareUi />
+  })
+)

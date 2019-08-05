@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import withErrorBoundary from '../../../hoc/withErrorBoundary/withErrorBoundary'
 import { connect } from 'react-redux';
 import SpareUi from '../../../components/UI/SpareUi/SpareUi'
@@ -13,38 +13,49 @@ import {
 } from '../../../store/selectors/burger'
 import { localId } from '../../../store/selectors/auth';
 
-class ContactData extends Component {
-  componentDidMount() {
-    this.props.orderFormConfigRequest()
-  }
+export const ContactData = ({
+  ingredients,
+  localId,
+  history,
+  orderForm,
+  orderFormConfigRequest,
+  orderFormErrors,
+  orderFormLoading,
+  orderFormLoadingError,
+  sendOrder,
+  totalPrice
+}) => {
 
-  handleSubmit = (values, actions) => {
+  useEffect(() => {
+    orderFormConfigRequest()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+
+  const handleSubmit = (values, actions) => {
     const order = {
-      ingredients: this.props.ingredients,
-      price: this.props.totalPrice,
+      ingredients: ingredients,
+      price: totalPrice,
       orderData: values,
       createdAt: new Date(),
-      localId: this.props.localId
+      localId: localId
     }
-    this.props.sendOrder(order, actions, this.props.history)
+    sendOrder(order, actions, history)
   }
 
-  render() {
-    const spiner = <Spiner />
-    const { orderFormErrors, orderForm, orderFormLoading, orderFormLoadingError } = this.props
-    const error = orderFormLoadingError && <SpareUi message={orderFormLoadingError.message} />
-    return (
-      <>
-        {orderFormLoading ? spiner : orderFormLoadingError ? error :
-          orderForm && Object.keys(orderForm).length > 0 &&
-          <ContactDataForm
-            error={orderFormErrors}
-            orderForm={orderForm}
-            onSubmit={this.handleSubmit} />
-        }
-      </>
-    )
-  }
+  const spiner = <Spiner />
+  const error = orderFormLoadingError && <SpareUi message={orderFormLoadingError.message} />
+  return (
+    <>
+      {orderFormLoading ? spiner : orderFormLoadingError ? error :
+        orderForm && Object.keys(orderForm).length > 0 &&
+        <ContactDataForm
+          error={orderFormErrors}
+          orderForm={orderForm}
+          onSubmit={handleSubmit} />
+      }
+    </>
+  )
 }
 
 const mapStateToProps = state => {

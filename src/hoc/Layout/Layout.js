@@ -1,54 +1,44 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { content } from './Layout.module.scss'
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import { connect } from 'react-redux'
 import { displayName, photoUrl, isFullLoggedIn } from '../../store/selectors/auth'
 
-class Layout extends Component {
-  state = {
-    isOpened: false
+export const Layout = ({
+  displayName: name,
+  children,
+  isFullLoggedIn,
+  photoUrl: url
+}) => {
+  const [isOpened, setIsOpened] = useState(false)
+
+  const dropClickHandler = () => {
+    setIsOpened(false)
   }
 
-  dropClickHandler = () => {
-    this.setState({
-      isOpened: false
-    })
+  const toggleClickHandler = () => {
+    setIsOpened(state => !state.isOpened)
   }
 
-  toggleClickHandler = () => {
-    this.setState(state => {
-      return {
-        isOpened: !state.isOpened
-      }
-    })
-  }
-
-  render() {
-    const {
-      displayName: name,
-      isFullLoggedIn,
-      photoUrl: url
-    } = this.props
-    return (
-      <>
-        <Toolbar
-          name={name}
-          url={url}
-          loggedIn={isFullLoggedIn}
-          toggleClick={this.toggleClickHandler}
-        />
-        <SideDrawer
-          loggedIn={isFullLoggedIn}
-          isOpened={this.state.isOpened}
-          dropClick={this.dropClickHandler}
-        />
-        <main className={content}>
-          {this.props.children}
-        </main>
-      </>
-    )
-  }
+  return (
+    <>
+      <Toolbar
+        name={name}
+        url={url}
+        loggedIn={isFullLoggedIn}
+        toggleClick={toggleClickHandler}
+      />
+      <SideDrawer
+        loggedIn={isFullLoggedIn}
+        isOpened={isOpened}
+        dropClick={dropClickHandler}
+      />
+      <main className={content}>
+        {children}
+      </main>
+    </>
+  )
 }
 
 const matStateToProps = state => ({

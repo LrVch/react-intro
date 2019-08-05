@@ -9,7 +9,15 @@ import { Link } from 'react-router-dom'
 import Loader from '../../../components/UI/Loader/Loader';
 
 
-const AuthForm = ({ loading, authForm, errors, onSubmit, formType, onInit, onDestroy }) => {
+const AuthForm = ({
+  authForm,
+  errors,
+  formType,
+  loading,
+  onInit,
+  onDestroy,
+  onSubmit
+}) => {
 
   useEffect(() => {
     onInit(formType)

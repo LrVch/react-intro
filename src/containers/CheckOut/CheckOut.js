@@ -1,4 +1,4 @@
-import React, { Component, lazy } from 'react'
+import React, { useEffect, lazy } from 'react'
 import CheckOutSummary from '../../components/Order/CheckOutSummary/CheckOutSummary';
 import { connect } from 'react-redux';
 import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary';
@@ -10,37 +10,43 @@ import LazeRoute from '../../components/Navigation/LazeRoute/LazeRoute';
 
 const ContactData = lazy(() => import('./ContactData/ContactData'));
 
-class CheckOut extends Component {
-  componentDidMount() {
-    const purchasable = !!Object.values(this.props.ingredients)
-      .reduce((prev, next) => {
-        return prev + next
-      }, 0)
+export const CheckOut = ({
+  ingredients,
+  history,
+  match
+}) => {
+  const purchasable = !!Object.values(ingredients)
+    .reduce((prev, next) => {
+      return prev + next
+    }, 0)
 
+  useEffect(() => {
     if (!purchasable) {
-      this.props.history.push('/')
+      history.push('/')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const checkOutHandler = () => {
+    history.goBack()
   }
 
-  checkOutHandler = () => {
-    this.props.history.goBack()
-  }
-
-  render() {
-    const { ingredients } = this.props
-    return (
-      <div>
-        <CheckOutSummary
-          onCheckOutCancel={this.checkOutHandler}
-          to={`${this.props.match.url}/contactdata`}
-          ingredients={ingredients}
-        />
-        <LazeRoute 
-          path={`${this.props.match.path}/:id`}
-          component={ContactData}/>
-      </div>
-    )
-  }
+  return (
+    <>
+      {purchasable &&
+        <div>
+          <CheckOutSummary
+            onCheckOutCancel={checkOutHandler}
+            to={`${match.url}/contactdata`}
+            ingredients={ingredients}
+          />
+          <LazeRoute
+            path={`${match.path}/:id`}
+            component={ContactData} />
+        </div>
+      }
+    </>
+  )
 }
 
 const mapStateToProps = state => {

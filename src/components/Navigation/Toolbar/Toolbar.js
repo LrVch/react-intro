@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {memo} from 'react'
 import styles from './Toolbar.module.scss';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
@@ -33,4 +33,4 @@ Toolbar.propTypes = {
   toggleClick: PropTypes.func.isRequired
 }
 
-export default Toolbar
+export default memo(Toolbar)

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -17,108 +17,103 @@ import SpareUi from '../../components/UI/SpareUi/SpareUi';
 import {
   ingredients, totalPrice, loadingInitState, errorLoadingInitState
 } from '../../store/selectors/burger'
-import {  isFullLoggedIn } from '../../store/selectors/auth';
+import { isFullLoggedIn } from '../../store/selectors/auth';
 
-export class BurgerBuilder extends Component {
-  state = {
-    purchasing: false,
+
+export const BurgerBuilder = ({
+  errorLoadingInitState,
+  initStateRequest,
+  ingredients,
+  isFullLoggedIn,
+  history,
+  loadingInitState,
+  onIngredientAdd,
+  onIngredientRemove,
+  restoreInitState,
+  retryInitState,
+  totalPrice,
+}) => {
+  const [purchasing, setPurchasing] = useState(false)
+
+  useEffect(() => {
+    initStateRequest()
+    restoreInitState()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const purchaseContinueHandler = () => {
+    history.push('/checkout')
   }
 
-  componentDidMount() {
-    this.props.initStateRequest()
-    this.props.restoreInitState()
-  }
-
-  purchaseContinueHandler = () => {
-    this.props.history.push('/checkout')
-  }
-
-  purchaseOpenHandler = () => {
-    if (this.props.isFullLoggedIn) {
-      this.setState({
-        purchasing: true
-      })
+  const purchaseOpenHandler = () => {
+    if (isFullLoggedIn) {
+      setPurchasing(true)
     } else {
-      this.props.history.push('/login')
+      history.push('/login')
     }
   }
 
-  purchaseCloseHandler = () => {
-    this.setState({
-      purchasing: false
-    })
+  const purchaseCloseHandler = () => {
+    setPurchasing(false)
   }
 
-  render() {
-    const {
-      purchasing
-    } = this.state;
+  const controls = Object.keys(ingredients).map(i => ({
+    label: i[0].toUpperCase() + i.slice(1), type: i
+  }))
 
-    const {
-      ingredients,
-      totalPrice,
-      loadingInitState,
-      errorLoadingInitState,
-      onIngredientAdd,
-      onIngredientRemove,
-      isFullLoggedIn
-    } = this.props
+  const isIngredients = Object.keys(ingredients).length
 
-    const controls = Object.keys(ingredients).map(i => ({
-      label: i[0].toUpperCase() + i.slice(1), type: i
-    }))
+  const disabledState = { ...ingredients };
 
-    const disabledState = { ...ingredients };
-
-    for (let key in disabledState) {
-      disabledState[key] = disabledState[key] <= 0
-    }
-
-    const spiner = <Spiner />;
-    const error = errorLoadingInitState &&
-      <SpareUi onClick={this.props.retryInitState} message={errorLoadingInitState.message} />
-
-    const orderSummary = <OrderSummary
-      cancel={this.purchaseCloseHandler}
-      nextStep={this.purchaseContinueHandler}
-      total={totalPrice}
-      ingredients={ingredients}
-    />
-
-    const purchasable = !!Object.values(ingredients)
-      .reduce((prev, next) => {
-        return prev + next
-      }, 0)
-
-    const burger = (
-      <>
-        <Burger ingredients={ingredients} />
-        <BuildControls
-          loggedIn={isFullLoggedIn}
-          price={totalPrice}
-          controls={controls}
-          disabledState={disabledState}
-          purchasable={purchasable}
-          addIngrediend={onIngredientAdd}
-          removeIngrediend={onIngredientRemove}
-          purchaseHandler={this.purchaseOpenHandler}
-        />
-      </>
-    )
-
-    return (
-      <>
-        {loadingInitState ? spiner : errorLoadingInitState ? error : burger}
-        {ingredients &&
-          <Modal
-            dropClick={this.purchaseCloseHandler}
-            show={purchasing}>
-            {orderSummary}
-          </Modal>}
-      </>
-    )
+  for (let key in disabledState) {
+    disabledState[key] = disabledState[key] <= 0
   }
+
+  const spiner = <Spiner />;
+  const error = errorLoadingInitState &&
+    <SpareUi onClick={retryInitState} message={errorLoadingInitState.message} />
+
+  const orderSummary = <OrderSummary
+    cancel={purchaseCloseHandler}
+    nextStep={purchaseContinueHandler}
+    total={totalPrice}
+    ingredients={ingredients}
+  />
+
+  const purchasable = !!Object.values(ingredients)
+    .reduce((prev, next) => {
+      return prev + next
+    }, 0)
+
+  const burger = (
+    <>
+      <Burger ingredients={ingredients} />
+      <BuildControls
+        loggedIn={isFullLoggedIn}
+        price={totalPrice}
+        controls={controls}
+        disabledState={disabledState}
+        purchasable={purchasable}
+        addIngrediend={onIngredientAdd}
+        removeIngrediend={onIngredientRemove}
+        purchaseHandler={purchaseOpenHandler}
+      />
+    </>
+  )
+
+  return (
+    <>
+      {loadingInitState ? spiner : errorLoadingInitState ? error : isIngredients ? burger: null}
+      {ingredients &&
+        <Modal
+          dropClick={purchaseCloseHandler}
+          show={purchasing}>
+          {orderSummary}
+        </Modal>}
+    </>
+  )
 }
+
 
 const mapStateToProps = state => {
   return {
