@@ -4,9 +4,17 @@ export const REFRESH_TOKEN = `refreshToken`;
 export const REFRESH_TOKEN_EXP_AT = `expiresAt`;
 export const REFRESH_TOKEN_EXP_IN = `expiresIn`;
 
+let localStorageInstance
+
+if (typeof localStorage !== 'undefined') {
+  localStorageInstance = localStorage
+} else {
+  localStorageInstance = {}
+}
+
 class LocalStorageService {
 
-  static storage = localStorage;
+  static storage = localStorageInstance;
 
   static setItem(key, value) {
     LocalStorageService.storage.setItem(

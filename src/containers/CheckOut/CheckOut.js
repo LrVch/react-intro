@@ -1,4 +1,4 @@
-import React, { useEffect, lazy } from 'react'
+import React, { useEffect } from 'react'
 import CheckOutSummary from '../../components/Order/CheckOutSummary/CheckOutSummary';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
