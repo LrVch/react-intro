@@ -1,14 +1,19 @@
 import React, { useEffect, lazy } from 'react'
 import CheckOutSummary from '../../components/Order/CheckOutSummary/CheckOutSummary';
 import { connect } from 'react-redux';
+import Loadable from 'react-loadable';
 import withErrorBoundary from '../../hoc/withErrorBoundary/withErrorBoundary';
 import SpareUi from '../../components/UI/SpareUi/SpareUi';
 import {
   ingredients, totalPrice
 } from '../../store/selectors/burger'
 import LazeRoute from '../../components/Navigation/LazeRoute/LazeRoute';
+import { ProgressFallback } from '../../context/indicator';
 
-const ContactData = lazy(() => import('./ContactData/ContactData'));
+const ContactData = Loadable({
+  loader: () => import('./ContactData/ContactData'),
+  loading: ProgressFallback,
+});
 
 export const CheckOut = ({
   ingredients,

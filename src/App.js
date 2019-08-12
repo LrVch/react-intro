@@ -1,55 +1,74 @@
 import React, { lazy } from 'react'
 import Layout from './hoc/Layout/Layout'
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
-import CheckOut from './containers/CheckOut/CheckOut';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { isFullLoggedIn } from './store/selectors';
 import { connect } from 'react-redux'
 import AuthRoute from './components/Navigation/AuthRoute/AuthRoute'
 import LazeRoute from './components/Navigation/LazeRoute/LazeRoute'
+import Loadable from 'react-loadable';
+import { IndicatorProvider, ProgressFallback } from './context/indicator';
 
-const Orders = lazy(() => import('./containers/Orders/Orders'));
-const Logout = lazy(() => import('./containers/Auth/Logout/Logout'));
-const Auth = lazy(() => import('./containers/Auth/Auth'));
-const NotFound = lazy(() => import('./components/UI/NotFound/NotFound'));
-const Profile =  lazy(() => import('./containers/Profile/Profile'));
+const Auth = Loadable({
+  loader: () => import('./containers/Auth/Auth'),
+  loading: ProgressFallback,
+});
+const NotFound = Loadable({
+  loader: () => import('./components/UI/NotFound/NotFound'),
+  loading: ProgressFallback,
+});
+const Profile = Loadable({
+  loader: () => import('./containers/Profile/Profile'),
+  loading: ProgressFallback,
+});
+const Orders = Loadable({
+  loader: () => import('./containers/Orders/Orders'),
+  loading: ProgressFallback,
+});
+const Logout = Loadable({
+  loader: () => import('./containers/Auth/Logout/Logout'),
+  loading: ProgressFallback,
+});
+
+const CheckOut = Loadable({
+  loader: () => import('./containers/CheckOut/CheckOut'),
+  loading: ProgressFallback,
+});
 
 function App({ isFullLoggedIn }) {
   return (
-    <Router>
-      <Layout>
-        <Switch>
-          <Route path="/" exact component={BurgerBuilder} />
-          <AuthRoute
-            lazy
-            authenticated={isFullLoggedIn}
-            path="/checkout"
-            component={CheckOut}
-          />
-          <AuthRoute
-            lazy
-            authenticated={isFullLoggedIn}
-            path="/orders"
-            component={Orders}
-          />
-          <AuthRoute
-            lazy
-            authenticated={isFullLoggedIn}
-            path="/profile"
-            component={Profile}
-          />
-          <LazeRoute path="/login" component={Auth} />
-          <LazeRoute path="/signup" component={Auth} />
-          <AuthRoute
-            lazy
-            authenticated={isFullLoggedIn}
-            path="/logout"
-            component={Logout}
-          />
-          <LazeRoute component={NotFound} />
-        </Switch>
-      </Layout>
-    </Router>
+    <IndicatorProvider>
+      <Router>
+        <Layout>
+          <Switch>
+            <Route path="/" exact component={BurgerBuilder} />
+            <AuthRoute
+              authenticated={isFullLoggedIn}
+              path="/checkout"
+              component={CheckOut}
+            />
+            <AuthRoute
+              authenticated={isFullLoggedIn}
+              path="/orders"
+              component={Orders}
+            />
+            <AuthRoute
+              authenticated={isFullLoggedIn}
+              path="/profile"
+              component={Profile}
+            />
+            <LazeRoute path="/login" component={Auth} />
+            <LazeRoute path="/signup" component={Auth} />
+            <AuthRoute
+              authenticated={isFullLoggedIn}
+              path="/logout"
+              component={Logout}
+            />
+            <LazeRoute component={NotFound} />
+          </Switch>
+        </Layout>
+      </Router>
+    </IndicatorProvider>
   );
 }
 
