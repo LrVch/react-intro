@@ -1,5 +1,6 @@
 import Loadable from 'react-loadable';
 import express from 'express';
+import compression  from 'compression';
 
 import indexController from './controllers/index';
 
@@ -12,6 +13,7 @@ const PORT = 3005;
 // initialize the application and create the routes
 const app = express();
 
+app.use(compression());
 app.use(indexController);
 
 // start the app

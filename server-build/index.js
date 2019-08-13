@@ -93,7 +93,7 @@
 /*! exports provided: files, default */
 /***/ (function(module) {
 
-eval("module.exports = {\"files\":{\"static/js/0.af960ee8.chunk.js\":\"/static/js/0.af960ee8.chunk.js\",\"static/js/0.af960ee8.chunk.js.map\":\"/static/js/0.af960ee8.chunk.js.map\",\"static/js/1.18dcf4c6.chunk.js\":\"/static/js/1.18dcf4c6.chunk.js\",\"static/js/1.18dcf4c6.chunk.js.map\":\"/static/js/1.18dcf4c6.chunk.js.map\",\"auth.css\":\"/static/css/auth.49c55b44.chunk.css\",\"auth.js\":\"/static/js/auth.01b20068.chunk.js\",\"auth.js.map\":\"/static/js/auth.01b20068.chunk.js.map\",\"checkOut.css\":\"/static/css/checkOut.a3345825.chunk.css\",\"checkOut.js\":\"/static/js/checkOut.ad07ecad.chunk.js\",\"checkOut.js.map\":\"/static/js/checkOut.ad07ecad.chunk.js.map\",\"logout.js\":\"/static/js/logout.043ae8c1.chunk.js\",\"logout.js.map\":\"/static/js/logout.043ae8c1.chunk.js.map\",\"main.css\":\"/static/css/main.66863648.chunk.css\",\"main.js\":\"/static/js/main.7d266fff.chunk.js\",\"main.js.map\":\"/static/js/main.7d266fff.chunk.js.map\",\"notFound.js\":\"/static/js/notFound.7af2c992.chunk.js\",\"notFound.js.map\":\"/static/js/notFound.7af2c992.chunk.js.map\",\"orders.css\":\"/static/css/orders.003065a2.chunk.css\",\"orders.js\":\"/static/js/orders.3b987912.chunk.js\",\"orders.js.map\":\"/static/js/orders.3b987912.chunk.js.map\",\"profile.css\":\"/static/css/profile.56c710da.chunk.css\",\"profile.js\":\"/static/js/profile.160c3797.chunk.js\",\"profile.js.map\":\"/static/js/profile.160c3797.chunk.js.map\",\"runtime~main.js\":\"/static/js/runtime~main.931c8d98.js\",\"runtime~main.js.map\":\"/static/js/runtime~main.931c8d98.js.map\",\"static/js/10.f0a52ebb.chunk.js\":\"/static/js/10.f0a52ebb.chunk.js\",\"static/js/10.f0a52ebb.chunk.js.map\":\"/static/js/10.f0a52ebb.chunk.js.map\",\"static/css/11.8c27467e.chunk.css\":\"/static/css/11.8c27467e.chunk.css\",\"static/js/11.59519752.chunk.js\":\"/static/js/11.59519752.chunk.js\",\"static/js/11.59519752.chunk.js.map\":\"/static/js/11.59519752.chunk.js.map\",\"index.html\":\"/index.html\",\"precache-manifest.ca1640f2f99df6924f08a3dc5c906ff6.js\":\"/precache-manifest.ca1640f2f99df6924f08a3dc5c906ff6.js\",\"service-worker.js\":\"/service-worker.js\",\"static/css/11.8c27467e.chunk.css.map\":\"/static/css/11.8c27467e.chunk.css.map\",\"static/css/auth.49c55b44.chunk.css.map\":\"/static/css/auth.49c55b44.chunk.css.map\",\"static/css/checkOut.a3345825.chunk.css.map\":\"/static/css/checkOut.a3345825.chunk.css.map\",\"static/css/main.66863648.chunk.css.map\":\"/static/css/main.66863648.chunk.css.map\",\"static/css/orders.003065a2.chunk.css.map\":\"/static/css/orders.003065a2.chunk.css.map\",\"static/css/profile.56c710da.chunk.css.map\":\"/static/css/profile.56c710da.chunk.css.map\",\"static/media/burger-logo.png\":\"/static/media/burger-logo.b8503d26.png\",\"static/media/sad-burger.jpg\":\"/static/media/sad-burger.bd6901e2.jpg\"}};\n\n//# sourceURL=webpack:///./build/asset-manifest.json?");
+eval("module.exports = {\"files\":{\"static/js/0.af960ee8.chunk.js\":\"/static/js/0.af960ee8.chunk.js\",\"static/js/0.af960ee8.chunk.js.map\":\"/static/js/0.af960ee8.chunk.js.map\",\"static/js/1.18dcf4c6.chunk.js\":\"/static/js/1.18dcf4c6.chunk.js\",\"static/js/1.18dcf4c6.chunk.js.map\":\"/static/js/1.18dcf4c6.chunk.js.map\",\"auth.css\":\"/static/css/auth.0ab50926.chunk.css\",\"auth.js\":\"/static/js/auth.c29bc95c.chunk.js\",\"auth.js.map\":\"/static/js/auth.c29bc95c.chunk.js.map\",\"checkOut.css\":\"/static/css/checkOut.5e2a5289.chunk.css\",\"checkOut.js\":\"/static/js/checkOut.60c9528f.chunk.js\",\"checkOut.js.map\":\"/static/js/checkOut.60c9528f.chunk.js.map\",\"logout.js\":\"/static/js/logout.043ae8c1.chunk.js\",\"logout.js.map\":\"/static/js/logout.043ae8c1.chunk.js.map\",\"main.css\":\"/static/css/main.74314c4b.chunk.css\",\"main.js\":\"/static/js/main.08f47077.chunk.js\",\"main.js.map\":\"/static/js/main.08f47077.chunk.js.map\",\"notFound.js\":\"/static/js/notFound.7af2c992.chunk.js\",\"notFound.js.map\":\"/static/js/notFound.7af2c992.chunk.js.map\",\"orders.css\":\"/static/css/orders.ceb9e290.chunk.css\",\"orders.js\":\"/static/js/orders.c33f88df.chunk.js\",\"orders.js.map\":\"/static/js/orders.c33f88df.chunk.js.map\",\"profile.css\":\"/static/css/profile.3047fe80.chunk.css\",\"profile.js\":\"/static/js/profile.4a9f7c81.chunk.js\",\"profile.js.map\":\"/static/js/profile.4a9f7c81.chunk.js.map\",\"runtime~main.js\":\"/static/js/runtime~main.11240535.js\",\"runtime~main.js.map\":\"/static/js/runtime~main.11240535.js.map\",\"static/js/10.a5ba3670.chunk.js\":\"/static/js/10.a5ba3670.chunk.js\",\"static/js/10.a5ba3670.chunk.js.map\":\"/static/js/10.a5ba3670.chunk.js.map\",\"static/css/11.9594e102.chunk.css\":\"/static/css/11.9594e102.chunk.css\",\"static/js/11.40d0424c.chunk.js\":\"/static/js/11.40d0424c.chunk.js\",\"static/js/11.40d0424c.chunk.js.map\":\"/static/js/11.40d0424c.chunk.js.map\",\"index.html\":\"/index.html\",\"precache-manifest.00c394720327d7f42fdf37ca15f99b1b.js\":\"/precache-manifest.00c394720327d7f42fdf37ca15f99b1b.js\",\"service-worker.js\":\"/service-worker.js\",\"static/css/11.9594e102.chunk.css.map\":\"/static/css/11.9594e102.chunk.css.map\",\"static/css/auth.0ab50926.chunk.css.map\":\"/static/css/auth.0ab50926.chunk.css.map\",\"static/css/checkOut.5e2a5289.chunk.css.map\":\"/static/css/checkOut.5e2a5289.chunk.css.map\",\"static/css/main.74314c4b.chunk.css.map\":\"/static/css/main.74314c4b.chunk.css.map\",\"static/css/orders.ceb9e290.chunk.css.map\":\"/static/css/orders.ceb9e290.chunk.css.map\",\"static/css/profile.3047fe80.chunk.css.map\":\"/static/css/profile.3047fe80.chunk.css.map\",\"static/media/burger-logo.png\":\"/static/media/burger-logo.b8503d26.png\",\"static/media/sad-burger.jpg\":\"/static/media/sad-burger.bd6901e2.jpg\"}};\n\n//# sourceURL=webpack:///./build/asset-manifest.json?");
 
 /***/ }),
 
@@ -128,7 +128,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(f
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react_loadable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-loadable */ \"react-loadable\");\n/* harmony import */ var react_loadable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_loadable__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! express */ \"express\");\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _controllers_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./controllers/index */ \"./server/controllers/index.js\");\n\n\n\nconst PORT = 3005; // const { REACT_APP_SERVER_RENDER, NODE_ENV } = process.env\n// console.log(NODE_ENV)\n// console.log(REACT_APP_SERVER_RENDER)\n// initialize the application and create the routes\n\nconst app = express__WEBPACK_IMPORTED_MODULE_1___default()();\napp.use(_controllers_index__WEBPACK_IMPORTED_MODULE_2__[\"default\"]); // start the app\n\nreact_loadable__WEBPACK_IMPORTED_MODULE_0___default.a.preloadAll().then(() => {\n  console.log('all preloaded');\n  app.listen(PORT, error => {\n    if (error) {\n      return console.log('something bad happened', error);\n    }\n\n    console.log(\"listening on \" + PORT + \"...\");\n  });\n});\n\n//# sourceURL=webpack:///./server/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react_loadable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-loadable */ \"react-loadable\");\n/* harmony import */ var react_loadable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_loadable__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! express */ \"express\");\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var compression__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! compression */ \"compression\");\n/* harmony import */ var compression__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(compression__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _controllers_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./controllers/index */ \"./server/controllers/index.js\");\n\n\n\n\nconst PORT = 3005; // const { REACT_APP_SERVER_RENDER, NODE_ENV } = process.env\n// console.log(NODE_ENV)\n// console.log(REACT_APP_SERVER_RENDER)\n// initialize the application and create the routes\n\nconst app = express__WEBPACK_IMPORTED_MODULE_1___default()();\napp.use(compression__WEBPACK_IMPORTED_MODULE_2___default()());\napp.use(_controllers_index__WEBPACK_IMPORTED_MODULE_3__[\"default\"]); // start the app\n\nreact_loadable__WEBPACK_IMPORTED_MODULE_0___default.a.preloadAll().then(() => {\n  console.log('all preloaded');\n  app.listen(PORT, error => {\n    if (error) {\n      return console.log('something bad happened', error);\n    }\n\n    console.log(\"listening on \" + PORT + \"...\");\n  });\n});\n\n//# sourceURL=webpack:///./server/index.js?");
 
 /***/ }),
 
@@ -209,7 +209,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"BuildControl\": \"BuildControl_BuildControl__3K9-_\",\n\t\"Label\": \"BuildControl_Label__1IS7S\",\n\t\"Less\": \"BuildControl_Less__2IYvh\",\n\t\"More\": \"BuildControl_More__feutR\"\n};\n\n//# sourceURL=webpack:///./src/components/Burger/BuildControls/BuildControl/BuildControl.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"BuildControl\": \"BuildControl_BuildControl__18U_L\",\n\t\"Label\": \"BuildControl_Label__2owY7\",\n\t\"Less\": \"BuildControl_Less__1aPiH\",\n\t\"More\": \"BuildControl_More__2RnY6\"\n};\n\n//# sourceURL=webpack:///./src/components/Burger/BuildControls/BuildControl/BuildControl.module.scss?");
 
 /***/ }),
 
@@ -232,7 +232,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"BuildControls\": \"BuildControls_BuildControls__1VkCI\",\n\t\"OrderButton\": \"BuildControls_OrderButton__2IxP6\",\n\t\"enable\": \"BuildControls_enable__1acH9\"\n};\n\n//# sourceURL=webpack:///./src/components/Burger/BuildControls/BuildControls.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"BuildControls\": \"BuildControls_BuildControls__1HLXB\",\n\t\"OrderButton\": \"BuildControls_OrderButton__1WS2o\",\n\t\"enable\": \"BuildControls_enable__2NN4B\"\n};\n\n//# sourceURL=webpack:///./src/components/Burger/BuildControls/BuildControls.module.scss?");
 
 /***/ }),
 
@@ -255,7 +255,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Burger\": \"Burger_Burger__2P8Jy\"\n};\n\n//# sourceURL=webpack:///./src/components/Burger/Burger.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Burger\": \"Burger_Burger__1zc2x\"\n};\n\n//# sourceURL=webpack:///./src/components/Burger/Burger.module.scss?");
 
 /***/ }),
 
@@ -278,7 +278,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"BreadBottom\": \"BurgerIngredients_BreadBottom__1fVC8\",\n\t\"BreadTop\": \"BurgerIngredients_BreadTop__3tQtG\",\n\t\"Seeds1\": \"BurgerIngredients_Seeds1__3Lq5r\",\n\t\"Seeds2\": \"BurgerIngredients_Seeds2__2L5x0\",\n\t\"Meat\": \"BurgerIngredients_Meat__1wKIq\",\n\t\"Cheese\": \"BurgerIngredients_Cheese__3s4In\",\n\t\"Salad\": \"BurgerIngredients_Salad__3hsWl\",\n\t\"Bacon\": \"BurgerIngredients_Bacon__Nt3qE\"\n};\n\n//# sourceURL=webpack:///./src/components/Burger/BurgerIngredients/BurgerIngredients.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"BreadBottom\": \"BurgerIngredients_BreadBottom__1TPxs\",\n\t\"BreadTop\": \"BurgerIngredients_BreadTop__26z5l\",\n\t\"Seeds1\": \"BurgerIngredients_Seeds1__3X7wO\",\n\t\"Seeds2\": \"BurgerIngredients_Seeds2__2PHzI\",\n\t\"Meat\": \"BurgerIngredients_Meat__H7mPH\",\n\t\"Cheese\": \"BurgerIngredients_Cheese__1S8l9\",\n\t\"Salad\": \"BurgerIngredients_Salad__3NiW0\",\n\t\"Bacon\": \"BurgerIngredients_Bacon__MYjVj\"\n};\n\n//# sourceURL=webpack:///./src/components/Burger/BurgerIngredients/BurgerIngredients.module.scss?");
 
 /***/ }),
 
@@ -301,7 +301,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"OrderSummary\": \"OrderSummary_OrderSummary__1h6Ue\"\n};\n\n//# sourceURL=webpack:///./src/components/Burger/OrderSummary/OrderSummary.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"OrderSummary\": \"OrderSummary_OrderSummary__UsSUe\"\n};\n\n//# sourceURL=webpack:///./src/components/Burger/OrderSummary/OrderSummary.module.scss?");
 
 /***/ }),
 
@@ -324,7 +324,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"DeleteProfile\": \"DeleteProfile_DeleteProfile__1o5HA\"\n};\n\n//# sourceURL=webpack:///./src/components/DeleteProfile/DeleteProfile.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"DeleteProfile\": \"DeleteProfile_DeleteProfile__2Qc26\"\n};\n\n//# sourceURL=webpack:///./src/components/DeleteProfile/DeleteProfile.module.scss?");
 
 /***/ }),
 
@@ -359,7 +359,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Logo\": \"Logo_Logo__2xqIq\"\n};\n\n//# sourceURL=webpack:///./src/components/Logo/Logo.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Logo\": \"Logo_Logo__2BAII\"\n};\n\n//# sourceURL=webpack:///./src/components/Logo/Logo.module.scss?");
 
 /***/ }),
 
@@ -406,7 +406,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"NavigationItem\": \"NavigationItem_NavigationItem__1iK6q\",\n\t\"active\": \"NavigationItem_active__3zkE1\"\n};\n\n//# sourceURL=webpack:///./src/components/Navigation/NavigationItem/NavigationItem.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"NavigationItem\": \"NavigationItem_NavigationItem__3lvwq\",\n\t\"active\": \"NavigationItem_active__2H774\"\n};\n\n//# sourceURL=webpack:///./src/components/Navigation/NavigationItem/NavigationItem.module.scss?");
 
 /***/ }),
 
@@ -429,7 +429,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"NavigationItems\": \"NavigationItems_NavigationItems__21azs\"\n};\n\n//# sourceURL=webpack:///./src/components/Navigation/NavigationItems/NavigationItems.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"NavigationItems\": \"NavigationItems_NavigationItems__1N3z9\"\n};\n\n//# sourceURL=webpack:///./src/components/Navigation/NavigationItems/NavigationItems.module.scss?");
 
 /***/ }),
 
@@ -452,7 +452,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"SideDrawer\": \"SideDrawer_SideDrawer__svMy5\",\n\t\"Open\": \"SideDrawer_Open__3WUTb\",\n\t\"Close\": \"SideDrawer_Close__1xOkD\"\n};\n\n//# sourceURL=webpack:///./src/components/Navigation/SideDrawer/SideDrawer.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"SideDrawer\": \"SideDrawer_SideDrawer__1IdT8\",\n\t\"Open\": \"SideDrawer_Open__11nSB\",\n\t\"Close\": \"SideDrawer_Close__x0Nbb\"\n};\n\n//# sourceURL=webpack:///./src/components/Navigation/SideDrawer/SideDrawer.module.scss?");
 
 /***/ }),
 
@@ -475,7 +475,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"ToggleButton\": \"ToggleButton_ToggleButton__34bLk\"\n};\n\n//# sourceURL=webpack:///./src/components/Navigation/ToggleButton/ToggleButton.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"ToggleButton\": \"ToggleButton_ToggleButton__1uBlX\"\n};\n\n//# sourceURL=webpack:///./src/components/Navigation/ToggleButton/ToggleButton.module.scss?");
 
 /***/ }),
 
@@ -498,7 +498,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Toolbar\": \"Toolbar_Toolbar__h8Buy\",\n\t\"DesktopOnly\": \"Toolbar_DesktopOnly__1P30n\",\n\t\"Nav\": \"Toolbar_Nav__3_x7h\",\n\t\"Progress\": \"Toolbar_Progress__2c6cZ\"\n};\n\n//# sourceURL=webpack:///./src/components/Navigation/Toolbar/Toolbar.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Toolbar\": \"Toolbar_Toolbar__3o0ds\",\n\t\"DesktopOnly\": \"Toolbar_DesktopOnly__3Qqwk\",\n\t\"Nav\": \"Toolbar_Nav__2JQlj\",\n\t\"Progress\": \"Toolbar_Progress__2Td3R\"\n};\n\n//# sourceURL=webpack:///./src/components/Navigation/Toolbar/Toolbar.module.scss?");
 
 /***/ }),
 
@@ -521,7 +521,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"CheckOutSummary\": \"CheckOutSummary_CheckOutSummary__Y26Oi\"\n};\n\n//# sourceURL=webpack:///./src/components/Order/CheckOutSummary/CheckOutSummary.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"CheckOutSummary\": \"CheckOutSummary_CheckOutSummary__JqIVi\"\n};\n\n//# sourceURL=webpack:///./src/components/Order/CheckOutSummary/CheckOutSummary.module.scss?");
 
 /***/ }),
 
@@ -544,7 +544,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Order\": \"Order_Order__2WdR6\"\n};\n\n//# sourceURL=webpack:///./src/components/Order/Order.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Order\": \"Order_Order__1EfoZ\"\n};\n\n//# sourceURL=webpack:///./src/components/Order/Order.module.scss?");
 
 /***/ }),
 
@@ -567,7 +567,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Alert\": \"Alert_Alert__3E0PK\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Alert/Alert.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Alert\": \"Alert_Alert__2-5xT\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Alert/Alert.module.scss?");
 
 /***/ }),
 
@@ -590,7 +590,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Avatar\": \"Avatar_Avatar__13GfA\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Avatar/Avatar.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Avatar\": \"Avatar_Avatar__3d74K\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Avatar/Avatar.module.scss?");
 
 /***/ }),
 
@@ -613,7 +613,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Backdrop\": \"Backdrop_Backdrop__2tlza\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Backdrop/Backdrop.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Backdrop\": \"Backdrop_Backdrop__2ZkaI\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Backdrop/Backdrop.module.scss?");
 
 /***/ }),
 
@@ -636,7 +636,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Button\": \"Button_Button__39I1f\",\n\t\"Success\": \"Button_Success__2TjaX\",\n\t\"Danger\": \"Button_Danger__vCB_R\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Button/Button.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Button\": \"Button_Button__p7b6z\",\n\t\"Success\": \"Button_Success__1pV9E\",\n\t\"Danger\": \"Button_Danger__bhD_u\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Button/Button.module.scss?");
 
 /***/ }),
 
@@ -671,7 +671,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Input\": \"Input_Input__34qTz\",\n\t\"Label\": \"Input_Label__57jvl\",\n\t\"InputElement\": \"Input_InputElement__1WJcI\",\n\t\"Invalid\": \"Input_Invalid__jwL4b\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Input/Input.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Input\": \"Input_Input__294Lf\",\n\t\"Label\": \"Input_Label__OSzFb\",\n\t\"InputElement\": \"Input_InputElement__2Zs6h\",\n\t\"Invalid\": \"Input_Invalid__3KGQk\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Input/Input.module.scss?");
 
 /***/ }),
 
@@ -694,7 +694,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Lds-ellipsis\": \"Loader_Lds-ellipsis__3WJk0\",\n\t\"lds-ellipsis1\": \"Loader_lds-ellipsis1__22wuv\",\n\t\"lds-ellipsis2\": \"Loader_lds-ellipsis2__1KnZ8\",\n\t\"lds-ellipsis3\": \"Loader_lds-ellipsis3__6W1j7\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Loader/Loader.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Lds-ellipsis\": \"Loader_Lds-ellipsis__2M-Jp\",\n\t\"lds-ellipsis1\": \"Loader_lds-ellipsis1__1RX8C\",\n\t\"lds-ellipsis2\": \"Loader_lds-ellipsis2__3Gpb5\",\n\t\"lds-ellipsis3\": \"Loader_lds-ellipsis3__3b6Oh\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Loader/Loader.module.scss?");
 
 /***/ }),
 
@@ -717,7 +717,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"Modal\": \"Modal_Modal__1aIRd\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Modal/Modal.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"Modal\": \"Modal_Modal__1MtGn\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Modal/Modal.module.scss?");
 
 /***/ }),
 
@@ -764,7 +764,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"loader\": \"Spiner_loader__3f7dE\",\n\t\"load1\": \"Spiner_load1__4Uzb5\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Spiner/Spiner.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"loader\": \"Spiner_loader__CTxlD\",\n\t\"load1\": \"Spiner_load1__2LGZD\"\n};\n\n//# sourceURL=webpack:///./src/components/UI/Spiner/Spiner.module.scss?");
 
 /***/ }),
 
@@ -787,7 +787,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"UserInfo\": \"UserInfo_UserInfo__1fyna\"\n};\n\n//# sourceURL=webpack:///./src/components/UserInfo/UserInfo.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"UserInfo\": \"UserInfo_UserInfo__2i3SH\"\n};\n\n//# sourceURL=webpack:///./src/components/UserInfo/UserInfo.module.scss?");
 
 /***/ }),
 
@@ -846,7 +846,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"AuthForm\": \"AuthForm_AuthForm__2nPLu\",\n\t\"AuthFormLink\": \"AuthForm_AuthFormLink__Yc4D1\"\n};\n\n//# sourceURL=webpack:///./src/containers/Auth/AuthForm/AuthForm.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"AuthForm\": \"AuthForm_AuthForm__3f85G\",\n\t\"AuthFormLink\": \"AuthForm_AuthFormLink__3f-Pt\"\n};\n\n//# sourceURL=webpack:///./src/containers/Auth/AuthForm/AuthForm.module.scss?");
 
 /***/ }),
 
@@ -917,7 +917,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"ContactData\": \"ContactDataForm_ContactData__mGvS6\",\n\t\"Input\": \"ContactDataForm_Input__1B04y\",\n\t\"ErrorMessage\": \"ContactDataForm_ErrorMessage__2bQqq\"\n};\n\n//# sourceURL=webpack:///./src/containers/CheckOut/ContactData/ContactDataForm/ContactDataForm.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"ContactData\": \"ContactDataForm_ContactData__2rKxQ\",\n\t\"Input\": \"ContactDataForm_Input__1pny_\",\n\t\"ErrorMessage\": \"ContactDataForm_ErrorMessage__3nRKY\"\n};\n\n//# sourceURL=webpack:///./src/containers/CheckOut/ContactData/ContactDataForm/ContactDataForm.module.scss?");
 
 /***/ }),
 
@@ -988,7 +988,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// Exports\nmodule.exports = {\n\t\"content\": \"Layout_content__3ZhAj\"\n};\n\n//# sourceURL=webpack:///./src/hoc/Layout/Layout.module.scss?");
+eval("// Exports\nmodule.exports = {\n\t\"content\": \"Layout_content__17ViS\"\n};\n\n//# sourceURL=webpack:///./src/hoc/Layout/Layout.module.scss?");
 
 /***/ }),
 
@@ -1298,6 +1298,17 @@ eval("module.exports = require(\"axios-observable\");\n\n//# sourceURL=webpack:/
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"classnames/bind\");\n\n//# sourceURL=webpack:///external_%22classnames/bind%22?");
+
+/***/ }),
+
+/***/ "compression":
+/*!******************************!*\
+  !*** external "compression" ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"compression\");\n\n//# sourceURL=webpack:///external_%22compression%22?");
 
 /***/ }),
 
