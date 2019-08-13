@@ -1,6 +1,7 @@
-import Loadable from 'react-loadable';
-import express from 'express';
-import compression  from 'compression';
+import Loadable from 'react-loadable'
+import express from 'express'
+import compression  from 'compression'
+import cookieParser from 'cookie-parser'
 
 import indexController from './controllers/index';
 
@@ -14,6 +15,7 @@ const PORT = 3005;
 const app = express();
 
 app.use(compression());
+app.use(cookieParser())
 app.use(indexController);
 
 // start the app

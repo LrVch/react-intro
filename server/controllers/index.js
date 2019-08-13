@@ -11,8 +11,11 @@ const path = require("path");
 const actionIndex = (req, res, next) => {
   const { store } = configureStore();
 
-      // store.dispatch(authActions.authServerIsFullLogged())
-      serverRenderer(store)(req, res, next);
+  if (req.cookies.au) {
+    store.dispatch(authActions.authServerIsFullLogged())
+  }
+
+  serverRenderer(store)(req, res, next);
 };
 
 

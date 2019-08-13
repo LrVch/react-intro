@@ -32,18 +32,16 @@ import {
   authUpdateUserFail,
   authNotConfirmed,
   AUTH_NOT_CONFIRMED,
-  // authShowNotConfirmedMessage,
   AUTH_VERIFY_EMAIL_REQUEST,
   authVerifyEmailFail,
   authVerifyEmailSuccess,
-  // AUTH_LEAVE,
-  // AUTH_VERIFY_EMAIL_SUCCESS,
   authVerifyEmailRequest,
   AUTH_LEAVE_LOGIN
 } from '../actions';
 import ErrorNotifyService from '../../services/errorNotify.service'
 import AuthService from '../../services/auth.service'
 import LocalStorageService from '../../services/localStorage.service'
+import CookieService from '../../services/cookie.service'
 
 export const init$ = () => defer(() => {
   const token = LocalStorageService.getFullToken()
@@ -194,6 +192,7 @@ export const authLogout$ = (action$, state$) => action$.pipe(
   ofType(AUTH_LOGOUT),
   tap(_ => {
     LocalStorageService.destroyToken()
+    CookieService.deleteCookie('au')
   }),
   switchMap(() => empty())
 )
@@ -243,6 +242,16 @@ export const authVerifyEmailRequest$ = (action$, state$) => action$.pipe(
   )
 )
 
+export const authSetCookie$ = (action$, state$) => action$.pipe(
+  ofType(AUTH_SUCCESS, AUTH_REFRESH_TOKEN_SUCCESS),
+  tap(({ payload }) => {
+    const {  expiresIn } = payload
+    const date = new Date(expiresIn * 1000 + Date.now())
+    CookieService.setCookie('au', true, {expires: date})
+  }),
+  switchMap(() => empty())
+)
+
 const auth$ = combineEpics(
   init$,
   authRequest$,
@@ -253,7 +262,8 @@ const auth$ = combineEpics(
   authRefreshTokenFail$,
   authUpdateUserData$,
   authNotConfirmed$,
-  authVerifyEmailRequest$
+  authVerifyEmailRequest$,
+  authSetCookie$,
 )
 
 export default auth$
