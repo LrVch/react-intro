@@ -5,13 +5,13 @@ import App from './App'
 // import * as serviceWorker from './serviceWorker'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import configureStore, { epicMiddleware } from './configureStore'
+import configureStore from './configureStore'
 import Loadable from 'react-loadable';
 import mainEpics$ from './store/epics'
 
 const { REACT_APP_SERVER_RENDER: isServer } = process.env
 
-const store = configureStore(window.__REDUX_STATE__ || {})
+const { store, epicMiddleware } = configureStore(window.__REDUX_STATE__ || {})
 
 epicMiddleware.run(mainEpics$)
 
@@ -32,13 +32,13 @@ if (!isServer) {
   );
 } else {
   // window.onload = () => {
-    Loadable.preloadReady().then(() => {
-      console.log('preloaded loadable')
-      ReactDOM.hydrate(
-        AppBundle,
-        document.getElementById('root')
-      );
-    });
+  Loadable.preloadReady().then(() => {
+    console.log('preloaded loadable')
+    ReactDOM.hydrate(
+      AppBundle,
+      document.getElementById('root')
+    );
+  });
   // };
 }
 

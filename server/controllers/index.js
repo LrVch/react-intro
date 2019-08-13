@@ -9,7 +9,7 @@ const path = require("path");
 
 
 const actionIndex = (req, res, next) => {
-  const store = configureStore();
+  const { store } = configureStore();
 
   // store.dispatch(setAsyncMessage("Hi, I'm from server!"))
   //   .then(() => {
