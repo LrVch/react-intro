@@ -15,8 +15,6 @@
     -->
   <link rel="manifest"
         href="%PUBLIC_URL%/manifest.json" />
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-        rel="stylesheet">
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -28,11 +26,25 @@
     -->
   <title>Burger app</title>
   <style>
+    
+
     body {
       margin: 0;
       font-family: 'Open Sans', sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+    }
+
+    @font-face {
+      font-family: 'Open Sans';
+      src: url('./fonts/opensans-regular-webfont.eot');
+      src: url('./fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/opensans-regular-webfont.woff2') format('woff2'),
+      url('./fonts/opensans-regular-webfont.woff') format('woff'),
+      url('./fonts/opensans-regular-webfont.ttf') format('truetype'),
+      url('./fonts/opensans-regular-webfont.svg#open_sansregular') format('svg');
+      font-weight: normal;
+      font-style: normal;
     }
 
     body * {
