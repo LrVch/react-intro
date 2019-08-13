@@ -4,9 +4,6 @@ import Loadable from 'react-loadable';
 import { Provider as ReduxProvider } from 'react-redux'
 import { StaticRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
-// import { getBundles } from 'react-loadable/webpack';
-// import stats from './../../build/react-loadable.json';
-
 
 
 // import our main App component
@@ -17,8 +14,12 @@ import App from '../../src/App';
 import manifest from './../../build/asset-manifest.json';
 
 // function to extract js assets from the manifest
-const extractAssets = (assets, chunks) => Object.keys(assets)
+const extractJsAssets = (assets, chunks) => Object.keys(assets)
   .filter(asset => chunks.indexOf(asset.replace('.js', '')) > -1)
+  .map(k => assets[k]);
+
+const extractCssAssets = (assets, chunks) => Object.keys(assets)
+  .filter(asset => chunks.indexOf(asset.replace('.css', '')) > -1)
   .map(k => assets[k]);
 
 
@@ -39,8 +40,6 @@ export default (store) => (req, res, next) => {
     const modules = [];
     const routerContext = {};
 
-    console.log(modules)
-
     // render the app as a string
     const html = ReactDOMServer.renderToString(
       <Loadable.Capture report={m => modules.push(m)}>
@@ -52,25 +51,19 @@ export default (store) => (req, res, next) => {
       </Loadable.Capture>
     );
 
-    // console.log(modules);
-    // console.log(manifest)
+    // console.log(modules)
+
     // get the stringified state
     const reduxState = JSON.stringify(store.getState());
 
-    // let bundles = getBundles(stats, modules);
-
-    // console.log(bundles);
-
     // map required assets to script tags
-    const extraChunks = extractAssets(manifest.files, modules)
-      .map(c => `<script type="text/javascript" src="${c}"></script>`);
+    const extraJsChunks = extractJsAssets(manifest.files, modules)
+      .map(c => `<script custom type="text/javascript" src="${c}"></script>`)
+      .join('\n');
 
-    // const extraChunks = bundles.map(bundle => {
-    //     return `<script src="/dist/${bundle.file}"></script>`
-    // }).join('\n')
-
-    // console.log(extraChunks)
-
+    const extraCssChunks = extractCssAssets(manifest.files, modules)
+      .map(c => `<link rel="stylesheet" type="text/css" href="${c}"></link>`)
+      .join('\n');
 
     // get HTML headers
     const helmet = Helmet.renderStatic();
@@ -79,11 +72,9 @@ export default (store) => (req, res, next) => {
     return res.send(
       htmlData
         // write the React app
-        .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+        .replace('<div id="root"></div>', `<div id="root">${html}</div> ${extraCssChunks + extraJsChunks}`)
         // write the string version of our state
         .replace('__REDUX_STATE__={}', `__REDUX_STATE__=${reduxState}`)
-        // append the extra js assets
-        .replace('</body>', extraChunks + '</body>')
         // write the HTML header tags
         .replace('<title></title>', helmet.title.toString() + helmet.meta.toString())
     );

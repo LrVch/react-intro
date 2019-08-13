@@ -31,15 +31,15 @@ if (!isServer) {
     document.getElementById('root')
   );
 } else {
-  // window.onload = () => {
-  Loadable.preloadReady().then(() => {
-    console.log('preloaded loadable')
-    ReactDOM.hydrate(
-      AppBundle,
-      document.getElementById('root')
-    );
-  });
-  // };
+  window.onload = () => {
+    Loadable.preloadReady().then((modules) => {
+      // console.log('preloaded loadable')
+      ReactDOM.hydrate(
+        AppBundle,
+        document.getElementById('root')
+      );
+    });
+  };
 }
 
 // If you want your app to work offline and load faster, you can change

@@ -3,7 +3,7 @@ import express from 'express';
 
 import indexController from './controllers/index';
 
-const PORT = 3004;
+const PORT = 3005;
 
 // const { REACT_APP_SERVER_RENDER, NODE_ENV } = process.env
 // console.log(NODE_ENV)
@@ -16,6 +16,7 @@ app.use(indexController);
 
 // start the app
 Loadable.preloadAll().then(() => {
+  console.log('all preloaded')
   app.listen(PORT, (error) => {
     if (error) {
       return console.log('something bad happened', error);

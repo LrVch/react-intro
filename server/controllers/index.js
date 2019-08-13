@@ -2,7 +2,7 @@ import express from "express";
 
 import serverRenderer from '../middleware/renderer';
 import configureStore from '../../src/configureStore';
-// import { setAsyncMessage } from '../../src/store/appReducer';
+import * as authActions from '../../src/store/actions/auth'
 
 const router = express.Router();
 const path = require("path");
@@ -11,10 +11,8 @@ const path = require("path");
 const actionIndex = (req, res, next) => {
   const { store } = configureStore();
 
-  // store.dispatch(setAsyncMessage("Hi, I'm from server!"))
-  //   .then(() => {
+      // store.dispatch(authActions.authServerIsFullLogged())
       serverRenderer(store)(req, res, next);
-    // });
 };
 
 

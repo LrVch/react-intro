@@ -9,8 +9,6 @@ import Avatar from '../../UI/Avatar/Avatar';
 import classNames from 'classnames/bind'
 import { Progress } from '../../../context/indicator';
 
-console.log('styles', styles)
-
 const cx = classNames.bind(styles);
 
 const Toolbar = ({ loggedIn, toggleClick, url, name }) => {

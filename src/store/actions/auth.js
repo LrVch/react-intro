@@ -22,6 +22,8 @@ export const AUTH_VERIFY_EMAIL_SUCCESS = 'AUTH_VERIFY_EMAIL_SUCCESS'
 export const AUTH_VERIFY_EMAIL_FAIL = 'AUTH_VERIFY_EMAIL_FAIL'
 export const AUTH_LEAVE_LOGIN = 'AUTH_LEAVE_LOGIN'
 
+export const AUTH_SERVER_IS_FULL_LOGGED = 'AUTH_SERVER_IS_FULL_LOGGED'
+
 export const authLeaveLgin = () => ({
   type: AUTH_LEAVE_LOGIN
 })
@@ -149,4 +151,7 @@ export const authVerifyEmailFail = (error) => ({
   payload: { error }
 })
 
+export const authServerIsFullLogged = () => ({
+  type: AUTH_SERVER_IS_FULL_LOGGED
+})
 

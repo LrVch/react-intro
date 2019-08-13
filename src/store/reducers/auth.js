@@ -155,6 +155,17 @@ const authReducer = (state = initialState, { type, payload }) => {
 
 
 
+
+    case actionsTypes.AUTH_SERVER_IS_FULL_LOGGED: {
+      return {
+        ...state,
+        confirmed: true,
+        loggedIn: true
+      }
+    }
+
+
+
     default:
       return state
   }

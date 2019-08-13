@@ -71,6 +71,7 @@
     "react-helmet": "^5.2.1",
     "redux-devtools-extension": "^2.13.8",
     "webpack": "4.29.6",
+    "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.6",
     "webpack-node-externals": "^1.7.2"
   }
