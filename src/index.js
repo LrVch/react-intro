@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import './index.scss'
 import App from './App'
@@ -9,6 +9,7 @@ import configureStore from './configureStore'
 import Loadable from 'react-loadable'
 import mainEpics$ from './store/epics'
 import i18n from "i18next";
+import FullLoader from './components/UI/FullLoader/FullLoader'
 
 import './i18n';
 
@@ -26,10 +27,20 @@ if (Object.keys(window.__i18n_INIT_STATE__).length) {
   i18n.services.resourceStore.data = window.__i18n_INIT_STATE__
 }
 
-const AppBundle = (
+const AppSsrBundle = (
   <Provider store={store}>
     <BrowserRouter>
       <App />
+    </BrowserRouter>
+  </Provider>
+)
+
+const AppBundle = (
+  <Provider store={store}>
+    <BrowserRouter>
+      <Suspense fallback={<FullLoader />}>
+        <App />
+      </Suspense>
     </BrowserRouter>
   </Provider>
 )
@@ -43,7 +54,7 @@ if (!isServer) {
   window.onload = () => {
     Loadable.preloadReady().then(() => {
       ReactDOM.hydrate(
-        AppBundle,
+        AppSsrBundle,
         document.getElementById('root')
       );
     });

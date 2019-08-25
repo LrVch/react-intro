@@ -3,6 +3,8 @@ import { initReactI18next } from "react-i18next";
 import XHR from 'i18next-xhr-backend';
 import Backend from 'i18next-chained-backend';
 
+const { REACT_APP_SERVER_RENDER: isServer } = process.env
+
 i18n
   .use(Backend)
   .use(initReactI18next)
@@ -17,7 +19,7 @@ i18n
     },
 
     react: {
-      useSuspense: false,
+      useSuspense: isServer ? false : true,
     },
 
     backend: {

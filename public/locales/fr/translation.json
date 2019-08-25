@@ -1,11 +1,11 @@
 {
   "price": "Prix",
   "navigation": {
-    "logout": "Logout",
-    "profile": "Profile",
-    "orders": "Orders",
-    "burgerBuilder": "Burger builder",
-    "singIn": "SingIn",
-    "signUp": "SignUp"
+    "logout": "Sortir ",
+    "profile": "Profil",
+    "orders": "Ordres",
+    "burgerBuilder": "Burger constructeur",
+    "singIn": "Entrer",
+    "signUp": "Inscription"
   }
 }

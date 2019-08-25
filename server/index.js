@@ -27,7 +27,8 @@ i18next
 
     react: {
       useSuspense: false,
-    },
+    }
+    
   });
 
 
@@ -37,9 +38,9 @@ app.use(
   middleware.handle(i18next)
 );
 
-app.use(compression());
+app.use(compression())
 app.use(cookieParser())
-app.use(indexController);
+app.use(indexController)
 app.disable('x-powered-by')
 
 // start the app
