@@ -3,23 +3,23 @@ import express from "express";
 import serverRenderer from '../middleware/renderer';
 import configureStore from '../../src/configureStore';
 import * as authActions from '../../src/store/actions/auth'
+import { settingsChangeLanguage } from "../../src/store/actions";
 
 const router = express.Router();
 const path = require("path");
 
-
 const actionIndex = (req, res, next) => {
-  const { store } = configureStore();
+  const { store } = configureStore()
 
   const language = req.cookies.lang || 'en'
 
-  console.log(language);
+  // console.log('language from controller', language);
   
   if (req.cookies.au) {
     store.dispatch(authActions.authServerIsFullLogged())
   }
 
-  store.dispatch(authActions.authServerIsFullLogged())
+  store.dispatch(settingsChangeLanguage(language))
 
   serverRenderer(store)(req, res, next);
 };

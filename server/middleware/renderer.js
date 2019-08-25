@@ -4,6 +4,9 @@ import Loadable from 'react-loadable';
 import { Provider as ReduxProvider } from 'react-redux'
 import { StaticRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
+import { I18nextProvider } from 'react-i18next';
+import path from 'path'
+import fs from 'fs'
 
 
 // import our main App component
@@ -22,12 +25,20 @@ const extractCssAssets = (assets, chunks) => Object.keys(assets)
   .filter(asset => chunks.indexOf(asset.replace('.css', '')) > -1)
   .map(k => assets[k]);
 
+export default (store) => async (req, res) => {
+  const language = req.cookies.lang || 'en'
 
-const path = require("path");
-const fs = require("fs");
+  await req.i18n.loadLanguages(language)
+
+  req.i18n.changeLanguage(language);
+
+  const i18nState = {}
+  i18nState[language] = req.i18n.services.resourceStore.data[language];
+
+  // console.log(i18nState)
+  // console.log('req.i18n', req.i18n.options)
 
 
-export default (store) => (req, res, next) => {
   // get the html file created with the create-react-app build
   const filePath = path.resolve(__dirname, '..', '..', 'build', 'index.html');
 
@@ -45,7 +56,9 @@ export default (store) => (req, res, next) => {
       <Loadable.Capture report={m => modules.push(m)}>
         <ReduxProvider store={store}>
           <StaticRouter location={req.baseUrl} context={routerContext}>
-            <App />
+            <I18nextProvider i18n={req.i18n}>
+              <App />
+            </I18nextProvider>
           </StaticRouter>
         </ReduxProvider>
       </Loadable.Capture>
@@ -71,11 +84,10 @@ export default (store) => (req, res, next) => {
     // now inject the rendered app into our html and send it to the client
     return res.send(
       htmlData
-        // write the React app
         .replace('<div id="root"></div>', `<div id="root">${html}</div> ${extraCssChunks + extraJsChunks}`)
-        // write the string version of our state
         .replace('__REDUX_STATE__={}', `__REDUX_STATE__=${reduxState}`)
-        // write the HTML header tags
+        .replace('__i18n_INIT_STATE__={}', `__i18n_INIT_STATE__=${JSON.stringify(i18nState)}`)
+        .replace('__i18n_INIT_LANG__={}', `__i18n_INIT_LANG__='${language}'`)
         .replace('<title></title>', helmet.title.toString() + helmet.meta.toString())
     );
   });

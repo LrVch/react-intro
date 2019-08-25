@@ -3,7 +3,7 @@ import * as actionsTypes from '../actions';
 const initialState = {
   defaultLanguage: 'en',
   language: '',
-  languages: ['en', 'ru'],
+  languages: ['en', 'ru', 'fr'],
 }
 
 const settingsReducer = (state = initialState, { type, payload }) => {

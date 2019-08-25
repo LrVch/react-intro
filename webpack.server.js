@@ -1,6 +1,7 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+const webpack = require('webpack');
 
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
@@ -57,5 +58,10 @@ module.exports = {
         }],
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_SERVER_RENDER': true,
+    })
+  ]
 };
