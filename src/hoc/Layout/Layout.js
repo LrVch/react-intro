@@ -24,6 +24,7 @@ export const Layout = ({
   return (
     <>
       <Toolbar
+        currentLang="en"
         name={name}
         url={url}
         loggedIn={isFullLoggedIn}

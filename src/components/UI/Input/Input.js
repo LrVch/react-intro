@@ -75,7 +75,7 @@ const Input = ({
   }
   return (
     <div className={styles.Input}>
-      <label htmlFor={id} className={styles.Label}>{label}</label>
+      {label && <label htmlFor={id} className={styles.Label}>{label}</label>}
       {inputElement}
     </div>
   )
