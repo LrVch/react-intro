@@ -8,7 +8,14 @@ import { NavLink } from 'react-router-dom'
 const NavigationItem = ({ url, children, active, exact, onClick }) => {
   return (
     <li className={styles.NavigationItem}>
-      <NavLink onClick={onClick} activeClassName={styles.active} exact={exact} to={url}>{children}</NavLink>
+      <NavLink
+        onClick={onClick}
+        activeClassName={styles.active}
+        exact={exact}
+        to={url}
+      >
+        {children}
+      </NavLink>
     </li>
   )
 }

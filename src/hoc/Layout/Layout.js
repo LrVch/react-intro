@@ -4,11 +4,16 @@ import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import { connect } from 'react-redux'
 import { displayName, photoUrl, isFullLoggedIn } from '../../store/selectors/auth'
+import { currentLanguage, languages } from '../../store/selectors/settings';
+import { settingsChangeLanguage } from '../../store/actions/settings';
 
 export const Layout = ({
-  displayName: name,
-  children,
   isFullLoggedIn,
+  children,
+  currentLang,
+  displayName: name,
+  languages,
+  onLangChange,
   photoUrl: url
 }) => {
   const [isOpened, setIsOpened] = useState(false)
@@ -24,7 +29,9 @@ export const Layout = ({
   return (
     <>
       <Toolbar
-        currentLang="en"
+        languages={languages}
+        onLangChange={onLangChange}
+        currentLang={currentLang}
         name={name}
         url={url}
         loggedIn={isFullLoggedIn}
@@ -42,10 +49,16 @@ export const Layout = ({
   )
 }
 
-const matStateToProps = state => ({
+const mapStateToProps = state => ({
   isFullLoggedIn: isFullLoggedIn(state),
   displayName: displayName(state),
-  photoUrl: photoUrl(state)
+  photoUrl: photoUrl(state),
+  currentLang: currentLanguage(state),
+  languages: languages(state)
 })
 
-export default connect(matStateToProps)(Layout);
+const mapStateToDispatch = dispatch => ({
+  onLangChange: lang => dispatch(settingsChangeLanguage(lang))
+})
+
+export default connect(mapStateToProps, mapStateToDispatch)(Layout);

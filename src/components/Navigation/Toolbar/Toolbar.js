@@ -14,15 +14,26 @@ const cx = classNames.bind(styles);
 
 const Toolbar = ({
   currentLang,
+  languages,
   loggedIn,
   toggleClick,
   name,
+  onLangChange,
   url
 }) => {
-  const [lang, setLang] =  useState(currentLang)
+  const [lang, setLang] = useState(currentLang)
+
   const handleLang = (event) => {
-    setLang(event.target.value)
+    const { value } = event.target
+    setLang(value)
+    onLangChange(value)
   }
+
+  const options = languages.map(lang => ({
+    displayName: lang,
+    value: lang
+  }))
+
   return (
     <>
       <header className={styles.Toolbar}>
@@ -47,16 +58,7 @@ const Toolbar = ({
               config: {
                 name: 'lang'
               },
-              options: [
-                {
-                  displayName: 'en',
-                  value: 'en'
-                },
-                {
-                  displayName: 'ru',
-                  value: 'ru'
-                }
-              ]
+              options: options
             }}
             elementType="select"
           />

@@ -1,42 +1,46 @@
 import React from 'react'
 import styles from './NavigationItems.module.scss';
 import NavigationItem from '../NavigationItem/NavigationItem';
+import { useTranslation } from 'react-i18next';
 
 const NavigationItems = ({ auth, onClick, items = [
   {
     active: true,
     url: '/',
-    text: 'BurgerBuilder',
+    text: 'navigation.burgerBuilder',
     exact: true,
   },
   {
     url: '/orders',
-    text: 'Orders',
+    text: 'navigation.orders',
     auth: true
   },
   {
     url: '/profile',
-    text: 'Profile',
+    text: 'navigation.profile',
     auth: true
   },
   {
     url: '/logout',
-    text: 'Logout',
+    text: 'navigation.logout',
     auth: true
   },
   {
     url: '/login',
-    text: 'SingIn',
+    text: 'navigation.singIn',
     auth: false
   },
   {
     url: '/signup',
-    text: 'SignUp',
+    text: 'navigation.signUp',
     auth: false
   }
 ] }) => {
+
+  const { t } = useTranslation()
   const authed = item => item.auth === true || item.auth === undefined
   const notAuthed = item => item.auth === undefined || !item.auth
+  
   return (
     <ul className={styles.NavigationItems}>
       {items.filter(auth ? authed : notAuthed).map((item, i) =>
@@ -45,7 +49,9 @@ const NavigationItems = ({ auth, onClick, items = [
           exact={item.exact}
           key={item.text + i}
           active={item.active}
-          url={item.url}>{item.text}
+          url={item.url}
+        >
+          {t(item.text)}
         </NavigationItem>
       )}
     </ul>

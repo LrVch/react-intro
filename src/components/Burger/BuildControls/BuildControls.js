@@ -1,37 +1,7 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 import BuildControl from './BuildControl/BuildControl';
 import styels from './BuildControls.module.scss'
-
-// class BuildControls extends Component {
-//   // shouldComponentUpdate(nextProps) {
-//   //   const state = this.props.disabledState
-//   //   const nextState = nextProps.disabledState
-//   //   let update = false;
-//   //   for (let key in state) {
-//   //     if (state[key] !== nextState[key]) {
-//   //       update = true;
-//   //     }
-//   //   }
-//   //   return update;
-//   // }
-
-//   render() {
-//     return (
-//         <div className={styels.BuildControls}>
-//         <p>Price : {this.props.price}</p>
-//           {this.props.controls.map((c, i) => (
-//             <BuildControl
-//               disabled={this.props.disabledState[c.type]}
-//               key={c.label + i}
-//               label={c.label}
-//               addIngrediend={() => this.props.addIngrediend(c.type)}
-//               removeIngrediend={() => this.props.removeIngrediend(c.type)} />)
-//           )}
-//         </div>
-//     )
-//   }
-// }
+import { useTranslation } from 'react-i18next';
 
 const BuildControls = ({
   addIngrediend,
@@ -43,9 +13,11 @@ const BuildControls = ({
   purchaseHandler,
   loggedIn
 }) => {
+
+  const { t } = useTranslation()
   return (
     <div className={styels.BuildControls}>
-      <p>Price : {price} $</p>
+      <p>{t('price')} : {price} $</p>
       {controls.map((c, i) => (
         <BuildControl
           disabled={disabledState[c.type]}
@@ -66,9 +38,5 @@ const BuildControls = ({
     </div>
   )
 }
-
-// BuildControls.propTypes = {
-
-// }
 
 export default BuildControls

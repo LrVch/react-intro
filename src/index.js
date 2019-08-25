@@ -6,8 +6,10 @@ import App from './App'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import configureStore from './configureStore'
-import Loadable from 'react-loadable';
+import Loadable from 'react-loadable'
 import mainEpics$ from './store/epics'
+
+import './i18n';
 
 const { REACT_APP_SERVER_RENDER: isServer } = process.env
 

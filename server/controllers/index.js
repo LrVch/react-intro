@@ -11,9 +11,15 @@ const path = require("path");
 const actionIndex = (req, res, next) => {
   const { store } = configureStore();
 
+  const language = req.cookies.lang || 'en'
+
+  console.log(language);
+  
   if (req.cookies.au) {
     store.dispatch(authActions.authServerIsFullLogged())
   }
+
+  store.dispatch(authActions.authServerIsFullLogged())
 
   serverRenderer(store)(req, res, next);
 };

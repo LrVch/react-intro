@@ -1,0 +1,11 @@
+{
+  "price": "Цена",
+  "navigation": {
+    "logout": "Выход",
+    "profile": "Профайл",
+    "orders": "Заказы",
+    "burgerBuilder": "Бургер конструктор",
+    "singIn": "Вход",
+    "signUp": "Регистрация"
+  }
+}

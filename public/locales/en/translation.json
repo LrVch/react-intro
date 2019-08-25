@@ -1,0 +1,11 @@
+{
+  "price": "Price",
+  "navigation": {
+    "logout": "Logout",
+    "profile": "Profile",
+    "orders": "Orders",
+    "burgerBuilder": "Burger builder",
+    "singIn": "SingIn",
+    "signUp": "SignUp"
+  }
+}
