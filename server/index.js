@@ -1,4 +1,3 @@
-import Loadable from 'react-loadable'
 import express from 'express'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
@@ -44,13 +43,10 @@ app.use(indexController)
 app.disable('x-powered-by')
 
 // start the app
-Loadable.preloadAll().then(() => {
-  console.log('all preloaded')
-  app.listen(PORT, (error) => {
-    if (error) {
-      return console.log('something bad happened', error);
-    }
+app.listen(PORT, (error) => {
+  if (error) {
+    return console.log('something bad happened', error);
+  }
 
-    console.log("listening on " + PORT + "...");
-  });
+  console.log("listening on " + PORT + "...");
 });

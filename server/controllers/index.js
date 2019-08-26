@@ -1,4 +1,5 @@
 import express from "express";
+import Loadable from 'react-loadable'
 
 import serverRenderer from '../middleware/renderer';
 import configureStore from '../../src/configureStore';
@@ -8,20 +9,25 @@ import { settingsChangeLanguage } from "../../src/store/actions";
 const router = express.Router();
 const path = require("path");
 
+
+
 const actionIndex = (req, res, next) => {
-  const { store } = configureStore()
+  Loadable.preloadAll().then(() => {
+    console.log('all preloaded')
+    const { store } = configureStore()
 
-  const language = req.cookies.lang || 'en'
+    const language = req.cookies.lang || 'en'
 
-  // console.log('language from controller', language);
-  
-  if (req.cookies.au) {
-    store.dispatch(authActions.authServerIsFullLogged())
-  }
+    // console.log('language from controller', language);
 
-  store.dispatch(settingsChangeLanguage(language))
+    if (req.cookies.au) {
+      store.dispatch(authActions.authServerIsFullLogged())
+    }
 
-  serverRenderer(store)(req, res, next);
+    store.dispatch(settingsChangeLanguage(language))
+
+    serverRenderer(store)(req, res, next);
+  });
 };
 
 
